@@ -1,0 +1,11 @@
+Flask==2.1.0
+Requests==2.26.0
+SQLAlchemy==1.4.28
+PyYAML==6.0
+pytest==7.4.1
+Click==8.0.3
+Deezer-Py==1.0.0
+Spotipy==2.19.0
+musicbrainzngs==0.7.1
+python-dotenv==0.19.3
+mutagen==1.46.0
