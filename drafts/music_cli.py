@@ -1,6 +1,7 @@
 import click
 import curses
 # from app.api.controllers import search_controller, album_controller, tagging_controller
+import inquirer
 
 def load_file(file_path):
     """Load a file and return its content."""
@@ -21,25 +22,6 @@ def show_menu(stdscr):
     options = ["Search for audio files", "Manage albums", "Tag audio files"]
     selected_option = 0
 
-    while True:
-        stdscr.clear()
-
-        for i, option in enumerate(options):
-            if i == selected_option:
-                stdscr.addstr(i, 0, option, curses.A_REVERSE)
-            else:
-                stdscr.addstr(i, 0, option)
-
-        stdscr.refresh()
-
-        key = stdscr.getch()
-
-        if key == curses.KEY_UP and selected_option > 0:
-            selected_option -= 1
-        elif key == curses.KEY_DOWN and selected_option < len(options) - 1:
-            selected_option += 1
-        elif key == 10:  # Enter key
-            break
 
     stdscr.clear()
     stdscr.refresh()
