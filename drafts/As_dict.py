@@ -23,3 +23,5 @@ ignored_keys = ['art', 'lyrics', 'genre']
 for key, value in track_metadata.items():
     if key not in ignored_keys:
         print(f"{key}: {value}")
+
+print()
