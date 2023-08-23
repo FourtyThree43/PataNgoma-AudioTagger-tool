@@ -9,3 +9,4 @@ Spotipy==2.19.0
 musicbrainzngs==0.7.1
 python-dotenv==0.19.3
 mutagen==1.46.0
+mediafile==0.12.0
