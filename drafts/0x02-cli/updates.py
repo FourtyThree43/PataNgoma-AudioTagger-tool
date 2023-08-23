@@ -19,7 +19,7 @@ for index, choice in enumerate(cmd_choices, start=1):
 
 choice = click.prompt("Choice", type=click.IntRange(min=1, max=len(cmd_choices)))
 
-tag_choices = ["title", "artist", "album", "genres"]
+tag_choices = ["title", "artist", "album", "genre"]
 if choice == 1:
     click.echo("")
     for index, tag in enumerate(tag_choices, start=1):

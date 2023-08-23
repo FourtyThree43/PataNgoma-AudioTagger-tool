@@ -18,8 +18,8 @@ def tag():
     """Responding to users needs"""
     choices = [
         "View existing tags",
-        "Extract new tags",
-        "Edit tags"
+        "Edit tags",
+        "search tags"
     ]
 
     click.echo("")
@@ -39,6 +39,8 @@ def tag():
 
     elif choice == 2:
         click.echo("Edit tags ...")
+        exist = ['title', 'artist', 'album', 'genres']
+        click.
 
     elif choice == 3:
         click.echo("Search tags ...")

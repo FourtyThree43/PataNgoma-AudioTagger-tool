@@ -1,9 +1,8 @@
 # metadata.py
 from mediafile import MediaFile
-
+from typing import Optional
 
 class BaseModel:
-
     def __init__(self, file_path):
         self.file = file_path
         self.metadata = MediaFile(file_path)
@@ -30,6 +29,9 @@ class BaseModel:
             else:
                 print(f"Invalid metadata field: {key}")
 
+    def delete(self):
+        self.metadata.delete()
+
     def save(self):
         self.metadata.save()
 
@@ -40,7 +42,13 @@ class TrackInfo(BaseModel):
         self.load_metadata()
 
     def load_metadata(self):
-        self.title = self.metadata.title
-        self.artist = self.metadata.artist
-        self.album = self.metadata.album
-        self.genres = self.metadata.genres
+        self.title: Optional[str] = None
+        self.artist: Optional[str] = None
+        self.album: Optional[str] = None
+        self.genre: Optional[str] = None
+
+        if self.metadata:
+            self.title = self.metadata.title
+            self.artist = self.metadata.artist
+            self.album = self.metadata.album
+            self.genre = self.metadata.genre
