@@ -1,6 +1,7 @@
 import click
 from tags import TrackInfo
 
+
 @click.group()
 def cli():
     click.echo("Welcome to the Music CLI")
@@ -8,11 +9,18 @@ def cli():
     click.echo()
     pass
 
+
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.option('--all', is_flag=True, help='Show all metadata, including None values.')
-@click.option('--existing', is_flag=True, help='Show existing metadata, excluding "art" and None values.')
-@click.option('--missing', is_flag=True, help='Show missing metadata, including None values.')
+@click.option('--all',
+              is_flag=True,
+              help='Show all metadata, including None values.')
+@click.option('--existing',
+              is_flag=True,
+              help='Show existing metadata, excluding "art" and None values.')
+@click.option('--missing',
+              is_flag=True,
+              help='Show missing metadata, including None values.')
 def show(file_path, all, existing, missing):
     """Show metadata for a media file."""
     track = TrackInfo(file_path)
@@ -27,6 +35,7 @@ def show(file_path, all, existing, missing):
         # If no option is specified, show existing metadata by default
         track.show_existing_metadata()
 
+
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
 @click.argument('updates', nargs=-1)
@@ -36,6 +45,7 @@ def update(file_path, updates):
     track.update_metadata(updates)
     track.save()
 
+
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
 def delete(file_path):
@@ -43,8 +53,10 @@ def delete(file_path):
     track = TrackInfo(file_path)
     track.delete()
 
+
 def show_menu():
     pass
+
 
 cli.add_command(show)
 cli.add_command(update)

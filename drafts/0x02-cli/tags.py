@@ -2,6 +2,7 @@
 from mediafile import MediaFile
 from typing import Optional
 
+
 class BaseModel:
     def __init__(self, file_path):
         self.file = file_path
@@ -13,13 +14,18 @@ class BaseModel:
     def show_all(self):
         print(f"Metadata of {self.file}:")
         for key, value in self.as_dict().items():
-            print(f"{key}: {value}")
+            if key != "art":
+                print(f"{key}: {value}")
+            else:
+                print("art: b'ART'")
 
     def show_metadata(self):
         print(f"Metadata of {self.file}:")
         for key, value in self.as_dict().items():
-            if value is not None:
+            if value is not None and key != "art":
                 print(f"{key}: {value}")
+            if key == "art":
+                print("art: b'ART'")
 
     def update_metadata(self, updates):
         for update in updates:

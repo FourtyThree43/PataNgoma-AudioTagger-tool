@@ -17,7 +17,8 @@ cmd_choices = ["Single tag", "All tags"]
 for index, choice in enumerate(cmd_choices, start=1):
     click.echo(f"{index}: {choice}")
 
-choice = click.prompt("Choice", type=click.IntRange(min=1, max=len(cmd_choices)))
+choice = click.prompt("Choice",
+                      type=click.IntRange(min=1, max=len(cmd_choices)))
 
 tag_choices = ["title", "artist", "album", "genres"]
 if choice == 1:
@@ -25,7 +26,8 @@ if choice == 1:
     for index, tag in enumerate(tag_choices, start=1):
         click.echo(f"{index}: {tag}")
 
-    tagg = click.prompt("Tag", type=click.IntRange(min=1, max=len(tag_choices)))
+    tagg = click.prompt("Tag",
+                        type=click.IntRange(min=1, max=len(tag_choices)))
     new_value = click.prompt("Enter new value")
 
     updates = [f"{tag_choices[tagg - 1]}={new_value}"]
