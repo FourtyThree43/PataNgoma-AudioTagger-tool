@@ -1,0 +1,66 @@
+@startuml
+
+!define ENTITY class
+!define RELATIONSHIP arrow
+!define ENTITY_ATTRIBUTES \
+  id : int
+
+ENTITY AudioFile {
+  ENTITY_ATTRIBUTES
+  filename : string
+  added_date : datetime
+  file_type_id : int
+}
+
+ENTITY Track {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  album_id : int
+}
+
+ENTITY Album {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Tag {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY Artist {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY AlbumTag {
+  ENTITY_ATTRIBUTES
+  album_id : int
+  track_id : int
+  type_id : int
+}
+
+ENTITY AlbumTagType {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY FileType {
+  ENTITY_ATTRIBUTES
+  extension : string
+}
+
+AudioFile --o Track : contains
+Track --o Album : part of
+AudioFile --o Tag : tagged with
+Track --o Artist : performed by
+Album --o Artist : released by
+AlbumTag o--o Album : relates to
+AlbumTag o--o Track : relates to
+AlbumTag --o AlbumTagType : has type
+AudioFile --o FileType : has type
+
+@enduml
