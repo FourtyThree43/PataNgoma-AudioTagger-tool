@@ -1,0 +1,12 @@
+{
+    "client": "<discogs_client.client.Client object at 0x7fc4b392bdf0>",
+    "url": "https://api.discogs.com/database/search?type=release&q=star%20song",
+    "_num_pages": null,
+    "_num_items": null,
+    "_pages": {},
+    "_per_page": 50,
+    "_list_key": "results",
+    "_sort_key": null,
+    "_sort_order": "asc",
+    "_filters": {}
+}
