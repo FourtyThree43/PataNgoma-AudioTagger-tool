@@ -7,6 +7,7 @@ musicbrainzngs==0.7.1
 mutagen==1.46.0
 pytest==7.4.0
 python-dotenv==1.0.0
+python3-discogs-client==2.7
 pyyaml==6.0.1
 requests==2.31.0
 spotipy==2.23.0
