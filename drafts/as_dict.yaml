@@ -1,0 +1,82 @@
+title: New
+artist: New
+artists: null
+album: R&B
+genres:
+- Disco
+genre: Disco
+lyricist: null
+composer: null
+composer_sort: null
+arranger: ''
+grouping: null
+track: 9
+tracktotal: 11
+disc: 1
+disctotal: 1
+url: null
+lyrics: ''
+comments: null
+copyright: null
+bpm: 0
+comp: false
+albumartist: Bee Gees
+albumartists: null
+albumtypes:
+- album
+albumtype: album
+label: Bee Gees Catalog
+artist_sort: null
+albumartist_sort: null
+asin: null
+catalognums:
+- IMA 104234
+catalognum: IMA 104234
+barcode: null
+isrc: null
+disctitle: null
+encoder: null
+script: Latn
+languages:
+- eng
+language: eng
+country: XE
+albumstatus: Bootleg
+media: CD
+albumdisambig: null
+date: 1989-04-17
+year: 1989
+month: 4
+day: 17
+original_date: 2009-01-01
+original_year: 2009
+original_month: null
+original_day: null
+artist_credit: null
+artists_credit: null
+artists_sort: null
+albumartist_credit: null
+albumartists_credit: null
+albumartists_sort: null
+mb_trackid: 2zngoqJXyDH69obttDmN06
+mb_releasetrackid: null
+mb_workid: f0e8ba65-b132-413f-a79f-2ad17fe5b282
+mb_albumid: 23vIu4KOWTeAtAUcREvOxY
+mb_artistids:
+- 1LZEQNv7sE11VDY3SdxQeN
+mb_artistid: 1LZEQNv7sE11VDY3SdxQeN
+mb_albumartistids:
+- 1LZEQNv7sE11VDY3SdxQeN
+mb_albumartistid: 1LZEQNv7sE11VDY3SdxQeN
+mb_releasegroupid: null
+acoustid_fingerprint: null
+acoustid_id: null
+rg_track_gain: null
+rg_album_gain: null
+rg_track_peak: null
+rg_album_peak: null
+r128_track_gain: null
+r128_album_gain: null
+initial_key: null
+art: <BINARY>
+images: <BINARY>

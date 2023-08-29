@@ -1,0 +1,83 @@
+acoustid_fingerprint: null
+acoustid_id: e9418fed-3fba-49ca-a024-292ef38cb0c9
+album: The Best of Me
+albumartist: Rick Astley
+albumartist_credit: Rick Astley
+albumartist_sort: null
+albumartists: null
+albumartists_credit: null
+albumartists_sort: null
+albumdisambig: null
+albumstatus: Official
+albumtype: album
+albumtypes:
+- album
+arranger: ''
+art: <BINARY>
+artist: Rick Astley
+artist_credit: Rick Astley
+artist_sort: null
+artists:
+- Rick Astley
+artists_credit: null
+artists_sort: null
+asin: B000FKO3C6
+barcode: '628261210220'
+bpm: 0
+catalognum: PB 41447
+catalognums:
+- PB 41447
+comments: null
+comp: false
+composer: null
+composer_sort: null
+copyright: null
+country: GB
+date: 2019-10-25
+day: 25
+disc: 1
+disctitle: null
+disctotal: 1
+encoder: null
+genre: New Romantic
+genres:
+- New Romantic
+grouping: null
+images: <BINARY>
+initial_key: null
+isrc: GBARL0600789;GBARL8700052;GBARL9300135;USAT21601138
+label: BMG Rights Management (UK) Limited
+language: eng
+languages:
+- eng
+lyricist: null
+lyrics: ''
+mb_albumartistid: '6160'
+mb_albumartistids:
+- '6160'
+mb_albumid: '115888392'
+mb_artistid: '6160'
+mb_artistids:
+- '6160'
+mb_releasegroupid: null
+mb_releasetrackid: null
+mb_trackid: '781592622'
+mb_workid: 69755ab1-409e-3ad7-902f-3a839042799c
+media: 7" Vinyl
+month: 10
+original_date: 1987-01-01
+original_day: null
+original_month: null
+original_year: 1987
+r128_album_gain: null
+r128_track_gain: null
+rg_album_gain: null
+rg_album_peak: null
+rg_track_gain: null
+rg_track_peak: null
+script: Latn
+title: Never Gonna Give You Up
+track: 2
+tracktotal: 25
+url: null
+year: 2019
