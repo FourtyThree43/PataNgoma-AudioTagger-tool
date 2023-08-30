@@ -57,13 +57,13 @@ class BaseModel:
             if value is None:
                 print(f"{key}")
 
-    def has_changes(self, track: 'BaseModel', md_pre_update) -> bool:
+    def has_changes(self, md_post_update, md_pre_update) -> bool:
         """Return True if there are changes to the metadata ignoring 'images'
         """
         # excluding "images" as obj address always changes on update
         has_changed = any(key != "images" and key in md_pre_update
                           and md_pre_update[key] != value
-                          for key, value in track.as_dict().items())
+                          for key, value in md_post_update.items())
         return has_changed
 
     def batch_update_metadata(self, updates):

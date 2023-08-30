@@ -43,9 +43,7 @@ def update(file_path, updates):
 
     track.batch_update_metadata(updates)
 
-    track.has_changes(track, md_pre_update)
-
-    if track.has_changes:
+    if track.has_changes(track.as_dict(), md_pre_update):
         click.echo(f"Metadata changes for {track.metadata.filename}:")
         for key, value in track.as_dict().items():
             if key != "images" and key in md_pre_update and md_pre_update[
