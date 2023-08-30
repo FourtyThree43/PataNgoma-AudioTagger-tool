@@ -1,8 +1,9 @@
 # metadata.py
-from mediafile import MediaFile
+from difflib import get_close_matches
 from imgcat import imgcat
-import PIL
+from mediafile import MediaFile
 from typing import Optional
+import PIL
 
 
 class BaseModel:
@@ -56,14 +57,48 @@ class BaseModel:
             if value is None:
                 print(f"{key}")
 
-    def update_metadata(self, updates):
-        """Update metadata for {self.metadata.filename}."""
+    def has_changes(self, track: 'BaseModel', md_pre_update) -> bool:
+        """Return True if there are changes to the metadata ignoring 'images'
+        """
+        # excluding "images" as obj address always changes on update
+        has_changed = any(key != "images" and key in md_pre_update
+                          and md_pre_update[key] != value
+                          for key, value in track.as_dict().items())
+        return has_changed
+
+    def batch_update_metadata(self, updates):
         for update in updates:
             key, value = update.split("=")
             if hasattr(self.metadata, key):
                 setattr(self.metadata, key, value)
             else:
-                print(f"Invalid metadata field: {key}")
+                possible_matches = get_close_matches(key,
+                                                     dir(self.metadata),
+                                                     n=5,
+                                                     cutoff=0.6)
+                if possible_matches:
+                    print(f"Invalid metadata field: {key}")
+                    print(
+                        f"Did you mean one of these? {', '.join(possible_matches)}"
+                    )
+                else:
+                    print(f"Invalid metadata field: {key}")
+
+    def single_update_metadata(self, field, value):
+        if hasattr(self.metadata, field):
+            setattr(self.metadata, field, value)
+        else:
+            possible_matches = get_close_matches(field,
+                                                 dir(self.metadata),
+                                                 n=5,
+                                                 cutoff=0.6)
+            if possible_matches:
+                print(f"Invalid metadata field: {field}")
+                print(
+                    f"Did you mean one of these? {', '.join(possible_matches)}"
+                )
+            else:
+                print(f"Invalid metadata field: {field}")
 
     def delete(self):
         """Delete metadata for {self.metadata.filename}."""

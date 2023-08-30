@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import json
 import yaml
 import spotipy
@@ -16,6 +15,7 @@ for track in results['tracks'][:10]:
     print('cover art: ' + track['album']['images'][0]['url'])
     print()
 
+
 file_name = 'results.json'
 file_name_2 = 'results.yaml'
 
@@ -30,3 +30,4 @@ try:
         yaml.dump(results, f, indent=4)
 except Exception as e:
     print(f'YAMl dump failed :{e}')
+

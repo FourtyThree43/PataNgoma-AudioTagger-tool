@@ -5,10 +5,13 @@ import yaml
 import discogs_client
 
 # Initialize the Discogs client
-d = discogs_client.Client('PataNgoma', user_token='prBSVqpdTzvXiBxTLXNjpCvjwIpvgqGcleCcTybo')
+d = discogs_client.Client(
+    'PataNgoma', user_token='prBSVqpdTzvXiBxTLXNjpCvjwIpvgqGcleCcTybo')
 
 # Search for releases matching the query
-results = d.search('Live And Die In Afrika', type='release', artist='sauti sol')
+results = d.search('Live And Die In Afrika',
+                   type='release',
+                   artist='sauti sol')
 
 # Create a list to store release data dictionaries
 release_data = []
