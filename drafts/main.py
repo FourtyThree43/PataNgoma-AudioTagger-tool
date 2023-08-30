@@ -18,7 +18,7 @@ album_info.artist_name = "Test01"
 
 print(album_info.album_name)
 print(album_info.artist_name)
- 
+
 # # Add the track info to the album
 album_info.add_track(track_info)
 print(track_info.title)
