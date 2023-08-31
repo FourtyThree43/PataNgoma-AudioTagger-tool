@@ -1,4 +1,4 @@
-from external_sorces import MusicBrainAPI, DataStore
+from external_sources import MusicBrainAPI, DataStore
 from query import Query
 
 # Create an instance of the MusicBrainAPI class
