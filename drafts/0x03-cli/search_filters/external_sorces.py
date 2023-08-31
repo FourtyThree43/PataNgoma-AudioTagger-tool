@@ -1,6 +1,7 @@
 from musicbrainzngs import musicbrainz as mb
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import json
 
 
 class DataStore:
@@ -13,13 +14,20 @@ class DataStore:
         if source not in self.metadata:
             self.metadata[source] = []
         self.metadata[source].append(data)
+        with open('datastore.json', 'w') as f:
+            json.dump(self.metadata, f, indent=4)
 
     def get_metadata(self, source: str):
         """Get metadata from a specific external source."""
+        with open('datastore.json', 'r') as f:
+            self.metadata = json.load(f)
         return self.metadata.get(source, [])
 
     def search_metadata(self, query: str):
         """Search for metadata across all sources."""
+        with open('datastore.json', 'r') as f:
+            self.metadata = json.load(f)
+
         results = []
         for source, data in self.metadata.items():
             for item in data:
