@@ -2,3 +2,10 @@ SPOTIPY_CLIENT_ID=cc84cb8bbaf047ac834c15e040e4ecc9
 SPOTIPY_CLIENT_SECRET=ee663db4478844fe8268df253bac76b9
 
 DISCOGS_CLIENT_tOKEN=prBSVqpdTzvXiBxTLXNjpCvjwIpvgqGcleCcTybo
+
+
+# Deezer
+Application Name PataNgoma
+
+app_id=629644
+app_secret=8a21f8992a12c7414909728887216a1c
