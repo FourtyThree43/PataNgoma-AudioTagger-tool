@@ -1,0 +1,733 @@
+[
+    {
+        "id": "aae44009-6745-40ae-a477-f215c4f76488",
+        "score": 100,
+        "title": "Never Gonna Give You Up",
+        "length": 349133,
+        "video": null,
+        "artist-credit": [
+            {
+                "name": "Rick Astley",
+                "artist": {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "aliases": [
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "RickAstleyVEVO",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                            "name": "Dick Spatsley",
+                            "locale": null,
+                            "type": "Artist name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+                            "name": "Richard Paul Astley",
+                            "locale": null,
+                            "type": "Legal name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Asley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Asley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Ashley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "releases": [
+            {
+                "id": "33fc99e2-f448-45a4-a076-e0cfba2a2d76",
+                "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                "count": 1,
+                "title": "Greatest Hits",
+                "status": "Official",
+                "artist-credit": [
+                    {
+                        "name": "Rick Astley",
+                        "artist": {
+                            "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                            "name": "Rick Astley",
+                            "sort-name": "Astley, Rick",
+                            "disambiguation": "English singer, songwriter and radio personality"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "95c514d2-26f7-35a0-80cc-50edbfde56cf",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "Greatest Hits",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "Compilation"
+                    ],
+                    "secondary-type-ids": [
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"
+                    ]
+                },
+                "track-count": 13,
+                "media": [
+                    {
+                        "position": 1,
+                        "track": [
+                            {
+                                "id": "83ed4904-79cb-3c1e-bd01-47ede0721cb0",
+                                "number": "1",
+                                "title": "Never Gonna Give You Up",
+                                "length": 349133
+                            }
+                        ],
+                        "track-count": 13,
+                        "track-offset": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "7c4e88b0-4ed3-40f5-890f-cf9caa7893a5",
+        "score": 100,
+        "title": "Never Gonna Give You Up",
+        "length": 344000,
+        "video": null,
+        "artist-credit": [
+            {
+                "name": "Rick Astley",
+                "artist": {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "aliases": [
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "RickAstleyVEVO",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                            "name": "Dick Spatsley",
+                            "locale": null,
+                            "type": "Artist name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+                            "name": "Richard Paul Astley",
+                            "locale": null,
+                            "type": "Legal name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Ashley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Asley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Asley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "releases": [
+            {
+                "id": "e546a1fa-2e77-48f9-9f70-5f253764a7d6",
+                "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                "count": 1,
+                "title": "Mastermix Classic Cuts 26: Pop",
+                "status": "Official",
+                "artist-credit": [
+                    {
+                        "name": "Various Artists",
+                        "artist": {
+                            "id": "89ad4ac3-39f7-470e-963a-56509c546377",
+                            "name": "Various Artists",
+                            "sort-name": "Various Artists",
+                            "disambiguation": "add compilations to this artist"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "e8a07602-a61c-32eb-aa8d-ca716f867d5d",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "Mastermix Classic Cuts 26: Pop",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "Compilation"
+                    ],
+                    "secondary-type-ids": [
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"
+                    ]
+                },
+                "date": "",
+                "country": "GB",
+                "release-events": [
+                    {
+                        "date": "",
+                        "area": {
+                            "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                            "name": "United Kingdom",
+                            "sort-name": "United Kingdom",
+                            "iso-3166-1-codes": [
+                                "GB"
+                            ]
+                        }
+                    }
+                ],
+                "track-count": 13,
+                "media": [
+                    {
+                        "position": 1,
+                        "format": "CD",
+                        "track": [
+                            {
+                                "id": "e5ce7767-b46d-39fa-8f16-5d71a9632d0b",
+                                "number": "1",
+                                "title": "Never Gonna Give You Up",
+                                "length": 344000
+                            }
+                        ],
+                        "track-count": 13,
+                        "track-offset": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "f456c618-f782-4e4a-a816-a2f0f94fb4a1",
+        "score": 100,
+        "title": "Never Gonna Give You Up",
+        "length": 203801,
+        "disambiguation": "part of \u201cDarsh Fest, Vol. 2\u201d DJ\u2010mix",
+        "video": null,
+        "artist-credit": [
+            {
+                "name": "Rick Astley",
+                "artist": {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "aliases": [
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+                            "name": "Richard Paul Astley",
+                            "locale": null,
+                            "type": "Legal name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Asley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Asley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "RickAstleyVEVO",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                            "name": "Dick Spatsley",
+                            "locale": null,
+                            "type": "Artist name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Ashley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "first-release-date": "2019-08-03",
+        "releases": [
+            {
+                "id": "c601d517-0f2d-4c47-8088-a93c679db726",
+                "status-id": "518ffc83-5cde-34df-8627-81bff5093d92",
+                "count": 1,
+                "title": "Darsh Fest, Vol. 2",
+                "status": "Promotion",
+                "artist-credit": [
+                    {
+                        "name": "Various Artists",
+                        "artist": {
+                            "id": "89ad4ac3-39f7-470e-963a-56509c546377",
+                            "name": "Various Artists",
+                            "sort-name": "Various Artists",
+                            "disambiguation": "add compilations to this artist"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "8a57384a-a4ae-44c3-b2e7-ae740ee3d99d",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "Darsh Fest, Vol. 2",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "Compilation",
+                        "DJ-mix"
+                    ],
+                    "secondary-type-ids": [
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                        "0d47f47a-3fe5-3d69-ac9d-d566c23968bf"
+                    ]
+                },
+                "date": "2019-08-03",
+                "country": "GB",
+                "release-events": [
+                    {
+                        "date": "2019-08-03",
+                        "area": {
+                            "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                            "name": "United Kingdom",
+                            "sort-name": "United Kingdom",
+                            "iso-3166-1-codes": [
+                                "GB"
+                            ]
+                        }
+                    }
+                ],
+                "track-count": 41,
+                "media": [
+                    {
+                        "position": 1,
+                        "format": "Digital Media",
+                        "track": [
+                            {
+                                "id": "3c8b30d6-07aa-4424-91e7-7c3eaa083d82",
+                                "number": "41",
+                                "title": "Never Gonna Give You Up",
+                                "length": 203801
+                            }
+                        ],
+                        "track-count": 41,
+                        "track-offset": 40
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "1c3090b7-b6e5-458b-86c0-0aefd2568ccb",
+        "score": 100,
+        "title": "Never Gonna Give You Up",
+        "length": 198200,
+        "disambiguation": "Shut Up and Dance! The 80\u2019s, Vol. 2",
+        "video": null,
+        "artist-credit": [
+            {
+                "name": "Rick Astley",
+                "artist": {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "aliases": [
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+                            "name": "Richard Paul Astley",
+                            "locale": null,
+                            "type": "Legal name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                            "name": "Dick Spatsley",
+                            "locale": null,
+                            "type": "Artist name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "RickAstleyVEVO",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Asley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Asley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Ashley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "first-release-date": "1996-11-21",
+        "releases": [
+            {
+                "id": "c16d4080-b581-4907-a401-f5bafed3c750",
+                "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                "count": 1,
+                "title": "Shut Up and Dance!: The 80\u2019s, Vol. 2",
+                "status": "Official",
+                "artist-credit": [
+                    {
+                        "name": "Various Artists",
+                        "artist": {
+                            "id": "89ad4ac3-39f7-470e-963a-56509c546377",
+                            "name": "Various Artists",
+                            "sort-name": "Various Artists",
+                            "disambiguation": "add compilations to this artist"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "6058fcbe-7c20-32c9-b7b0-b7d164f51d3b",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "Shut Up and Dance!: The 80\u2019s, Vol. 2",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "DJ-mix",
+                        "Compilation"
+                    ],
+                    "secondary-type-ids": [
+                        "0d47f47a-3fe5-3d69-ac9d-d566c23968bf",
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"
+                    ]
+                },
+                "date": "1996-11-21",
+                "country": "US",
+                "release-events": [
+                    {
+                        "date": "1996-11-21",
+                        "area": {
+                            "id": "489ce91b-6658-3307-9877-795b68554c98",
+                            "name": "United States",
+                            "sort-name": "United States",
+                            "iso-3166-1-codes": [
+                                "US"
+                            ]
+                        }
+                    }
+                ],
+                "track-count": 15,
+                "media": [
+                    {
+                        "position": 1,
+                        "format": "CD",
+                        "track": [
+                            {
+                                "id": "ccd7cf1f-bc4b-338e-a5ae-ff2ae2ee9631",
+                                "number": "9",
+                                "title": "Never Gonna Give You Up",
+                                "length": 198200
+                            }
+                        ],
+                        "track-count": 15,
+                        "track-offset": 8
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "447ffffa-40cb-47b2-aca5-ced6f52992d8",
+        "score": 100,
+        "title": "Never Gonna Give You Up",
+        "length": 196000,
+        "video": null,
+        "artist-credit": [
+            {
+                "name": "Rick Astley",
+                "artist": {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "aliases": [
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                            "name": "Dick Spatsley",
+                            "locale": null,
+                            "type": "Artist name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Asley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Asley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "Rick Ashley",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+                            "name": "RickAstleyVEVO",
+                            "locale": null,
+                            "type": "Search hint",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        },
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+                            "name": "Richard Paul Astley",
+                            "locale": null,
+                            "type": "Legal name",
+                            "primary": null,
+                            "begin-date": null,
+                            "end-date": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "first-release-date": "1995",
+        "releases": [
+            {
+                "id": "83588f13-9052-433f-8bbc-7127e6d76343",
+                "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                "count": 2,
+                "title": "30 Jaar Radio 3 FM 1985-1995",
+                "status": "Official",
+                "artist-credit": [
+                    {
+                        "name": "Various Artists",
+                        "artist": {
+                            "id": "89ad4ac3-39f7-470e-963a-56509c546377",
+                            "name": "Various Artists",
+                            "sort-name": "Various Artists",
+                            "disambiguation": "add compilations to this artist"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "d8202b4a-3dd3-43f2-8ed3-fa0c967ad219",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "30 Jaar Radio 3 FM 1985-1995",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "Compilation"
+                    ],
+                    "secondary-type-ids": [
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"
+                    ]
+                },
+                "date": "1995",
+                "country": "NL",
+                "release-events": [
+                    {
+                        "date": "1995",
+                        "area": {
+                            "id": "ef1b7cc0-cd26-36f4-8ea0-04d9623786c7",
+                            "name": "Netherlands",
+                            "sort-name": "Netherlands",
+                            "iso-3166-1-codes": [
+                                "NL"
+                            ]
+                        }
+                    }
+                ],
+                "track-count": 36,
+                "media": [
+                    {
+                        "position": 1,
+                        "format": "CD",
+                        "track": [
+                            {
+                                "id": "6ba1f14d-1307-4ffd-a243-bfe3c10ce082",
+                                "number": "1-11",
+                                "title": "Never Gonna Give You Up",
+                                "length": 196000
+                            }
+                        ],
+                        "track-count": 18,
+                        "track-offset": 10
+                    }
+                ]
+            },
+            {
+                "id": "791689e9-6fdd-4cfa-bea6-65438d90ecfe",
+                "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                "count": 1,
+                "title": "80s Mania: The Very Best of the Eighties",
+                "status": "Official",
+                "artist-credit": [
+                    {
+                        "name": "Various Artists",
+                        "artist": {
+                            "id": "89ad4ac3-39f7-470e-963a-56509c546377",
+                            "name": "Various Artists",
+                            "sort-name": "Various Artists",
+                            "disambiguation": "add compilations to this artist"
+                        }
+                    }
+                ],
+                "release-group": {
+                    "id": "2b353e28-3cc9-39a4-8efe-fb1e2ed2e192",
+                    "type-id": "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+                    "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                    "title": "80s Mania: The Very Best of the Eighties",
+                    "primary-type": "Album",
+                    "secondary-types": [
+                        "Compilation"
+                    ],
+                    "secondary-type-ids": [
+                        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"
+                    ]
+                },
+                "date": "2001-06-21",
+                "country": "GB",
+                "release-events": [
+                    {
+                        "date": "2001-06-21",
+                        "area": {
+                            "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                            "name": "United Kingdom",
+                            "sort-name": "United Kingdom",
+                            "iso-3166-1-codes": [
+                                "GB"
+                            ]
+                        }
+                    }
+                ],
+                "track-count": 22,
+                "media": [
+                    {
+                        "position": 1,
+                        "format": "CD",
+                        "track": [
+                            {
+                                "id": "c6ba2717-950d-3b56-9f9a-75407801e36d",
+                                "number": "11",
+                                "title": "Never Gonna Give You Up",
+                                "length": 197733
+                            }
+                        ],
+                        "track-count": 22,
+                        "track-offset": 10
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -3,7 +3,7 @@ from difflib import get_close_matches
 from imgcat import imgcat
 from mediafile import MediaFile
 from typing import Optional
-import PIL
+# from PIL import Image as PILImage, ImageMode
 
 
 class BaseModel:
@@ -25,11 +25,11 @@ class BaseModel:
                 print(f"{key}: {value}")
             elif key == "art":
                 print(key + ": ")
-                imgcat(value)
+                imgcat(value, width=24, height=24)
             elif key == "images":
                 print(key + ": ")
                 for image in value:
-                    imgcat(image.data)
+                    imgcat(image.data, width=24, height=24)
             elif key == "lyrics":
                 print(f"{key}: <LYRICS>")
 
@@ -42,11 +42,12 @@ class BaseModel:
                     print(f"{key}: {value}")
                 elif key == "art":
                     print(key + ": ")
-                    imgcat(value)
+                    imgcat(value, width=24, height=24)
                 elif key == "images":
                     print(key + ": ")
                     for image in value:
-                        imgcat(image.data)
+                        imgcat(image.data, width=24, height=24)
+                        print()
                 elif key == "lyrics":
                     print(f"{key}: <LYRICS>")
 
@@ -57,14 +58,14 @@ class BaseModel:
             if value is None:
                 print(f"{key}")
 
-    def has_changes(self, md_post_update, md_pre_update) -> bool:
+    def has_changed(self, md_post_update, md_pre_update) -> bool:
         """Return True if there are changes to the metadata ignoring 'images'
         """
         # excluding "images" as obj address always changes on update
-        has_changed = any(key != "images" and key in md_pre_update
-                          and md_pre_update[key] != value
-                          for key, value in md_post_update.items())
-        return has_changed
+        changed = any(key != "images" and key in md_pre_update
+                      and md_pre_update[key] != value
+                      for key, value in md_post_update.items())
+        return changed
 
     def batch_update_metadata(self, updates):
         for update in updates:
@@ -79,7 +80,8 @@ class BaseModel:
                 if possible_matches:
                     print(f"Invalid metadata field: {key}")
                     print(
-                        f"Did you mean one of these? {', '.join(possible_matches)}"
+                        f"Did you mean one of these? \
+{', '.join(possible_matches)}"
                     )
                 else:
                     print(f"Invalid metadata field: {key}")

@@ -1,4 +1,4 @@
-from external_sources import DataStore
+from external_sorces import DataStore
 
 class Query:
     def __init__(self, data_store: DataStore):
