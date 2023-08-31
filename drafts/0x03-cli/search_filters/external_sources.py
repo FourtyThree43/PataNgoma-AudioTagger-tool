@@ -54,9 +54,10 @@ class MusicBrainAPI:
         result = mb.search_releases(release=release_title)
         return result
 
-    def search_recording(self, recording_title: str):
+    def search_recording(self, recording_title: str, artist_name=None, release=None):
         """Search for a recording by title."""
-        result = mb.search_recordings(recording=recording_title)
+        q = f"{recording_title} OR {artist_name} OR {release}"
+        result = mb.search_recordings(q)
         return result
 
 
