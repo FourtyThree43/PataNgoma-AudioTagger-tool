@@ -1,0 +1,1108 @@
+{
+    "MBs": [
+        {
+            "artist-list": [
+                {
+                    "id": "db92a151-1ac2-438b-bc43-b82e149ddd50",
+                    "type": "Person",
+                    "ext:score": "100",
+                    "name": "Rick Astley",
+                    "sort-name": "Astley, Rick",
+                    "gender": "male",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "71baf484-64ec-4482-9ad2-225aa3b9a337",
+                        "type": "City",
+                        "name": "Newton-le-Willows",
+                        "sort-name": "Newton-le-Willows",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "disambiguation": "English singer, songwriter and radio personality",
+                    "ipi-list": [
+                        "00159849414"
+                    ],
+                    "isni-list": [
+                        "0000000120203276"
+                    ],
+                    "life-span": {
+                        "begin": "1966-02-06",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Rick Asley",
+                            "type": "Search hint",
+                            "alias": "Rick Asley"
+                        },
+                        {
+                            "sort-name": "Rick Ashley",
+                            "type": "Search hint",
+                            "alias": "Rick Ashley"
+                        },
+                        {
+                            "sort-name": "Astley, Richard Paul",
+                            "type": "Legal name",
+                            "alias": "Richard Paul Astley"
+                        },
+                        {
+                            "sort-name": "Spatsley, Dick",
+                            "type": "Artist name",
+                            "alias": "Dick Spatsley"
+                        },
+                        {
+                            "sort-name": "RickAstleyVEVO",
+                            "type": "Search hint",
+                            "alias": "RickAstleyVEVO"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "3",
+                            "name": "pop"
+                        },
+                        {
+                            "count": "0",
+                            "name": "british"
+                        },
+                        {
+                            "count": "0",
+                            "name": "uk"
+                        },
+                        {
+                            "count": "2",
+                            "name": "dance-pop"
+                        },
+                        {
+                            "count": "2",
+                            "name": "adult contemporary"
+                        },
+                        {
+                            "count": "3",
+                            "name": "blue-eyed soul"
+                        },
+                        {
+                            "count": "0",
+                            "name": "english"
+                        },
+                        {
+                            "count": "0",
+                            "name": "classic pop and rock"
+                        }
+                    ]
+                },
+                {
+                    "id": "2396eb8f-e604-4eda-b5a5-3d9fa9a88447",
+                    "ext:score": "84",
+                    "name": "Rick Astley",
+                    "sort-name": "Rick Astley",
+                    "disambiguation": "pseudonymous electronic artist with Bumhong Records, NOT the English singer/songwriter",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "f4b4a230-c498-4aa6-a760-b1ebab0faab0",
+                    "ext:score": "74",
+                    "name": "Astley Rick Armchair",
+                    "sort-name": "Astley Rick Armchair",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "b23d8bc3-6356-4286-8fb0-212bbe27f737",
+                    "type": "Person",
+                    "ext:score": "72",
+                    "name": "Edwin Astley",
+                    "sort-name": "Astley, Edwin",
+                    "gender": "male",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "25558e1e-d400-4629-8333-c0a324b60eec",
+                        "type": "Subdivision",
+                        "name": "Warrington",
+                        "sort-name": "Warrington",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "end-area": {
+                        "id": "44e5e20e-8fbc-4b07-b3f2-22f2199186fd",
+                        "type": "Subdivision",
+                        "name": "Oxfordshire",
+                        "sort-name": "Oxfordshire",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "ipi-list": [
+                        "00001511455"
+                    ],
+                    "isni-list": [
+                        "0000000118784948"
+                    ],
+                    "life-span": {
+                        "begin": "1922-04-12",
+                        "end": "1998-05-19",
+                        "ended": "true"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Edwin Astley and His Orchestra",
+                            "alias": "Edwin Astley and His Orchestra"
+                        },
+                        {
+                            "sort-name": "Ted Astley",
+                            "alias": "Ted Astley"
+                        },
+                        {
+                            "sort-name": "Edwin Astley",
+                            "alias": "Edwin Astley"
+                        },
+                        {
+                            "sort-name": "E. Astley",
+                            "alias": "E. Astley"
+                        },
+                        {
+                            "sort-name": "Edwin Thomas Astley",
+                            "alias": "Edwin Thomas Astley"
+                        }
+                    ]
+                },
+                {
+                    "id": "8849686f-e85c-4a0e-903f-664759a9acde",
+                    "type": "Person",
+                    "ext:score": "68",
+                    "name": "Rick Riordan",
+                    "sort-name": "Riordan, Rick",
+                    "gender": "male",
+                    "country": "US",
+                    "area": {
+                        "id": "489ce91b-6658-3307-9877-795b68554c98",
+                        "type": "Country",
+                        "name": "United States",
+                        "sort-name": "United States",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "a6f7157a-bfab-49e8-a22b-240ade4552ca",
+                        "type": "City",
+                        "name": "San Antonio",
+                        "sort-name": "San Antonio",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "isni-list": [
+                        "0000000109066661"
+                    ],
+                    "life-span": {
+                        "begin": "1964-06-05",
+                        "ended": "false"
+                    },
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "has german audiobooks"
+                        }
+                    ]
+                },
+                {
+                    "id": "2ad06109-0a52-4b7b-8b7a-ca7c10baf597",
+                    "type": "Person",
+                    "ext:score": "67",
+                    "name": "Rick Wakeman",
+                    "sort-name": "Wakeman, Rick",
+                    "gender": "male",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "70c6ca2c-2b18-4ef7-b632-d3e07d3d87b0",
+                        "type": "District",
+                        "name": "Perivale",
+                        "sort-name": "Perivale",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "ipi-list": [
+                        "00057450477",
+                        "00069672140"
+                    ],
+                    "isni-list": [
+                        "000000011476531X"
+                    ],
+                    "life-span": {
+                        "begin": "1949-05-18",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Wakeman, Richard Christopher",
+                            "type": "Legal name",
+                            "alias": "Richard Christopher Wakeman"
+                        },
+                        {
+                            "sort-name": "Richard Wakeman",
+                            "type": "Search hint",
+                            "alias": "Richard Wakeman"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "electronic"
+                        },
+                        {
+                            "count": "1",
+                            "name": "classical"
+                        },
+                        {
+                            "count": "5",
+                            "name": "progressive rock"
+                        },
+                        {
+                            "count": "2",
+                            "name": "british"
+                        },
+                        {
+                            "count": "1",
+                            "name": "uk"
+                        },
+                        {
+                            "count": "2",
+                            "name": "new age"
+                        },
+                        {
+                            "count": "1",
+                            "name": "piano rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "english"
+                        },
+                        {
+                            "count": "4",
+                            "name": "symphonic prog"
+                        },
+                        {
+                            "count": "1",
+                            "name": "film soundtrack"
+                        },
+                        {
+                            "count": "1",
+                            "name": "progressive pop"
+                        },
+                        {
+                            "count": "1",
+                            "name": "2008 universal fire victim"
+                        }
+                    ]
+                },
+                {
+                    "id": "481320f8-fa5d-4a66-aab7-c69541417466",
+                    "type": "Person",
+                    "ext:score": "66",
+                    "name": "Virginia Astley",
+                    "sort-name": "Astley, Virginia",
+                    "gender": "female",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "7dfd58d9-5511-4977-9b86-11a616631edd",
+                        "type": "City",
+                        "name": "Watford",
+                        "sort-name": "Watford",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "ipi-list": [
+                        "00047939636"
+                    ],
+                    "isni-list": [
+                        "0000000131315433",
+                        "0000000030317413"
+                    ],
+                    "life-span": {
+                        "begin": "1959-09-26",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Astley, Virginia Alice",
+                            "type": "Legal name",
+                            "alias": "Virginia Alice Astley"
+                        }
+                    ]
+                },
+                {
+                    "id": "88543892-2eef-4a6a-a84c-5b8502b80421",
+                    "type": "Person",
+                    "ext:score": "64",
+                    "name": "Rick Springfield",
+                    "sort-name": "Springfield, Rick",
+                    "gender": "male",
+                    "country": "AU",
+                    "area": {
+                        "id": "106e0bec-b638-3b37-b731-f53d507dc00e",
+                        "type": "Country",
+                        "name": "Australia",
+                        "sort-name": "Australia",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "a86b77fa-127e-4285-b0bb-e711996ba9a4",
+                        "type": "City",
+                        "name": "South Wentworthville",
+                        "sort-name": "South Wentworthville",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "isni-list": [
+                        "0000000083593286"
+                    ],
+                    "life-span": {
+                        "begin": "1949-08-23",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Springfield, Rick",
+                            "alias": "Springfield, Rick"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "pop"
+                        },
+                        {
+                            "count": "2",
+                            "name": "power pop"
+                        },
+                        {
+                            "count": "1",
+                            "name": "aor"
+                        },
+                        {
+                            "count": "1",
+                            "name": "pop rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "acoustic rock"
+                        },
+                        {
+                            "count": "3",
+                            "name": "rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "hard rock"
+                        }
+                    ]
+                },
+                {
+                    "id": "ce07a247-68e0-47c2-8fba-067ed0181ae3",
+                    "type": "Person",
+                    "ext:score": "64",
+                    "name": "Rick Rhodes",
+                    "sort-name": "Rhodes, Rick",
+                    "gender": "male",
+                    "country": "US",
+                    "area": {
+                        "id": "489ce91b-6658-3307-9877-795b68554c98",
+                        "type": "Country",
+                        "name": "United States",
+                        "sort-name": "United States",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "1f40c6e1-47ba-4e35-996f-fe6ee5840e62",
+                        "type": "City",
+                        "name": "Los Angeles",
+                        "sort-name": "Los Angeles",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "isni-list": [
+                        "0000000057354185"
+                    ],
+                    "life-span": {
+                        "begin": "1951-07-28",
+                        "end": "2005-11-02",
+                        "ended": "true"
+                    }
+                },
+                {
+                    "id": "ecffc56a-0aa1-44b0-8205-2dbf353ddbd6",
+                    "type": "Person",
+                    "ext:score": "63",
+                    "name": "Jon Astley",
+                    "sort-name": "Astley, Jon",
+                    "gender": "male",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "852531bf-3410-401f-b432-9c3157a386b9",
+                        "type": "City",
+                        "name": "Manchester",
+                        "sort-name": "Manchester",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "isni-list": [
+                        "0000000055483020"
+                    ],
+                    "life-span": {
+                        "begin": "1951",
+                        "ended": "false"
+                    },
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "british"
+                        }
+                    ]
+                },
+                {
+                    "id": "831c4df4-b02a-48e3-b4b0-430ea2f4fbc9",
+                    "ext:score": "63",
+                    "name": "Neville Astley",
+                    "sort-name": "Neville Astley",
+                    "disambiguation": "Creator of Peppa Pig",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "cba9cec2-be8d-41bd-91b4-a1cd7de39b0c",
+                    "type": "Person",
+                    "ext:score": "63",
+                    "name": "Rick James",
+                    "sort-name": "James, Rick",
+                    "gender": "male",
+                    "country": "US",
+                    "area": {
+                        "id": "489ce91b-6658-3307-9877-795b68554c98",
+                        "type": "Country",
+                        "name": "United States",
+                        "sort-name": "United States",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "7e5e7fd7-c1eb-4cb8-87e2-fb1c0eda9e48",
+                        "type": "City",
+                        "name": "Buffalo",
+                        "sort-name": "Buffalo",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "end-area": {
+                        "id": "1f40c6e1-47ba-4e35-996f-fe6ee5840e62",
+                        "type": "City",
+                        "name": "Los Angeles",
+                        "sort-name": "Los Angeles",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "disambiguation": "US vocalist, multi-instrumentalist, composer & producer",
+                    "ipi-list": [
+                        "00064922273",
+                        "00125629673"
+                    ],
+                    "isni-list": [
+                        "0000000108048795"
+                    ],
+                    "life-span": {
+                        "begin": "1948-02-01",
+                        "end": "2004-08-06",
+                        "ended": "true"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Matthews, Rick \u201cJames\u201d",
+                            "type": "Artist name",
+                            "alias": "Rick \u201cJames\u201d Matthews"
+                        },
+                        {
+                            "sort-name": "Matthews, Ricky",
+                            "type": "Artist name",
+                            "alias": "Ricky Matthews"
+                        },
+                        {
+                            "sort-name": "Johnson Jr., James Ambrose",
+                            "type": "Legal name",
+                            "alias": "James Ambrose Johnson Jr."
+                        },
+                        {
+                            "sort-name": "Matthews, Richard",
+                            "alias": "Richard Matthews"
+                        },
+                        {
+                            "sort-name": "Johnson, James A.",
+                            "alias": "James A. Johnson"
+                        },
+                        {
+                            "sort-name": "RickJamesVEVO",
+                            "type": "Search hint",
+                            "alias": "RickJamesVEVO"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "rock"
+                        },
+                        {
+                            "count": "3",
+                            "name": "funk"
+                        },
+                        {
+                            "count": "2",
+                            "name": "soul"
+                        },
+                        {
+                            "count": "1",
+                            "name": "disco"
+                        },
+                        {
+                            "count": "1",
+                            "name": "boogie"
+                        },
+                        {
+                            "count": "0",
+                            "name": "rock and indie"
+                        },
+                        {
+                            "count": "1",
+                            "name": "r&b"
+                        },
+                        {
+                            "count": "1",
+                            "name": "contemporary r&b"
+                        },
+                        {
+                            "count": "1",
+                            "name": "synth funk"
+                        },
+                        {
+                            "count": "0",
+                            "name": "criminal"
+                        }
+                    ]
+                },
+                {
+                    "id": "67f44b81-828e-4fc9-921f-661f7562aecd",
+                    "type": "Person",
+                    "ext:score": "62",
+                    "name": "Mark Astley",
+                    "sort-name": "Astley, Mark",
+                    "disambiguation": "Eurobeat artist",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "c4330ca2-fa04-49b5-a0c4-0ae5119e074b",
+                    "type": "Person",
+                    "ext:score": "62",
+                    "name": "Simon Astley",
+                    "sort-name": "Astley, Simon",
+                    "disambiguation": "Australian Pop Singer",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "ac103153-4aab-4590-a477-8a5388b27f9c",
+                    "ext:score": "62",
+                    "name": "Astley Bennett",
+                    "sort-name": "Astley Bennett",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "b5ebd846-3b89-4ded-b383-1315b8038f8d",
+                    "ext:score": "62",
+                    "name": "Joe Astley",
+                    "sort-name": "Astley, Joe",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "e7d526ed-c8bc-4619-8062-0807cb22d98b",
+                    "type": "Person",
+                    "ext:score": "62",
+                    "name": "Hic Astley",
+                    "sort-name": "Astley, Hic",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "cc5c864f-07ac-4a0b-b69f-f6ef28f84116",
+                    "type": "Group",
+                    "ext:score": "62",
+                    "name": "Maverick Astley",
+                    "sort-name": "Maverick Astley",
+                    "life-span": {
+                        "begin": "2015-07-03",
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "1ef9903d-ee98-4c93-bd48-e034b41d05c7",
+                    "type": "Person",
+                    "ext:score": "61",
+                    "name": "Karen Astley",
+                    "sort-name": "Astley, Karen",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "4b616632-e051-49ac-b695-cacbe1b7016e",
+                    "type": "Person",
+                    "ext:score": "61",
+                    "name": "Chris Astley",
+                    "sort-name": "Astley, Chris",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "8e722688-6b4a-4a5b-9f8e-a62516ad59ba",
+                    "type": "Person",
+                    "ext:score": "61",
+                    "name": "John Astley",
+                    "sort-name": "Astley, John",
+                    "life-span": {
+                        "ended": "false"
+                    }
+                },
+                {
+                    "id": "13bcb2bb-db37-4397-baf5-e0f085be2d64",
+                    "type": "Person",
+                    "ext:score": "61",
+                    "name": "Rick Ross",
+                    "sort-name": "Ross, Rick",
+                    "gender": "male",
+                    "area": {
+                        "id": "4a9aeb42-3763-4234-8fb8-1167ac1dfdfe",
+                        "type": "City",
+                        "name": "Miami",
+                        "sort-name": "Miami",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "82a4e867-19e7-4968-9031-10aaf1c6895b",
+                        "type": "City",
+                        "name": "Clarksdale",
+                        "sort-name": "Clarksdale",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "disambiguation": "US rapper",
+                    "ipi-list": [
+                        "00418516166",
+                        "00418516362"
+                    ],
+                    "isni-list": [
+                        "0000000058867353",
+                        "0000000368399292"
+                    ],
+                    "life-span": {
+                        "begin": "1976-01-28",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Roberts, Williams",
+                            "alias": "Williams Roberts"
+                        },
+                        {
+                            "sort-name": "Roberts, William III",
+                            "alias": "William Roberts III"
+                        },
+                        {
+                            "sort-name": "Roberts, William Leonard",
+                            "alias": "William Leonard Roberts"
+                        },
+                        {
+                            "sort-name": "Roberts, William L.",
+                            "alias": "William L. Roberts"
+                        },
+                        {
+                            "sort-name": "W.Roberts",
+                            "alias": "W.Roberts"
+                        },
+                        {
+                            "sort-name": "Roberts W. II",
+                            "alias": "W. Roberts II"
+                        },
+                        {
+                            "sort-name": "Roberts, W. Leonard II",
+                            "alias": "W. Leonard Roberts II"
+                        },
+                        {
+                            "sort-name": "Roberts",
+                            "alias": "Roberts"
+                        },
+                        {
+                            "sort-name": "Williams, Robert",
+                            "alias": "Robert Williams"
+                        },
+                        {
+                            "sort-name": "Ross, Robert",
+                            "alias": "Robert Ross"
+                        },
+                        {
+                            "sort-name": "Roberts, William II",
+                            "alias": "William Roberts II"
+                        },
+                        {
+                            "sort-name": "Boss Ricky Rozay, The",
+                            "alias": "The Boss Ricky Rozay"
+                        },
+                        {
+                            "sort-name": "Boss Rick Ross, The",
+                            "alias": "The Boss Rick Ross"
+                        },
+                        {
+                            "sort-name": "Boss Rick Ro$$, The",
+                            "alias": "The Boss Rick Ro$$"
+                        },
+                        {
+                            "sort-name": "Ross",
+                            "alias": "Ross"
+                        },
+                        {
+                            "sort-name": "Ross, Rock",
+                            "alias": "Rock Ross"
+                        },
+                        {
+                            "sort-name": "Rozay, Ricky",
+                            "alias": "Ricky Rozay"
+                        },
+                        {
+                            "sort-name": "RickRoss",
+                            "alias": "RickRoss"
+                        },
+                        {
+                            "sort-name": "RickRo$$",
+                            "alias": "RickRo$$"
+                        },
+                        {
+                            "sort-name": "Ro$$, Rick",
+                            "alias": "Rick Ro$$"
+                        },
+                        {
+                            "sort-name": "Roberts, W.",
+                            "alias": "W. Roberts"
+                        },
+                        {
+                            "sort-name": "Ross, Ric",
+                            "alias": "Ric Ross"
+                        },
+                        {
+                            "sort-name": "Ross, R.",
+                            "alias": "R. Ross"
+                        },
+                        {
+                            "sort-name": "@mastermind",
+                            "alias": "@mastermind"
+                        },
+                        {
+                            "sort-name": "Roberts, William Leonard II",
+                            "type": "Legal name",
+                            "alias": "William Leonard Roberts II"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "rap"
+                        },
+                        {
+                            "count": "6",
+                            "name": "hip hop"
+                        },
+                        {
+                            "count": "2",
+                            "name": "southern hip hop"
+                        },
+                        {
+                            "count": "3",
+                            "name": "gangsta rap"
+                        },
+                        {
+                            "count": "2",
+                            "name": "pop rap"
+                        },
+                        {
+                            "count": "1",
+                            "name": "english"
+                        },
+                        {
+                            "count": "0",
+                            "name": "hip hop rnb and dance hall"
+                        },
+                        {
+                            "count": "2",
+                            "name": "hardcore hip hop"
+                        },
+                        {
+                            "count": "1",
+                            "name": "trap rap"
+                        },
+                        {
+                            "count": "1",
+                            "name": "luxury rap"
+                        },
+                        {
+                            "count": "0",
+                            "name": "relic inn"
+                        }
+                    ]
+                },
+                {
+                    "id": "9259284f-5f4e-4c77-ab33-faa5d8bed31b",
+                    "type": "Person",
+                    "ext:score": "60",
+                    "name": "Rick Derringer",
+                    "sort-name": "Derringer, Rick",
+                    "gender": "male",
+                    "country": "US",
+                    "area": {
+                        "id": "489ce91b-6658-3307-9877-795b68554c98",
+                        "type": "Country",
+                        "name": "United States",
+                        "sort-name": "United States",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "595c7b82-9902-4e43-aa48-d1964057cf17",
+                        "type": "City",
+                        "name": "Fort Recovery",
+                        "sort-name": "Fort Recovery",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "ipi-list": [
+                        "00040808796"
+                    ],
+                    "isni-list": [
+                        "0000000055145734"
+                    ],
+                    "life-span": {
+                        "begin": "1947-08-05",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "Rick Derringer & Friends",
+                            "alias": "Rick Derringer & Friends"
+                        },
+                        {
+                            "sort-name": "Derrenger, Rick",
+                            "alias": "Rick Derrenger"
+                        },
+                        {
+                            "sort-name": "Zehringer, Rick Dean",
+                            "type": "Legal name",
+                            "alias": "Rick Dean Zehringer"
+                        },
+                        {
+                            "sort-name": "Deringer, Rick",
+                            "alias": "Rick Deringer"
+                        }
+                    ],
+                    "tag-list": [
+                        {
+                            "count": "1",
+                            "name": "electric blues"
+                        },
+                        {
+                            "count": "2",
+                            "name": "rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "rock & roll"
+                        },
+                        {
+                            "count": "1",
+                            "name": "aor"
+                        },
+                        {
+                            "count": "1",
+                            "name": "blues rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "jazz fusion"
+                        },
+                        {
+                            "count": "1",
+                            "name": "pop"
+                        },
+                        {
+                            "count": "1",
+                            "name": "christian rock"
+                        },
+                        {
+                            "count": "1",
+                            "name": "blues"
+                        },
+                        {
+                            "count": "2",
+                            "name": "hard rock"
+                        },
+                        {
+                            "count": "0",
+                            "name": "blues-rock"
+                        }
+                    ]
+                },
+                {
+                    "id": "e3f414ed-55bb-4b18-a4fd-6cc3379e3840",
+                    "type": "Person",
+                    "ext:score": "60",
+                    "name": "Rick Fenn",
+                    "sort-name": "Fenn, Rick",
+                    "gender": "male",
+                    "country": "GB",
+                    "area": {
+                        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+                        "type": "Country",
+                        "name": "United Kingdom",
+                        "sort-name": "United Kingdom",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "ipi-list": [
+                        "00073127199"
+                    ],
+                    "isni-list": [
+                        "0000000059418517"
+                    ],
+                    "life-span": {
+                        "begin": "1953-05-23",
+                        "ended": "false"
+                    },
+                    "alias-list": [
+                        {
+                            "sort-name": "R. Fenn",
+                            "alias": "R. Fenn"
+                        }
+                    ]
+                },
+                {
+                    "id": "2d4bd389-dfc7-4d1c-bc9c-5958b996f928",
+                    "type": "Person",
+                    "ext:score": "60",
+                    "name": "Rick Rosas",
+                    "sort-name": "Rosas, Rick",
+                    "gender": "male",
+                    "country": "US",
+                    "area": {
+                        "id": "489ce91b-6658-3307-9877-795b68554c98",
+                        "type": "Country",
+                        "name": "United States",
+                        "sort-name": "United States",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "begin-area": {
+                        "id": "1f40c6e1-47ba-4e35-996f-fe6ee5840e62",
+                        "type": "City",
+                        "name": "Los Angeles",
+                        "sort-name": "Los Angeles",
+                        "life-span": {
+                            "ended": "false"
+                        }
+                    },
+                    "life-span": {
+                        "begin": "1949-09-10",
+                        "end": "2014-11",
+                        "ended": "true"
+                    }
+                }
+            ],
+            "artist-count": 1607
+        }
+    ]
+}

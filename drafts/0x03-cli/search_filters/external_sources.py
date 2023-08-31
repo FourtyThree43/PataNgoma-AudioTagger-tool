@@ -66,7 +66,8 @@ class SpotifyAPI:
     """
 
     def __init__(self, client_id, client_secret):
-        auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+        auth_manager = SpotifyClientCredentials(client_id=client_id,
+                                                client_secret=client_secret)
         self.sp = spotipy.Spotify(auth_manager=auth_manager)
 
     def search_track(self, track_name: str):
