@@ -1,0 +1,79 @@
+{
+    "musicbrainz": [
+        {
+            "id": "29315ddf-25e6-4a5f-b6f9-7cabf1d1e00c",
+            "ext:score": "100",
+            "title": "Catch A Vibe",
+            "length": "205000",
+            "artist-credit": [
+                {
+                    "name": "Karun",
+                    "artist": {
+                        "id": "bee4b970-1ce9-4ecc-8761-bda6c6d0c831",
+                        "name": "Karun",
+                        "sort-name": "Karun"
+                    }
+                },
+                ", Mombru"
+            ],
+            "release-list": [
+                {
+                    "id": "ddf883ac-837c-4dde-94b1-e0fa414cc4e7",
+                    "title": "Catch A Vibe - EP",
+                    "status": "Official",
+                    "artist-credit": [
+                        {
+                            "name": "Karun",
+                            "artist": {
+                                "id": "bee4b970-1ce9-4ecc-8761-bda6c6d0c831",
+                                "name": "Karun",
+                                "sort-name": "Karun"
+                            }
+                        }
+                    ],
+                    "release-group": {
+                        "id": "9d05214e-d568-4762-aa0e-cc98a77224ec",
+                        "type": "EP",
+                        "title": "Catch A Vibe - EP",
+                        "primary-type": "EP"
+                    },
+                    "date": "2021-03-26",
+                    "country": "XW",
+                    "release-event-list": [
+                        {
+                            "date": "2021-03-26",
+                            "area": {
+                                "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+                                "name": "[Worldwide]",
+                                "sort-name": "[Worldwide]",
+                                "iso-3166-1-code-list": [
+                                    "XW"
+                                ]
+                            }
+                        }
+                    ],
+                    "medium-list": [
+                        {
+                            "position": "1",
+                            "format": "Digital Media",
+                            "track-list": [
+                                {
+                                    "id": "561f0333-bae5-43cd-b4c8-91e4430db2d7",
+                                    "number": "5",
+                                    "title": "Catch A Vibe",
+                                    "length": "205000",
+                                    "track_or_recording_length": "205000"
+                                }
+                            ],
+                            "track-count": 7
+                        }
+                    ],
+                    "medium-track-count": 7,
+                    "medium-count": 1,
+                    "artist-credit-phrase": "Karun"
+                }
+            ],
+            "artist-credit-phrase": "Karun, Mombru"
+        }
+    ]
+}
