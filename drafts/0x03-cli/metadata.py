@@ -2,11 +2,9 @@
 from difflib import get_close_matches
 from imgcat import imgcat
 from mediafile import MediaFile
-from typing import Optional
 
 
 class BaseModel:
-    """ A class that represents a base model for the application. """
     ART_METADATA = "art"
     IMAGES_METADATA = "images"
     LYRICS_METADATA = "lyrics"
@@ -53,8 +51,6 @@ class BaseModel:
                 self._display_images(key, value)
             elif key == self.LYRICS_METADATA:
                 self._display_lyrics(key)
-            elif value is None:
-                print(f"{key}: <MISSING>")
             else:
                 print(f"{key}: {value}")
 
@@ -64,7 +60,8 @@ class BaseModel:
             imgcat(value, width=24, height=24)
         except ImportError:
             print(
-                "imgcat library is not available. Please add it to view art.")
+                "imgcat library is not available. Please add it to view art."
+            )
         except Exception as e:
             print(f"An error occurred while displaying art: {str(e)}")
 
@@ -86,10 +83,13 @@ class BaseModel:
 
     # Metadata Filtering Methods
     def _filter_existing_metadata(self):
-        """Filter non-empty."""
+        """Filter non-empty non-binary metadata."""
         return {
             key: value
-            for key, value in self.as_dict().items() if value is not None
+            for key, value in self.as_dict().items()
+            if value is not None and key not in (self.ART_METADATA,
+                                                 self.IMAGES_METADATA,
+                                                 self.LYRICS_METADATA)
         }
 
     def _filter_missing_metadata(self):
@@ -110,7 +110,7 @@ class BaseModel:
         return changed
 
     def batch_update_metadata(self, updates):
-        """Updates """
+        """Upadtes metadata """
         for update in updates:
             key, value = update.split("=")
             try:
@@ -158,23 +158,3 @@ class BaseModel:
             self.metadata.save()
         except Exception as e:
             print(f"An error occurred while saving metadata: {str(e)}")
-
-
-class TrackInfo(BaseModel):
-    """ TrackInfo class for track metadata """
-
-    def __init__(self, file_path):
-        super().__init__(file_path)
-        self.load_metadata()
-
-    def load_metadata(self):
-        self.title: Optional[str] = None
-        self.artist: Optional[str] = None
-        self.album: Optional[str] = None
-        self.genre: Optional[str] = None
-
-        if self.metadata:
-            self.title = self.metadata.title
-            self.artist = self.metadata.artist
-            self.album = self.metadata.album
-            self.genre = self.metadata.genre
