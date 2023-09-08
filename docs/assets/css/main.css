@@ -2336,8 +2336,10 @@ input, select, textarea {
 			}
 
 			.image.phone .inner, .image.phone:before, .image.phone:after {
+			/*
 				display: block;
 				border: solid 2px rgba(255, 255, 255, 0.25);
+			*/
 			}
 
 			.image.phone .inner {
