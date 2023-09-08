@@ -167,3 +167,6 @@ Canon*
 Romeo*
 Sunny*
 *.mp3
+
+# Storage file
+store.yaml
