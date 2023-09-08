@@ -11,18 +11,19 @@ from mediafile import MediaFile
 from datetime import datetime
 
 
-def store(dump):
+def store(dump: dict):
     try:
-        with open("store.yaml", "r+") as f:
+        with open("store.yaml", "r") as f:
             loaded = yaml.safe_load(f)
             loaded.update(dump)
+        with open("store.yaml", "w") as f:
             yaml.safe_dump(loaded, f)
     except FileNotFoundError:
         with open("store.yaml", "w") as f:
             yaml.safe_dump(dump, f)
 
 
-def get_search_params():
+def get_search_params() -> tuple:
     path = inquirer.filepath(message="Enter file name:", only_files=True,
                              validate=PathValidator(is_file=True, message="Invalid path"),
                              amark=">").execute()
@@ -42,11 +43,11 @@ def get_search_params():
 
 
 @lru_cache(maxsize=128)
-def spotify_search(title, artist):
+def spotify_search(title: str, artist: str) -> tuple:
     print("Searching for", title, "by", artist)
     load_dotenv()
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
-    sp.auth = sp.auth_manager.get_access_token(as_dict=False)
+    # sp.auth = sp.auth_manager.get_access_token(as_dict=False)
     q = f"remaster track:{title} artist:{artist}".replace(" ", "%20")
     try:
         with open("store.yaml", "r") as f:
@@ -57,10 +58,10 @@ def spotify_search(title, artist):
         result = cached[q]
     else:
         result = sp.search(q)
-    if result["tracks"]["total"] == 0:
-        print("No results found")
-        exit(1)
-    store({q: result})
+        if result["tracks"]["total"] == 0:
+            print("Search failed, exiting")
+            exit(1)
+        store({q: result})
     return result["tracks"]["items"], [{
         "name":
         result["tracks"]["items"][i]["name"],
@@ -71,16 +72,7 @@ def spotify_search(title, artist):
     } for i in range(10)]
 
 
-# def show_result(parsed_result):
-#     print("Matching results:\n")
-#     for i in range(len(parsed_result)):
-#         print(
-#               f"{i+1}. {parsed_result[i]['name']}" +
-#               f" by {', '.join(parsed_result[i]['artists'])}" +
-#               f" (popularity: {parsed_result[i]['popularity']})")
-
-
-def update_media_file(media_file, result, parsed_result):
+def update_media_file(media_file: MediaFile, result: list, parsed_result: list):
     selection = inquirer.select(message="Select a track:",
                                 choices=[f"{i+1}. {parsed_result[i]['name']}" +
                                          f" by {', '.join(parsed_result[i]['artists'])}" +
@@ -92,19 +84,20 @@ def update_media_file(media_file, result, parsed_result):
     update["title"] = raw["name"]
     update["album"] = raw["album"]["name"]
     update["artists"] = [i["name"] for i in raw["artists"]]
+    update["artist"] = update["artists"][0]
     update["length"] = raw["duration_ms"] / 1000
     update["date"] = datetime.fromisoformat(raw["album"]["release_date"])
     media_file.update(update)
     media_file.save()
     print("Updated file:", media_file.path)
 
-    
+
 def main():
     """Entry point for the application script"""
     media_file, title, artist = get_search_params()
     result, parsed_result = spotify_search(title, artist)
     update_media_file(media_file, result, parsed_result)
-    
+
 
 if __name__ == "__main__":
     main()
