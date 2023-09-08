@@ -51,13 +51,13 @@ def spotify_search(title: str, artist: str) -> tuple:
     q = f"remaster track:{title} artist:{artist}".replace(" ", "%20")
     try:
         with open("store.yaml", "r") as f:
-            cached = yaml.safe_load(f)
+            cached: dict = yaml.safe_load(f)
     except FileNotFoundError:
         cached = {}
     if q in cached:
-        result = cached[q]
+        result: dict = cached[q]
     else:
-        result = sp.search(q)
+        result: dict = sp.search(q)
         if result["tracks"]["total"] == 0:
             print("Search failed, exiting")
             exit(1)
@@ -73,13 +73,13 @@ def spotify_search(title: str, artist: str) -> tuple:
 
 
 def update_media_file(media_file: MediaFile, result: list, parsed_result: list):
-    selection = inquirer.select(message="Select a track:",
+    selection: str = inquirer.select(message="Select a track:",
                                 choices=[f"{i+1}. {parsed_result[i]['name']}" +
                                          f" by {', '.join(parsed_result[i]['artists'])}" +
                                          f" (popularity: {parsed_result[i]['popularity']})"
                                          for i in range(len(parsed_result))], amark=">").execute()
     selected = int(selection.split(".")[0])
-    raw = result[selected - 1]
+    raw: dict = result[selected - 1]
     update = {}
     update["title"] = raw["name"]
     update["album"] = raw["album"]["name"]
