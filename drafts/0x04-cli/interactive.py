@@ -5,7 +5,7 @@ from InquirerPy import inquirer
 from dotenv import load_dotenv
 
 load_dotenv()
-music_path = os.getenv("MUSIC_PATH")
+music_path = f"{os.path.expanduser('~')}/{os.getenv('MUSIC_PATH')}"
 
 
 def interactive_selection():
