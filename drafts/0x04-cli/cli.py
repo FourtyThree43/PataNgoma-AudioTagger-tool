@@ -43,11 +43,11 @@ def update(file_path, updates):
 
     track.batch_update_metadata(updates)
 
-    if track.has_changed(track.as_dict(), md_pre_update):
+    if track.has_changes(track.as_dict(), md_pre_update):
         click.echo(f"Metadata changes for {track.metadata.filename}:")
         for key, value in track.as_dict().items():
-            if md_pre_update[key] != value:
-                if key not in ("art", "images", "lyrics"):
+            if key != "images" and md_pre_update[key] != value:
+                if key not in ("art", "lyrics"):
                     click.echo(f"{key}: {md_pre_update[key]} -> {value}")
                 else:
                     click.echo(f"{key}: changed (diff too large to display)")
@@ -64,7 +64,7 @@ def update(file_path, updates):
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
 def delete(file_path):
-    """Delete's all metadata from the media file."""
+    """Delete all metadata from the media file."""
     track = TrackInfo(file_path)
     if click.confirm(
             f"Confirm removal of all {track.metadata.filename} tags?"):

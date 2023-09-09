@@ -37,7 +37,7 @@ class BaseModel:
         """Print non-empty non-binary metadata for {self.metadata.filename}."""
         print(f"Existing Metadata of {self.metadata.filename}:\n")
         for key, value in self.as_dict().items():
-            if value is not None:
+            if value:
                 if key not in ("art", "images", "lyrics"):
                     print(f"{key}: {value}")
                 elif key == "art":
@@ -54,17 +54,16 @@ class BaseModel:
         """Print missing metadata for {self.metadata.filename}."""
         print(f"Missing Metadata of {self.metadata.filename}:\n")
         for key, value in self.as_dict().items():
-            if value is None:
+            if not value:
                 print(f"{key}")
 
-    def has_changes(self, track: 'BaseModel', md_pre_update) -> bool:
+    def has_changes(self, track: 'dict', md_pre_update) -> bool:
         """Return True if there are changes to the metadata ignoring 'images'
         """
         # excluding "images" as obj address always changes on update
-        has_changed = any(key != "images" and key in md_pre_update
+        return any(key != "images" 
                           and md_pre_update[key] != value
-                          for key, value in track.as_dict().items())
-        return has_changed
+                          for key, value in track.items())
 
     def batch_update_metadata(self, updates):
         for update in updates:
@@ -122,11 +121,11 @@ class TrackInfo(BaseModel):
         self.year: Optional[str] = None
 
         if self.metadata:
-            self.title = self.metadata.title
-            self.artist = self.metadata.artist
-            self.album = self.metadata.album
-            self.genre = self.metadata.genre
-            self.year = self.metadata.year
+            self.title = self.metadata.title # type: ignore
+            self.artist = self.metadata.artist # type: ignore
+            self.album = self.metadata.album # type: ignore
+            self.genre = self.metadata.genre # type: ignore
+            self.year = self.metadata.year # type: ignore
 
     def get_params(self):
         # returns a dict of all non-empty metadata excluding "art", "title", "artist"

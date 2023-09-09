@@ -57,7 +57,7 @@ def spotify_search(title: str, artist: str) -> tuple:
     if q in cached:
         result: dict = cached[q]
     else:
-        result: dict = sp.search(q)
+        result: dict = sp.search(q) # pyright: ignore
         if result["tracks"]["total"] == 0:
             print("Search failed, exiting")
             exit(1)
