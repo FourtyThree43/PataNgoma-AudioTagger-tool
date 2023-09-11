@@ -4,7 +4,6 @@ from rgbprint import Color
 from rich.panel import Panel
 import click
 import rich
-# from pathlib import Path
 
 
 @click.group(invoke_without_command=True)
@@ -23,13 +22,11 @@ def cli(ctx, path):
     ctx.obj = {"path": path}
 
     if ctx.invoked_subcommand is None:
-        # print(f"1: {ctx}")
         show_menu(ctx)
 
 
 def show_menu(ctx):
     """Display a menu of available actions."""
-    # print(f"2: {ctx}")
     if ctx.obj["path"] is None:
         print(f"[{Color.red}CRITICAL{Color.reset}]" +
               "File path must be provided using " +
@@ -58,7 +55,7 @@ def show_menu(ctx):
 
 def _show_submenu(ctx):
     """Display a submenu for 'Show-tags' options."""
-    file_path = ctx.obj["path"]
+    fp = ctx.obj["path"]
 
     show_tags_choices = [
         Choice(name="Show all metadata", value="all"),
@@ -74,13 +71,12 @@ def _show_submenu(ctx):
 
     # print(f"show_tags_action: {show_tags_action}")
     if show_tags_action == "all":
-        show_tags([file_path], all_t=True, existing=False, missing=False)
+        ctx.invoke(show_tags, file_path=[fp], all_t=True)
     elif show_tags_action == "existing":
-        show_tags(file_path, all_t=False, existing=True, missing=False)
+        ctx.invoke(show_tags, file_path=[fp], existing=True)
     elif show_tags_action == "missing":
-        show_tags(file_path, all_t=False, existing=False, missing=True)
+        ctx.invoke(show_tags, file_path=[fp], missing=True)
     elif show_tags_action == "Back":
-        # print(f"3: {ctx}")
         show_menu(ctx)
 
 
