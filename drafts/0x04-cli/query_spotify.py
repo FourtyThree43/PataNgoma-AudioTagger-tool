@@ -28,7 +28,7 @@ def get_search_params() -> tuple:
                              only_files=True,
                              validate=PathValidator(is_file=True,
                                                     message="Invalid path"),
-                             amark=">").execute()
+                             amark="✔").execute()
     try:
         media_file = MediaFile(path)
     except Exception as e:
@@ -84,7 +84,7 @@ def update_media_file(media_file: MediaFile, result: list,
             f" (popularity: {parsed_result[i]['popularity']})"
             for i in range(len(parsed_result))
         ],
-        amark=">").execute()
+        amark="✔").execute()
     selected = int(selection.split(".")[0])
     raw: dict = result[selected - 1]
     update = {}

@@ -5,6 +5,7 @@ import rich
 from rich.panel import Panel
 from rgbprint import gradient_scroll, Color
 from InquirerPy import inquirer
+from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
 from dotenv import load_dotenv
 
@@ -23,22 +24,25 @@ def set_default_path():
 
 
 def interactive_selection(music_path):
-    # selection = inquirer.filepath(message="Please select a file:",
-    #                               path_type="file",
-    #                               only_files=True,
-    #                               only_directories=False,
-    #                               validate=lambda x: os.path.exists(x)).execute()
-    files = [
-        i for i in os.listdir(music_path)
-        if not os.path.isdir(f"{music_path}/{i}")
-    ]
-    choices = [f"{i+1}. {file}" for i, file in enumerate(files)]
-    selection = inquirer.select(message="Please select a file:",
-                                choices=choices,
-                                transformer=lambda x: ".".join(x.split(".")[1:]).strip(),
-                                amark=">").execute()
-    index = int(selection.split(".")[0]) - 1
-    return os.path.join(music_path, files[index])
+    # files = [
+    #     i for i in os.listdir(music_path)
+    #     if not os.path.isdir(f"{music_path}/{i}")
+    # ]
+    # choices = [f"{i+1}. {file}" for i, file in enumerate(files)]
+    # selection = inquirer.select(message="Please select a file:",
+    #                             choices=choices,
+    #                             transformer=lambda x: ".".join(x.split(".")[1:]).strip(),
+    #                             amark=">").execute()
+    # index = int(selection.split(".")[0]) - 1
+    # return os.path.join(music_path, files[index])
+    filename = inquirer.filepath(
+        message="Please enter a file path:\n",
+        amark="✔",
+        validate=PathValidator(is_file=True, message="You've entered an invalid file path"),
+        default=f"{music_path}{os.path.sep}",
+        transformer=lambda x: f"Selected: {os.path.basename(x)}",
+    ).execute()
+    return filename
 
 
 def file_handler(filename):
@@ -47,7 +51,7 @@ def file_handler(filename):
 
 def main():
     rich.print(Panel.fit("[bright_red]PataNgoma", title="Welcome",
-                         subtitle="Giving a face to your music", padding=(0, 15)))
+                         subtitle="Giving a face to your music", padding=(0, 15)), "\n", sep="")
     music_path = set_default_path()
     if len(sys.argv) < 2:
         print("No file selected")
@@ -74,7 +78,7 @@ def main():
             click.secho(f"The file '{filename}' does not exist", fg="bright_red")
             filename = interactive_selection(music_path)
 
-    click.secho(f"The file '{filename}' has been selected", fg="bright_green")
+    click.secho(f"Processing {filename}", fg="bright_green")
 
 
 if __name__ == "__main__":

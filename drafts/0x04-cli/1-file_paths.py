@@ -1,5 +1,5 @@
 import click
-# import pathlib
+import pathlib
 
 
 @click.group(invoke_without_command=True)
@@ -15,7 +15,7 @@ def cli(ctx, file_path):
     if ctx.invoked_subcommand is None:
         fp = ctx.obj["file_path"]
         print(fp, type(fp))
-        process_file(file_path)
+        process_file([fp])
 
 
 @click.command()
