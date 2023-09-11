@@ -28,7 +28,9 @@ def cli(ctx, file_path):
 def show_menu(ctx):
     """Display a menu of available actions."""
     if ctx.obj["file_path"] is None:
-        print(f"[{Color.red}CRITICAL{Color.reset}] File path must be provided.")
+        print(
+            f"[{Color.red}CRITICAL{Color.reset}] File path must be provided with {Color.green}-f, --file_path{Color.reset} or use {Color.green}--help{Color.reset} to see options"
+        )
         return
 
     action = inquirer.select(message="Select an action:",
