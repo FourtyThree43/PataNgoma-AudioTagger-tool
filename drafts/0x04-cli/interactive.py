@@ -24,17 +24,6 @@ def set_default_path():
 
 
 def interactive_selection(music_path):
-    # files = [
-    #     i for i in os.listdir(music_path)
-    #     if not os.path.isdir(f"{music_path}/{i}")
-    # ]
-    # choices = [f"{i+1}. {file}" for i, file in enumerate(files)]
-    # selection = inquirer.select(message="Please select a file:",
-    #                             choices=choices,
-    #                             transformer=lambda x: ".".join(x.split(".")[1:]).strip(),
-    #                             amark=">").execute()
-    # index = int(selection.split(".")[0]) - 1
-    # return os.path.join(music_path, files[index])
     filename = inquirer.filepath(
         message="Please enter a file path:\n",
         amark="✔",
