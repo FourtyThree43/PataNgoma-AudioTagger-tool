@@ -24,8 +24,10 @@ def store(dump: dict):
 
 
 def get_search_params() -> tuple:
-    path = inquirer.filepath(message="Enter file name:", only_files=True,
-                             validate=PathValidator(is_file=True, message="Invalid path"),
+    path = inquirer.filepath(message="Enter file name:",
+                             only_files=True,
+                             validate=PathValidator(is_file=True,
+                                                    message="Invalid path"),
                              amark=">").execute()
     try:
         media_file = MediaFile(path)
@@ -57,7 +59,7 @@ def spotify_search(title: str, artist: str) -> tuple:
     if q in cached:
         result: dict = cached[q]
     else:
-        result: dict = sp.search(q) # pyright: ignore
+        result: dict = sp.search(q)  # pyright: ignore
         if result["tracks"]["total"] == 0:
             print("Search failed, exiting")
             exit(1)
@@ -72,12 +74,17 @@ def spotify_search(title: str, artist: str) -> tuple:
     } for i in range(10)]
 
 
-def update_media_file(media_file: MediaFile, result: list, parsed_result: list):
-    selection: str = inquirer.select(message="Select a track:",
-                                choices=[f"{i+1}. {parsed_result[i]['name']}" +
-                                         f" by {', '.join(parsed_result[i]['artists'])}" +
-                                         f" (popularity: {parsed_result[i]['popularity']})"
-                                         for i in range(len(parsed_result))], amark=">").execute()
+def update_media_file(media_file: MediaFile, result: list,
+                      parsed_result: list):
+    selection: str = inquirer.select(
+        message="Select a track:",
+        choices=[
+            f"{i+1}. {parsed_result[i]['name']}" +
+            f" by {', '.join(parsed_result[i]['artists'])}" +
+            f" (popularity: {parsed_result[i]['popularity']})"
+            for i in range(len(parsed_result))
+        ],
+        amark=">").execute()
     selected = int(selection.split(".")[0])
     raw: dict = result[selected - 1]
     update = {}
