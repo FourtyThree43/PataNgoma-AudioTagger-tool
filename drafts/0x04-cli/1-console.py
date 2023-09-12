@@ -1,7 +1,8 @@
+from os.path import isdir
 from InquirerPy import inquirer
 from InquirerPy.validator import PathValidator
 from InquirerPy.base.control import Choice
-from rgbprint import Color
+# from rgbprint import Color
 from rich.panel import Panel
 import click
 import rich
@@ -16,17 +17,21 @@ def set_default_path():
     if tail:
         music_path = f"{os.path.expanduser('~')}{os.path.sep}{tail}"
     else:
+        click.secho("Path to music directory not set, defaulting to current directory", fg="yellow")
         music_path = os.getcwd()
     return music_path
 
 
 def interactive_selection(music_path):
     filename = inquirer.filepath(
-        message="Please enter a file path:\n",
-        amark="✔",
+        message="Please enter a path or select file from list:\n",
+        amark="✔️",
+        qmark=">",
         validate=PathValidator(is_file=True, message="Invalid file path"),
         default=f"{music_path}{os.path.sep}",
-        transformer=lambda x: f"Selected: {os.path.basename(x)}"
+        transformer=lambda x: f"File: {os.path.basename(x)}",
+        instruction="Press <tab> to list directory contents",
+        long_instruction="Use <up> and <down> arrow keys to navigate list, then <enter> to select"
     ).execute()
     return os.path.expanduser(filename)
 
@@ -35,8 +40,8 @@ def interactive_selection(music_path):
 @click.pass_context
 @click.option('--path',
               '-p',
-              type=click.Path(exists=True, dir_okay=False, resolve_path=True),
-              help="Path to the audio file")
+              type=click.Path(exists=True, dir_okay=True, resolve_path=True),
+              help="Path to the audio file or its parent directory")
 def cli(ctx, path):
     rich.print(
         Panel.fit("\n[green]PataNgoma AutoTagger\n",
@@ -44,15 +49,17 @@ def cli(ctx, path):
                   subtitle="Enjoy personalizing your Music files",
                   padding=(0, 15)))
 
-
+    if path and os.path.isdir(path):
+        click.echo("Path provided is a directory, please select a file")
+        path = interactive_selection(path)
     if ctx.invoked_subcommand is None:
         ctx.obj = path # {"path": path}
         if ctx.obj is None:
             ctx.obj = interactive_selection(set_default_path())
-        show_menu(ctx)
+        menu(ctx)
 
 
-def show_menu(ctx):
+def menu(ctx):
     """Display a menu of available actions."""
 
     action = inquirer.select(message="Select an action:",
@@ -63,6 +70,7 @@ def show_menu(ctx):
                                  Choice(value=None, name="Exit"),
                              ],
                              default=None,
+                             qmark=">",
                              amark="✔️").execute()
     fp = ctx.obj
 
@@ -89,7 +97,7 @@ def _show_submenu(ctx):
     show_tags_action = inquirer.select(message="Select a 'Show-tags' option:",
                                        choices=show_tags_choices,
                                        default="Back",
-                                       amark="✔️",).execute()
+                                       amark="✔️", qmark=">").execute()
 
     if show_tags_action == "all":
         ctx.invoke(show, file_path=[fp], all_t=True)
@@ -98,7 +106,7 @@ def _show_submenu(ctx):
     elif show_tags_action == "missing":
         ctx.invoke(show, file_path=[fp], missing=True)
     elif show_tags_action == "Back":
-        show_menu(ctx)
+        menu(ctx)
 
 
 def _update_submenu(ctx):
@@ -107,13 +115,21 @@ def _update_submenu(ctx):
     valid_fields = {"artist": None, "album": None, "title": None, "track": None, "genre": None, "year": None, "comment": None}
     selected_fields = inquirer.fuzzy(
         message="Select fields:",
-        choices=valid_fields,
+        choices=list(valid_fields.keys()),
         multiselect=True,
         validate=lambda result: len(result) >= 1,
         invalid_message="minimum 1 selection",
         max_height="70%",
+        qmark=">",
+        amark="✔️",
     ).execute()
-    updates = inquirer.text(message="Enter new values:", completer=selected_fields).execute()
+    updates = []
+    click.echo("Enter new values as prompted:")
+    for key in selected_fields:
+        updates.append(inquirer.text(message=f"{key}:", qmark= ">", amark="✔️").execute())
+    click.echo("Your updates:")
+    for key, value in zip(selected_fields, updates):
+        click.echo(f"{key}: {value}")
 
 
 @click.command()
@@ -126,27 +142,36 @@ def _update_submenu(ctx):
 @click.option('--missing', '-m', is_flag=True, help='Show missing metadata.')
 def show(file_path, all_t, existing, missing):
     """Show metadata for a media file."""
+    if os.path.isdir(file_path[0]):
+        click.echo("Path provided is a directory, please select a file")
+        file_path = interactive_selection(file_path[0])
     if all_t:
-        print(f"Displaying all metadata for {file_path}")
+        print(f"Displaying all metadata for {file_path[0]}")
     elif existing:
-        print(f"Displaying existing metadata for {file_path}")
+        print(f"Displaying existing metadata for {file_path[0]}")
     elif missing:
-        print(f"Displaying missing metadata for {file_path}")
+        print(f"Displaying missing metadata for {file_path[0]}")
     else:
-        print(f"Displaying existing metadata for {file_path}")
+        print(f"Displaying existing metadata for {file_path[0]}")
 
 
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True, resolve_path=True))
 @click.argument('tags', nargs=-1)
-def update(file_path):
-    print(f"Updating tags for {file_path}")
+def update(file_path, tags):
+    if os.path.isdir(file_path[0]):
+        click.echo("Path provided is a directory, please select a file")
+        file_path = interactive_selection(file_path[0])
+    print(f"Updating tags for {file_path[0]}")
 
 
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True, resolve_path=True))
 def delete(file_path):
-    print(f"Deleting tags for {file_path}")
+    if os.path.isdir(file_path[0]):
+        click.echo("Path provided is a directory, please select a file")
+        file_path = interactive_selection(file_path[0])
+    print(f"Deleting tags for {file_path[0]}")
 
 
 cli.add_command(update)
