@@ -1,16 +1,13 @@
 # Purpose: Command line interface for PataNgoma AutoTagger
 
-from click.types import BOOL
 from dotenv import load_dotenv
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from rgbprint import gradient_print, gradient_scroll, Color
-from rich.panel import Panel
 from tags import TrackInfo
 import click
 import os
-import rich
 
 
 def app_info():
