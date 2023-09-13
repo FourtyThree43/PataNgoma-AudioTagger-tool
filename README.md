@@ -1,9 +1,25 @@
-[]: # File: README.md
-[]: # Project: PataNgoma-AudioTagger-tool
-[]: # Created Date: August 29th 2023
-
+# Project: PataNgoma-AudioTagger-tool
 
 [![GitHub license](https://img.shields.io/github/license/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub stars](https://img.shields.io/github/stars/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub issues](https://img.shields.io/github/issues/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub forks](https://img.shields.io/github/forks/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub last commit](https://img.shields.io/github/last-commit/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub repo size](https://img.shields.io/github/repo-size/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub language count](https://img.shields.io/github/languages/count/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub top language](https://img.shields.io/github/languages/top/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub repo size](https://img.shields.io/github/repo-size/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![GitHub forks](https://img.shields.io/github/forks/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+
+
+# PataNgoma
 
 ## Table of Contents
 - [Project Folder Structure](#project-folder-structure)
