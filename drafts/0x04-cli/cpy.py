@@ -62,13 +62,22 @@ def interactive_selection(music_path):
 def main(ctx, path):
     hello()
     if ctx.invoked_subcommand is None:
-        if path and os.path.isdir(path):
-            click.echo("Path provided is a directory, please select a file")
-            path = interactive_selection(path)
-        ctx.obj = path
-        if ctx.obj is None:
+        # if path and os.path.isdir(path):
+        #     click.echo("Path provided is a directory, please select a file")
+        #     path = interactive_selection(path)
+        # ctx.obj = path
+        # if ctx.obj is None:
+        #     ctx.obj = interactive_selection(set_default_path())
+        # menu(ctx)
+        if path:
+            if os.path.isdir(path):
+                click.echo("Path provided is a directory, please select a file")
+                path = interactive_selection(path)
+            ctx.obj = path
+        else:
             ctx.obj = interactive_selection(set_default_path())
         menu(ctx)
+
 
 
 def menu(ctx):
