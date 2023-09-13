@@ -1,6 +1,7 @@
 from typing import Optional
 from app.models.tags import BaseModel
 
+
 class TrackInfo(BaseModel):
     """ TrackInfo class for track metadata """
 
@@ -25,3 +26,13 @@ class TrackInfo(BaseModel):
             self.track = self.metadata.track
             self.tracktotal = self.metadata.tracktotal
             self.albumtype = self.metadata.albumtype
+
+    def get_params(self):
+        metadata: dict = self.as_dict()
+
+        params = {}
+        for key, value in metadata.items():
+            if value is not None and key not in ("art", "title", "artist",
+                                                 "lyrics", "images"):
+                params[key] = value
+        return params

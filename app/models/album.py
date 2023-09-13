@@ -2,6 +2,7 @@ from typing import Optional, List
 from app.models.tags import BaseModel
 from app.models.track import TrackInfo
 
+
 class AlbumInfo(BaseModel):
 
     def __init__(self, file_path, tracks: List[TrackInfo]):
@@ -35,3 +36,13 @@ class AlbumInfo(BaseModel):
         print(f"Tracks in the Album {self.album}:")
         for i, track in enumerate(self.tracks, start=1):
             print(f"Track {i}: {track.title}")
+
+    def get_params(self):
+        metadata: dict = self.as_dict()
+
+        params = {}
+        for key, value in metadata.items():
+            if value is not None and key not in ("art", "title", "artist",
+                                                 "lyrics", "images"):
+                params[key] = value
+        return params
