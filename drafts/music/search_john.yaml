@@ -1,0 +1,2500 @@
+artists:
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Towner Williams
+    primary: null
+    sort-name: Towner Williams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Towner
+    primary: null
+    sort-name: Towner
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Towner
+    primary: null
+    sort-name: John Towner
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Williams
+    primary: null
+    sort-name: Williams, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Johnny Williams
+    primary: null
+    sort-name: Williams, Johnny
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Williams
+    primary: null
+    sort-name: Williams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Willams
+    primary: null
+    sort-name: John Willams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John T. Williams
+    primary: null
+    sort-name: John T. Williams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Towner Williams
+    primary: null
+    sort-name: Towner Williams, John
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John William
+    primary: null
+    sort-name: John William
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "\u30B8\u30E7\u30F3\u30FB\u30A6\u30A3\u30EA\u30A2\u30E0\u30BA"
+    primary: null
+    sort-name: "\u30B8\u30E7\u30F3\u30FB\u30A6\u30A3\u30EA\u30A2\u30E0\u30BA"
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: J. Williams
+    primary: null
+    sort-name: J. Williams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jhon Williams
+    primary: null
+    sort-name: Jhon Williams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Wiliams
+    primary: null
+    sort-name: John Wiliams
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Williems
+    primary: null
+    sort-name: John Williems
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "\u30B8\u30E7\u30F3 \u30A6\u30A3\u30EA\u30A2\u30E0\u30BA"
+    primary: null
+    sort-name: "\u30B8\u30E7\u30F3 \u30A6\u30A3\u30EA\u30A2\u30E0\u30BA"
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: e0975da0-78e8-441a-b737-e2104773cb7a
+    life-span:
+      ended: null
+    name: Flushing
+    sort-name: Flushing
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: American score composer
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 53b106e7-0cc6-42cc-ac95-ed8d30a3a98e
+  ipis:
+  - 00032981579
+  isnis:
+  - 0000000123479198
+  life-span:
+    begin: '1932-02-08'
+    ended: null
+  name: John Williams
+  score: 100
+  sort-name: Williams, John
+  tags:
+  - count: 12
+    name: soundtrack
+  - count: 8
+    name: classical
+  - count: 1
+    name: jazz
+  - count: 1
+    name: american
+  - count: 4
+    name: orchestral
+  - count: 1
+    name: game
+  - count: 3
+    name: conductor
+  - count: 1
+    name: video game
+  - count: 3
+    name: score
+  - count: 1
+    name: pianist
+  - count: 5
+    name: composer
+  - count: 2
+    name: film score
+  - count: 2
+    name: contemporary classical
+  - count: 1
+    name: film
+  - count: 1
+    name: vgm
+  - count: 1
+    name: american composer
+  - count: 1
+    name: film soundtrack
+  - count: 1
+    name: easy listening soundtracks and musicals
+  - count: 4
+    name: film composer
+  - count: 1
+    name: soundtracks
+  - count: 2
+    name: modern classical
+  - count: 1
+    name: star wars
+  - count: 1
+    name: grammy winner
+  - count: 1
+    name: saga
+  - count: 1
+    name: suboptimal credits
+  - count: 1
+    name: academy award winner
+  - count: 1
+    name: server name
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: ja
+    name: "\u30A8\u30EB\u30C8\u30F3\u30FB\u30B8\u30E7\u30F3"
+    primary: true
+    sort-name: "\u30A8\u30EB\u30C8\u30F3\u30FB\u30B8\u30E7\u30F3"
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Elton Hercules John
+    primary: null
+    sort-name: John, Elton Hercules
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Reginald Kenneth Dwight
+    primary: null
+    sort-name: Dwight, Reginald Kenneth
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Reginald Dwight
+    primary: null
+    sort-name: Dwight, Reginald
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Ann Orson
+    primary: null
+    sort-name: Orson, Ann
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Reg Dwight
+    primary: null
+    sort-name: Reg Dwight
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Reginald Kenneth Dwight
+    primary: null
+    sort-name: Reginald Kenneth Dwight
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Elthon John
+    primary: null
+    sort-name: Elthon John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Sir Elton John
+    primary: null
+    sort-name: Sir Elton John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Elton Jphn
+    primary: null
+    sort-name: Elton Jphn
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: E. John
+    primary: null
+    sort-name: E. John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John, Elton
+    primary: null
+    sort-name: John, Elton
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Sir Elton Hercules John
+    primary: null
+    sort-name: Sir Elton Hercules John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Elton
+    primary: null
+    sort-name: John Elton
+    type: null
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: a4ae8fa8-2332-49b6-b374-41a2dbfa9224
+    life-span:
+      ended: null
+    name: Pinner
+    sort-name: Pinner
+    type: District
+    type-id: 84039871-5e47-38ca-a66a-45e512c8290f
+  country: GB
+  disambiguation: English singer, songwriter, pianist, and composer
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: b83bc61f-8451-4a5d-8b8e-7e9ed295e822
+  ipis:
+  - 00042308022
+  isnis:
+  - 0000000109201181
+  - 0000000368558134
+  life-span:
+    begin: '1947-03-25'
+    ended: null
+  name: Elton John
+  score: 98
+  sort-name: John, Elton
+  tags:
+  - count: 3
+    name: rock
+  - count: 12
+    name: pop
+  - count: 2
+    name: british
+  - count: 2
+    name: singer-songwriter
+  - count: 0
+    name: uk
+  - count: 0
+    name: glam rock
+  - count: 0
+    name: classic rock
+  - count: 2
+    name: soft rock
+  - count: 5
+    name: adult contemporary
+  - count: 6
+    name: pop rock
+  - count: 2
+    name: rock and roll
+  - count: 7
+    name: piano rock
+  - count: 0
+    name: english
+  - count: 0
+    name: classic pop and rock
+  - count: 0
+    name: elton-john
+  - count: 2
+    name: singer/songwriter
+  - count: 0
+    name: pop/rock
+  - count: 0
+    name: barcode:0602507159085
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: ru
+    name: "\u0414\u0436\u043E\u043D \u041B\u0435\u043D\u043D\u043E\u043D"
+    primary: true
+    sort-name: "\u041B\u0435\u043D\u043D\u043E\u043D, \u0414\u0436\u043E\u043D"
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: lv
+    name: "D\u017E.Lenons"
+    primary: null
+    sort-name: "Lenons, D\u017E."
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Booker Table and The Maitre D's
+    primary: null
+    sort-name: Booker Table and The Maitre D's
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Lennon
+    primary: null
+    sort-name: Lennon
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: ru
+    name: "\u0414\u0436\u043E\u043D"
+    primary: null
+    sort-name: "\u0414\u0436\u043E\u043D"
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Mel Torment
+    primary: null
+    sort-name: Torment, Mel
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dwarf McDougal
+    primary: null
+    sort-name: Dwarf McDougal
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: J. Lennon
+    primary: null
+    sort-name: J. Lennon
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dad
+    primary: null
+    sort-name: Dad
+    type: null
+  - begin-date: '1969'
+    end-date: null
+    locale: null
+    name: John Winston Ono Lennon
+    primary: null
+    sort-name: Ono Lennon, John Winston
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dr. Dream
+    primary: null
+    sort-name: Dr. Dream
+    type: null
+  - begin-date: null
+    end-date: '1969'
+    locale: null
+    name: John Winston Lennon
+    primary: null
+    sort-name: Lennon, John Winston
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John O'Cean
+    primary: null
+    sort-name: John O'Cean
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Hon. John St. John Johnson
+    primary: null
+    sort-name: Hon. John St. John Johnson
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dr. Winston O'Boogie
+    primary: null
+    sort-name: Dr. Winston O'Boogie
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Lhennj Ono
+    primary: null
+    sort-name: Lhennj Ono
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Joel Nohnn
+    primary: null
+    sort-name: Joel Nohnn
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Kaptain Kundalini
+    primary: null
+    sort-name: Kaptain Kundalini
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Rev. Fred Ghurkin
+    primary: null
+    sort-name: Ghurkin, Rev. Fred
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Musketeer Gripweed & The Third Troop
+    primary: null
+    sort-name: Musketeer Gripweed & The Third Troop
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: ja
+    name: "\u30B8\u30E7\u30F3\u30FB\u30EC\u30CE\u30F3"
+    primary: true
+    sort-name: "\u30B8\u30E7\u30F3\u30FB\u30EC\u30CE\u30F3"
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: John Lennon
+    primary: true
+    sort-name: Lennon, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: c249c30e-88ab-4b2f-a745-96a25bd7afee
+    life-span:
+      ended: null
+    name: Liverpool
+    sort-name: Liverpool
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: GB
+  disambiguation: The Beatles
+  end-area:
+    id: aaef6ccc-52fb-4add-ae99-aded66a0b170
+    life-span:
+      ended: null
+    name: Upper West Side
+    sort-name: Upper West Side
+    type: District
+    type-id: 84039871-5e47-38ca-a66a-45e512c8290f
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 4d5447d7-c61c-4120-ba1b-d7f471d385b9
+  ipis:
+  - 00017798450
+  - 00273545259
+  isnis:
+  - 0000000121174585
+  life-span:
+    begin: '1940-10-09'
+    end: '1980-12-08'
+    ended: true
+  name: John Lennon
+  score: 96
+  sort-name: Lennon, John
+  tags:
+  - count: 8
+    name: rock
+  - count: 7
+    name: pop
+  - count: 1
+    name: folk
+  - count: 6
+    name: experimental
+  - count: 3
+    name: british
+  - count: 2
+    name: singer-songwriter
+  - count: 1
+    name: uk
+  - count: -1
+    name: britannique
+  - count: 1
+    name: classic rock
+  - count: 2
+    name: pop rock
+  - count: 0
+    name: english
+  - count: -1
+    name: united kingdom
+  - count: -1
+    name: classic pop and rock
+  - count: 1
+    name: peace
+  - count: 0
+    name: death by murder
+  - count: 0
+    name: death by gun
+  - count: 0
+    name: singer/songwriter
+  - count: 1
+    name: rock & roll
+  - count: 0
+    name: wifebeater
+  - count: 1
+    name: murdered
+  - count: 1
+    name: aln-sh
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: The Boogie Man
+    primary: null
+    sort-name: Boogie Man, The
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Birmingham Sam and his Magic Guitar
+    primary: null
+    sort-name: Birmingham Sam and his Magic Guitar
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: '1951'
+    end-date: '1952'
+    locale: null
+    name: John Lee Booker
+    primary: null
+    sort-name: Booker, John Lee
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Delta John
+    primary: null
+    sort-name: Delta John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Texas Slim
+    primary: null
+    sort-name: Texas Slim
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: '1953'
+    end-date: '1954'
+    locale: null
+    name: Johnny Lee
+    primary: null
+    sort-name: Johnny Lee
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Johnny Williams
+    primary: null
+    sort-name: Williams, Johnny
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Johnny Lee Hooker
+    primary: null
+    sort-name: Johnny Lee Hooker
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: en_US
+    name: John Lee
+    primary: null
+    sort-name: Lee, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jonh Lee
+    primary: null
+    sort-name: Jonh Lee
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 44f87a2c-0eeb-4d36-8ad8-dea571a0ed9d
+    life-span:
+      ended: null
+    name: Coahoma County
+    sort-name: Coahoma County
+    type: County
+    type-id: bcecec27-8bdb-3e00-8254-d948dda502fa
+  country: US
+  disambiguation: US blues singer, songwriter & guitarist
+  end-area:
+    id: 9f72ba0b-e782-4ff8-bb3f-f41d2b0c54af
+    life-span:
+      ended: null
+    name: Los Altos
+    sort-name: Los Altos
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: b0122194-c49a-46a1-ade7-84d1d76bd8e9
+  ipis:
+  - '00014365604'
+  - 00040694880
+  isnis:
+  - 0000000081038027
+  - 0000000118100067
+  life-span:
+    begin: '1917-08-22'
+    end: '2001-06-21'
+    ended: true
+  name: John Lee Hooker
+  score: 94
+  sort-name: Hooker, John Lee
+  tags:
+  - count: 0
+    name: fixme
+  - count: 1
+    name: american
+  - count: 7
+    name: blues
+  - count: 1
+    name: singer-songwriter
+  - count: 2
+    name: blues rock
+  - count: 1
+    name: chicago blues
+  - count: 5
+    name: electric blues
+  - count: 3
+    name: country blues
+  - count: 1
+    name: detroit blues
+  - count: 4
+    name: delta blues
+  - count: 0
+    name: rock and indie
+  - count: 1
+    name: chigaco blues
+  - count: 1
+    name: rhythm & blues
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: Coltrane
+    primary: null
+    sort-name: Coltrane
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: ja
+    name: "\u30B8\u30E7\u30F3\u30FB\u30B3\u30EB\u30C8\u30EC\u30FC\u30F3"
+    primary: true
+    sort-name: "\u30B8\u30E7\u30F3\u30FB\u30B3\u30EB\u30C8\u30EC\u30FC\u30F3"
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Trane
+    primary: null
+    sort-name: Trane
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Coltraine
+    primary: null
+    sort-name: John Coltraine
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John William Coltrane
+    primary: null
+    sort-name: Coltrane, John William
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: aadf903b-960e-49b5-9e80-083a65f552ce
+    life-span:
+      ended: null
+    name: Hamlet
+    sort-name: Hamlet
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  end-area:
+    id: c9c39cb4-c978-4a00-97ed-9f8831dab11d
+    life-span:
+      ended: null
+    name: Huntington
+    sort-name: Huntington
+    type: Municipality
+    type-id: 17246454-5ac4-36a1-b81a-4753eb2dab20
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: b625448e-bf4a-41c3-a421-72ad46cdb831
+  ipis:
+  - '00006572202'
+  isnis:
+  - 000000012280792X
+  life-span:
+    begin: '1926-09-23'
+    end: '1967-07-17'
+    ended: true
+  name: John Coltrane
+  score: 94
+  sort-name: Coltrane, John
+  tags:
+  - count: 13
+    name: jazz
+  - count: 3
+    name: american
+  - count: 0
+    name: usa
+  - count: 1
+    name: "am\xE9ricain"
+  - count: 1
+    name: saxophonist
+  - count: 3
+    name: post-bop
+  - count: 7
+    name: hard bop
+  - count: 5
+    name: modal jazz
+  - count: 1
+    name: bebop
+  - count: 5
+    name: avant-garde jazz
+  - count: 6
+    name: free jazz
+  - count: 0
+    name: post bop
+  - count: 0
+    name: jazz and blues
+  - count: 1
+    name: instrumental jazz
+  - count: 0
+    name: my favolite
+  - count: 2
+    name: spiritual jazz
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 9f6fa220-2d55-457d-a8b0-8116d9b306e7
+    life-span:
+      ended: null
+    name: Jonesboro
+    sort-name: Jonesboro
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 1d5b9aab-a247-4f23-bac5-479c559b9fe0
+  isnis:
+  - 0000000121194009
+  life-span:
+    begin: '1955-02-08'
+    ended: null
+  name: John Grisham
+  score: 92
+  sort-name: Grisham, John
+  tags:
+  - count: 1
+    name: has german audiobooks
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Barry
+    primary: null
+    sort-name: Barry
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jhon Bary
+    primary: null
+    sort-name: Jhon Bary
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jhon Barry
+    primary: null
+    sort-name: Jhon Barry
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Bary
+    primary: null
+    sort-name: John Bary
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: J. Barr
+    primary: null
+    sort-name: J. Barr
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Michael Angelo
+    primary: null
+    sort-name: Michael Angelo
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Barry
+    primary: null
+    sort-name: Barry, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Barry Prendergast
+    primary: null
+    sort-name: Barry Prendergast, John
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: J.J. Barry
+    primary: null
+    sort-name: J.J. Barry
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 3a28f05b-59e0-4aa1-9a79-b96f5ef6403b
+    life-span:
+      ended: null
+    name: York
+    sort-name: York
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: GB
+  disambiguation: English score composer
+  end-area:
+    id: fda87c2c-d04f-43e8-a6be-f10fec4dea70
+    life-span:
+      ended: null
+    name: Oyster Bay
+    sort-name: Oyster Bay
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 661e20c8-3d82-4da2-94a2-97d9e11691c0
+  ipis:
+  - 00002198612
+  isnis:
+  - 0000000122820905
+  - 000000036865189X
+  life-span:
+    begin: '1933-11-03'
+    end: '2011-01-30'
+    ended: true
+  name: John Barry
+  score: 91
+  sort-name: Barry, John
+  tags:
+  - count: 3
+    name: soundtrack
+  - count: 3
+    name: british
+  - count: 1
+    name: uk
+  - count: 0
+    name: britannique
+  - count: 2
+    name: composer
+  - count: 1
+    name: film score
+  - count: 1
+    name: english
+  - count: 0
+    name: compositeur
+  - count: 2
+    name: easy listening soundtracks and musicals
+  - count: 1
+    name: film composer
+  - count: -1
+    name: death by heart attack
+  - count: 1
+    name: academy award winner
+  - count: 1
+    name: ivan-fixit-barry-polishing
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: H.J. Deutschendorf, Jr.
+    primary: null
+    sort-name: Deutschendorf, H.J., Jr.
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Henry John Deutschendorf, Jr.
+    primary: null
+    sort-name: Deutschendorf, Henry John, Jr.
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Denver, John
+    primary: null
+    sort-name: Denver, John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Dennver
+    primary: null
+    sort-name: John Dennver
+    type: null
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 75c8ba6e-8123-4ad1-8ad9-8d5a36a89b6d
+    life-span:
+      ended: null
+    name: Roswell
+    sort-name: Roswell
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  end-area:
+    id: 972d279c-5802-41ed-be32-5d40c4de1f19
+    life-span:
+      ended: null
+    name: Pacific Grove
+    sort-name: Pacific Grove
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 34e10b51-b5c6-4bc1-b70e-f05f141eda1e
+  ipis:
+  - 00007964275
+  - 00581136653
+  isnis:
+  - 0000000083822958
+  life-span:
+    begin: '1943-12-31'
+    end: '1997-10-12'
+    ended: true
+  name: John Denver
+  score: 90
+  sort-name: Denver, John
+  tags:
+  - count: 2
+    name: rock
+  - count: 1
+    name: pop
+  - count: 6
+    name: folk
+  - count: 1
+    name: american
+  - count: 1
+    name: singer-songwriter
+  - count: 4
+    name: country
+  - count: 2
+    name: folk rock
+  - count: 0
+    name: rock and roll
+  - count: 2
+    name: country folk
+  - count: 1
+    name: pop folk
+  - count: -1
+    name: death by airplane
+  - count: 1
+    name: death by plane crash
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Denney
+    primary: null
+    sort-name: John Denney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Debny
+    primary: null
+    sort-name: John Debny
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Debnei
+    primary: null
+    sort-name: John Debnei
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Denbey
+    primary: null
+    sort-name: John Denbey
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Derbney
+    primary: null
+    sort-name: John Derbney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Johnny Debney
+    primary: null
+    sort-name: Johnny Debney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jhon Debney
+    primary: null
+    sort-name: Jhon Debney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Debney
+    primary: null
+    sort-name: Debney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Debney
+    primary: null
+    sort-name: Debney, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Cardon Debney
+    primary: null
+    sort-name: Cardon Debney
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Cardon
+    primary: null
+    sort-name: John Cardon
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Cardon Debney
+    primary: null
+    sort-name: Debney, John Cardon
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 6db2e45d-d7f3-43da-ac0b-7ba5ca627373
+    life-span:
+      ended: null
+    name: Glendale
+    sort-name: Glendale
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: American score composer
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 3df3a779-a7b1-4362-a8b4-9ae6c7eb623d
+  isnis:
+  - '0000000121422112'
+  life-span:
+    begin: '1956-08-18'
+    ended: null
+  name: John Debney
+  score: 88
+  sort-name: Debney, John
+  tags:
+  - count: 1
+    name: soundtrack
+  - count: 1
+    name: american
+  - count: 1
+    name: film composer
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Rav Tzizit
+    primary: null
+    sort-name: Rav Tzizit
+    type: null
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 431a085b-9f4c-4fbb-82de-2ca7ce735da8
+    life-span:
+      ended: null
+    name: Queens
+    sort-name: Queens
+    type: District
+    type-id: 84039871-5e47-38ca-a66a-45e512c8290f
+  country: US
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 7ec4a553-73e5-4c0d-a071-a82b83a309e6
+  ipis:
+  - 00043786953
+  isnis:
+  - 0000000122797258
+  life-span:
+    begin: '1953-09-02'
+    ended: null
+  name: John Zorn
+  score: 87
+  sort-name: Zorn, John
+  tags:
+  - count: 1
+    name: surf
+  - count: 1
+    name: american
+  - count: 1
+    name: hardcore
+  - count: 1
+    name: electronic
+  - count: 1
+    name: free jazz
+  - count: 1
+    name: thrash
+  - count: 1
+    name: classical
+  - count: 1
+    name: world
+  - count: 2
+    name: jazz
+  - count: 1
+    name: contemporary classical
+  - count: 1
+    name: jazz and blues
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Powell
+    primary: null
+    sort-name: Powell
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Power
+    primary: null
+    sort-name: John Power
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Powel
+    primary: null
+    sort-name: John Powel
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jhon Powell
+    primary: null
+    sort-name: Jhon Powell
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Jon Powell
+    primary: null
+    sort-name: Jon Powell
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Powell
+    primary: null
+    sort-name: Powell, John
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: f03d09b3-39dc-4083-afd6-159e3f0d462f
+    life-span:
+      ended: null
+    name: London
+    sort-name: London
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: English score composer
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 52bb713d-b0c9-4bf6-9f58-392388d5cc11
+  ipis:
+  - '00160440113'
+  isnis:
+  - '0000000121351465'
+  life-span:
+    begin: '1963-09-18'
+    ended: null
+  name: John Powell
+  score: 87
+  sort-name: Powell, John
+  tags:
+  - count: 5
+    name: soundtrack
+  - count: 1
+    name: classical
+  - count: 2
+    name: orchestral
+  - count: 1
+    name: film score
+  - count: 2
+    name: english
+  - count: 1
+    name: easy listening soundtracks and musicals
+  - count: 3
+    name: film composer
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John J. Mellencamp
+    primary: null
+    sort-name: Mellencamp, John J.
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Cugar Mellencamp
+    primary: null
+    sort-name: John Cugar Mellencamp
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Couger
+    primary: null
+    sort-name: John Couger
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: Johnny Cougar
+    primary: null
+    sort-name: Cougar, Johnny
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: John Cougar
+    primary: null
+    sort-name: Cougar, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: John Cougar Mellencamp
+    primary: null
+    sort-name: Mellencamp, John Cougar
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 7ff17687-38cf-475e-a026-a88b572d5a46
+    life-span:
+      ended: null
+    name: Seymour
+    sort-name: Seymour
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 0aad6b52-fd93-4ea4-9c5d-1f66e1bc9f0a
+  ipis:
+  - 00075198254
+  isnis:
+  - 0000000120176095
+  life-span:
+    begin: '1951-10-07'
+    ended: null
+  name: John Mellencamp
+  score: 87
+  sort-name: Mellencamp, John
+  tags:
+  - count: 4
+    name: rock
+  - count: 1
+    name: pop
+  - count: 0
+    name: american
+  - count: 1
+    name: folk rock
+  - count: 1
+    name: americana
+  - count: 1
+    name: pop rock
+  - count: 3
+    name: heartland rock
+  - count: 2
+    name: roots rock
+  - count: 1
+    name: aor
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Downland
+    primary: null
+    sort-name: Downland, John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dowland
+    primary: null
+    sort-name: Dowland
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Dowland (1563-1626)
+    primary: null
+    sort-name: John Dowland (1563-1626)
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: ja_JP
+    name: "\u30B8\u30E7\u30F3\u30FB\u30C0\u30A6\u30E9\u30F3\u30C9"
+    primary: true
+    sort-name: "\u30B8\u30E7\u30F3\u30FB\u30C0\u30A6\u30E9\u30F3\u30C9"
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: J. Dowland
+    primary: null
+    sort-name: J. Dowland
+    type: null
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: f03d09b3-39dc-4083-afd6-159e3f0d462f
+    life-span:
+      ended: null
+    name: London
+    sort-name: London
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: GB
+  disambiguation: composer and lutenist
+  end-area:
+    id: f03d09b3-39dc-4083-afd6-159e3f0d462f
+    life-span:
+      ended: null
+    name: London
+    sort-name: London
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 7c6ef060-fe44-4c66-ae6d-a86791abaf09
+  isnis:
+  - 0000000108716781
+  life-span:
+    begin: '1563-01-02'
+    end: 1626-02
+    ended: true
+  name: John Dowland
+  score: 86
+  sort-name: Dowland, John
+  tags:
+  - count: 1
+    name: classical
+  - count: 1
+    name: composer
+  - count: 1
+    name: renaissance
+  - count: 1
+    name: lute
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "\u30AA\u30EA\u30D3\u30A2\u30CB\u30E5\u30FC\u30C8\u30F3\u30B8\u30E7\u30F3"
+    primary: null
+    sort-name: "\u30AA\u30EA\u30D3\u30A2\u30CB\u30E5\u30FC\u30C8\u30F3\u30B8\u30E7\
+      \u30F3"
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "\u30AA\u30EA\u30D3\u30A2 \u30CB\u30E5\u30FC\u30C8\u30F3 \u30B8\u30E7\u30F3"
+    primary: null
+    sort-name: "\u30AA\u30EA\u30D3\u30A2 \u30CB\u30E5\u30FC\u30C8\u30F3 \u30B8\u30E7\
+      \u30F3"
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "\u30AA\u30EA\u30D3\u30A2\u30FB\u30CB\u30E5\u30FC\u30C8\u30F3\u30FB\u30B8\
+      \u30E7\u30F3"
+    primary: null
+    sort-name: "\u30AA\u30EA\u30D3\u30A2\u30FB\u30CB\u30E5\u30FC\u30C8\u30F3\u30FB\
+      \u30B8\u30E7\u30F3"
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Oliva Newton-john
+    primary: null
+    sort-name: Oliva Newton-john
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Olivia Newton John
+    primary: null
+    sort-name: Olivia Newton John
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Newton-John, Olivia
+    primary: null
+    sort-name: Newton-John, Olivia
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: ONJ
+    primary: null
+    sort-name: ONJ
+    type: null
+  area:
+    id: 106e0bec-b638-3b37-b731-f53d507dc00e
+    life-span:
+      ended: null
+    name: Australia
+    sort-name: Australia
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 11ba7f4f-3fb9-4b4b-a72f-ab1cd9c37d99
+    life-span:
+      ended: null
+    name: Cambridge
+    sort-name: Cambridge
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: AU
+  disambiguation: "British\u2013Australian singer, actress and activist"
+  end-area:
+    id: 418f6280-54cb-4245-b8ab-e63f3e135347
+    life-span:
+      ended: null
+    name: Santa Ynez
+    sort-name: Santa Ynez
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: female
+  gender-id: 93452b5a-a947-30c8-934f-6a4056b151c2
+  id: 10ccb5d8-f9d5-4954-9441-3419b522a214
+  ipis:
+  - 00036924178
+  isnis:
+  - '0000000114505120'
+  life-span:
+    begin: '1948-09-26'
+    end: '2022-08-08'
+    ended: true
+  name: "Olivia Newton\u2010John"
+  score: 86
+  sort-name: "Newton\u2010John, Olivia"
+  tags:
+  - count: 2
+    name: pop
+  - count: 1
+    name: australian
+  - count: 1
+    name: british
+  - count: 1
+    name: country
+  - count: 1
+    name: disco
+  - count: 1
+    name: ballad
+  - count: 1
+    name: country pop
+  - count: 2
+    name: classic pop and rock
+  - count: 1
+    name: death by breast cancer
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: "Geisterj\xE4ger John Sinclair"
+    primary: null
+    sort-name: "Geisterj\xE4ger John Sinclair"
+    type: null
+  area:
+    id: 85752fda-13c4-31a3-bee5-0e5cb1f51dad
+    life-span:
+      ended: null
+    name: Germany
+    sort-name: Germany
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  country: DE
+  disambiguation: "Geisterj\xE4ger John Sinclair"
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: e1a81f67-996b-418a-9784-ceddae596458
+  life-span:
+    begin: '1981'
+    ended: null
+  name: John Sinclair
+  score: 86
+  sort-name: Sinclair, John
+  tags:
+  - count: 1
+    name: fictional
+  - count: 2
+    name: audio drama
+  - count: 2
+    name: series title as artist
+  - count: 1
+    name: fuzzy artist - series
+  - count: 1
+    name: _consistency
+  - count: 1
+    name: has german audio plays
+  type: Character
+  type-id: 5c1375b0-f18d-3db7-a164-a49d7a63773f
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Hold
+    primary: null
+    sort-name: John Hold
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Winston Holt
+    primary: null
+    sort-name: Holt, Winston
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 2dd47a64-91d5-3b13-bc94-80043ed063d7
+    life-span:
+      ended: null
+    name: Jamaica
+    sort-name: Jamaica
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 23e0d135-9fe7-48cb-b2c4-93addd3d1e37
+    life-span:
+      ended: null
+    name: Kingston
+    sort-name: Kingston
+    type: Subdivision
+    type-id: fd3d44c5-80a1-3842-9745-2c4972d35afa
+  country: JM
+  end-area:
+    id: f03d09b3-39dc-4083-afd6-159e3f0d462f
+    life-span:
+      ended: null
+    name: London
+    sort-name: London
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 38d64df7-5b7f-42ca-9d98-9541640ca84f
+  ipis:
+  - 00034450999
+  isnis:
+  - 0000000114707961
+  life-span:
+    begin: '1947-07-11'
+    end: '2014-10-19'
+    ended: true
+  name: John Holt
+  score: 85
+  sort-name: Holt, John
+  tags:
+  - count: 1
+    name: ska
+  - count: 1
+    name: reggae
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Mayal
+    primary: null
+    sort-name: John Mayal
+    type: null
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 6258348f-c42d-4223-8c8b-c11da280f4db
+    life-span:
+      ended: null
+    name: Macclesfield
+    sort-name: Macclesfield
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: GB
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 18c1e06b-fe76-4802-b070-53a2f6b707bd
+  isnis:
+  - 0000000114391792
+  life-span:
+    begin: '1933-11-29'
+    ended: null
+  name: John Mayall
+  score: 85
+  sort-name: Mayall, John
+  tags:
+  - count: 1
+    name: rock
+  - count: 1
+    name: british
+  - count: 1
+    name: blues rock
+  - count: 1
+    name: electric blues
+  - count: 1
+    name: british blues
+  - count: 1
+    name: harmonica blues
+  - count: 1
+    name: classic pop and rock
+  - count: 1
+    name: 2008 universal fire victim
+  - count: 1
+    name: aln-sh
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dr. John, the Night Tripper
+    primary: null
+    sort-name: Dr. John, the Night Tripper
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Malcolm John "Mac" Rebennack, Jr.
+    primary: null
+    sort-name: Rebennack, Malcolm John "Mac", Jr.
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: DR.JOHN
+    primary: null
+    sort-name: DR.JOHN
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dr. John Mac Rebennack
+    primary: null
+    sort-name: Rebennack, John Mac, Dr.
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Malcolm John Rebennack
+    primary: null
+    sort-name: Rebennack, Malcolm John
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Dr John
+    primary: null
+    sort-name: Dr John
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Doctor John
+    primary: null
+    sort-name: Doctor John
+    type: Search hint
+    type-id: 1937e404-b981-3cb7-8151-4c86ebfc8d8e
+  - begin-date: null
+    end-date: null
+    locale: en
+    name: Creaux
+    primary: null
+    sort-name: Creaux
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Creaux
+    primary: null
+    sort-name: Creaux, John
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 3c5a0506-d852-4e96-8d1e-d8126328f3be
+    life-span:
+      ended: null
+    name: New Orleans
+    sort-name: New Orleans
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: New Orleans blues pianist, singer and songwriter
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: fe0e1895-aa84-47d9-8e5b-7930fc20709b
+  ipis:
+  - '00025544102'
+  - 00057548844
+  - '00072530003'
+  - 00130582107
+  isnis:
+  - 000000012025193X
+  life-span:
+    begin: '1941-11-21'
+    end: '2019-06-06'
+    ended: true
+  name: Dr. John
+  score: 85
+  sort-name: Dr. John
+  tags:
+  - count: 1
+    name: jazz
+  - count: 1
+    name: folk
+  - count: 1
+    name: blues
+  - count: 2
+    name: funk
+  - count: 1
+    name: soul
+  - count: 3
+    name: psychedelic rock
+  - count: 1
+    name: blues rock
+  - count: 1
+    name: rhythm and blues
+  - count: 1
+    name: classic pop and rock
+  - count: 2
+    name: new orleans r&b
+  - count: 1
+    name: rhythm & blues
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: Iain David McGeachy
+    primary: null
+    sort-name: McGeachy, Iain David
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: d9375b45-716f-4b6f-95ec-c292576d81c8
+    life-span:
+      ended: null
+    name: New Malden
+    sort-name: New Malden
+    type: District
+    type-id: 84039871-5e47-38ca-a66a-45e512c8290f
+  country: GB
+  disambiguation: "British singer\u2010songwriter and guitarist"
+  end-area:
+    id: efc94827-b2fe-4926-b962-cac8e2efb409
+    life-span:
+      ended: null
+    name: Kilkenny
+    sort-name: Kilkenny
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: e821a756-487f-4931-a02f-27cf11cec7bf
+  isnis:
+  - 0000000079741514
+  life-span:
+    begin: '1948-09-11'
+    end: '2009-01-29'
+    ended: true
+  name: John Martyn
+  score: 85
+  sort-name: Martyn, John
+  tags:
+  - count: 2
+    name: folk
+  - count: 1
+    name: singer-songwriter
+  - count: 2
+    name: folk rock
+  - count: 1
+    name: pop rock
+  - count: 2
+    name: contemporary folk
+  - count: 1
+    name: progressive folk
+  - count: 0
+    name: singer/songwriter
+  - count: 1
+    name: british folk rock
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- area:
+    id: 1f40c6e1-47ba-4e35-996f-fe6ee5840e62
+    life-span:
+      ended: null
+    name: Los Angeles
+    sort-name: Los Angeles
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  begin-area:
+    id: 31bcb2b4-17aa-4566-95e0-100869198e3c
+    life-span:
+      ended: null
+    name: Garnant
+    sort-name: Garnant
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  disambiguation: Velvet Underground founder
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 72c090b6-a68e-4cb9-b330-85278681a714
+  ipis:
+  - 00033982178
+  isnis:
+  - 0000000121028211
+  - 0000000382910405
+  life-span:
+    begin: '1942-03-09'
+    ended: null
+  name: John Cale
+  score: 85
+  sort-name: Cale, John
+  tags:
+  - count: 1
+    name: rock
+  - count: 2
+    name: british
+  - count: 1
+    name: singer-songwriter
+  - count: 1
+    name: uk
+  - count: 1
+    name: welsh
+  - count: 5
+    name: art rock
+  - count: 4
+    name: drone
+  - count: 2
+    name: baroque pop
+  - count: 1
+    name: experimental rock
+  - count: 0
+    name: protopunk
+  - count: 1
+    name: classic pop and rock
+  - count: 1
+    name: proto-punk
+  - count: 1
+    name: minimalism
+  - count: 1
+    name: modern classical
+  - count: 2
+    name: art pop
+  - count: 1
+    name: avant-garde pop
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Milton Cage Jr.
+    primary: null
+    sort-name: Cage, John Milton Jr.
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Cage (1912-1992)
+    primary: null
+    sort-name: John Cage (1912-1992)
+    type: null
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Cage - Gerard Fremy
+    primary: null
+    sort-name: John Cage - Gerard Fremy
+    type: null
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 1f40c6e1-47ba-4e35-996f-fe6ee5840e62
+    life-span:
+      ended: null
+    name: Los Angeles
+    sort-name: Los Angeles
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: American composer
+  end-area:
+    id: 74e50e58-5deb-4b99-93a2-decbb365c07f
+    life-span:
+      ended: null
+    name: New York
+    sort-name: New York
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 76325a9d-6c25-4649-96b1-84e9b99d6b4b
+  isnis:
+  - '0000000121022741'
+  life-span:
+    begin: '1912-09-05'
+    end: '1992-08-12'
+    ended: true
+  name: John Cage
+  score: 85
+  sort-name: Cage, John
+  tags:
+  - count: 1
+    name: lololo soo edgy
+  - count: 1
+    name: pompous prat
+  - count: 1
+    name: edgy af
+  - count: 1
+    name: american
+  - count: 1
+    name: opera
+  - count: 1
+    name: composer
+  - count: 1
+    name: experimental
+  - count: 1
+    name: classical
+  - count: 1
+    name: avant-garde
+  - count: 1
+    name: whatever
+  - count: 1
+    name: chance
+  - count: 1
+    name: server name
+  - count: 1
+    name: novelty
+  - count: 1
+    name: modern classical
+  - count: 1
+    name: indeterminacy
+  - count: 1
+    name: sound collage
+  - count: 1
+    name: spoken word
+  - count: 1
+    name: "musique concr\xE8te"
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Clayton Mayer
+    primary: null
+    sort-name: Mayer, John Clayton
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: bfbcf45d-5c3b-4331-bfcb-6341209cd5ec
+    life-span:
+      ended: null
+    name: Bridgeport
+    sort-name: Bridgeport
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: "US singer\u2013songwriter"
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 144ef525-85e9-40c3-8335-02c32d0861f3
+  ipis:
+  - '00344733364'
+  isnis:
+  - 0000000114467902
+  life-span:
+    begin: '1977-10-16'
+    ended: null
+  name: John Mayer
+  score: 84
+  sort-name: Mayer, John
+  tags:
+  - count: 1
+    name: rock
+  - count: 1
+    name: pop
+  - count: 1
+    name: jazz
+  - count: 1
+    name: blues
+  - count: 1
+    name: folk rock
+  - count: -1
+    name: production music
+  - count: 1
+    name: alternative
+  - count: 1
+    name: soul
+  - count: 1
+    name: blues rock
+  - count: 1
+    name: americana
+  - count: 2
+    name: acoustic rock
+  - count: 1
+    name: pop rock
+  - count: 1
+    name: singer/songwriter
+  - count: 1
+    name: john mayer
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- disambiguation: editor, adapter, writer, voice actor
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: f8a0c81f-2eea-4e28-8704-abd29c5c4331
+  life-span:
+    ended: null
+  name: John Dorney
+  score: 84
+  sort-name: Dorney, John
+  tags:
+  - count: 1
+    name: voice actor
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Robert Hiatt
+    primary: null
+    sort-name: Hiatt, John Robert
+    type: Artist name
+    type-id: 894afba6-2816-3c24-8072-eadb66bd04bc
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Hyatt
+    primary: null
+    sort-name: John Hyatt
+    type: null
+  area:
+    id: 489ce91b-6658-3307-9877-795b68554c98
+    life-span:
+      ended: null
+    name: United States
+    sort-name: United States
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 3bb238a4-c2a4-44e5-9843-a63e71b17e83
+    life-span:
+      ended: null
+    name: Indianapolis
+    sort-name: Indianapolis
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: US
+  disambiguation: guitarist, pianist and singer-songwriter
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: e78202c9-7717-435c-9aac-dd5ebc4e64d5
+  ipis:
+  - 00061573778
+  - 00062818374
+  - 00243855359
+  isnis:
+  - 000000007365521X
+  life-span:
+    begin: '1952-08-20'
+    ended: null
+  name: John Hiatt
+  score: 84
+  sort-name: Hiatt, John
+  tags:
+  - count: 1
+    name: folk
+  - count: 2
+    name: blues
+  - count: 0
+    name: classic pop and rock
+  - count: 0
+    name: fa90f4c0-b039-4241-b0fb-ccbaa28ac93f
+  - count: 1
+    name: 2008 universal fire victim
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+- aliases:
+  - begin-date: null
+    end-date: null
+    locale: null
+    name: John Rafter Lee
+    primary: null
+    sort-name: Lee, John Rafter
+    type: Legal name
+    type-id: d4dcd0c0-b341-3612-a332-c0ce797b25cf
+  area:
+    id: 8a754a16-0027-3a29-b6d7-2b40ea0481ed
+    life-span:
+      ended: null
+    name: United Kingdom
+    sort-name: United Kingdom
+    type: Country
+    type-id: 06dd0ae4-8c74-30bb-b43d-95dcedf961de
+  begin-area:
+    id: 226c4dca-ef2a-4d4b-ba25-4118d116557a
+    life-span:
+      ended: null
+    name: Birmingham
+    sort-name: Birmingham
+    type: City
+    type-id: 6fd8f29a-3d0a-32fc-980d-ea697b69da78
+  country: GB
+  disambiguation: actor and narrator
+  gender: male
+  gender-id: 36d3d30a-839d-3eda-8cb3-29be4384e4a9
+  id: 87ec8192-e896-4936-a2a3-74f7a7da11f7
+  isnis:
+  - 0000000054148263
+  life-span:
+    begin: '1928-03-31'
+    ended: null
+  name: John Lee
+  score: 83
+  sort-name: Lee, John
+  type: Person
+  type-id: b6e035f4-3ce9-331c-97df-83397230b0df
+count: 12822
+created: '2023-08-30T20:53:43.584Z'
+offset: 0

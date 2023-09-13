@@ -1,0 +1,10 @@
+# 'config.yaml`
+
+SpotifyAPI:
+  client_id: YOUR_SPOTIFY_CLIENT_ID
+  client_secret: YOUR_SPOTIFY_CLIENT_SECRET
+
+MusicBrainAPI:
+  app_name: YOUR_APP_NAME
+  app_version: YOUR_APP_VERSION
+  app_contact: YOUR_APP_CONTACT
