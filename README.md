@@ -1,117 +1,158 @@
-This folder structure provides a clear organization of the project:
+[]: # File: README.md
+[]: # Project: PataNgoma-AudioTagger-tool
+[]: # Created Date: August 29th 2023
 
-```plaintext
-cli-autotagging-tool/
-├── app/
-│   ├── api/
-│   │   ├── controllers/
-│   │   │   ├── search_controller.py
+
+[![GitHub license](https://img.shields.io/github/license/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+
+## Table of Contents
+- [Project Folder Structure](#project-folder-structure)
+- [Project Overview](#project-overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Maintainers](#maintainers)
+- [Security](#security)
+- [Troubleshooting](#troubleshooting)
+
+## Project Folder Structure
+
+This project is organized with the following directory structure:
+
+```
+PataNgoma-AudioTagger-tool
+├── app
+│   ├── api
+│   │   ├── controllers
+│   │   │   ├── __init__.py
 │   │   │   ├── album_controller.py
-│   │   │   ├── tagging_controller.py
-│   │   │   └── ...
-│   │   ├── routes/
-│   │   │   ├── search_routes.py
-│   │   │   ├── album_routes.py
-│   │   │   ├── tagging_routes.py
-│   │   │   └── ...
-│   ├── models/
-│   │   ├── audio_file.py
-│   │   ├── track.py
+│   │   │   ├── search_controller.py
+│   │   │   └── tagging_controller.py
+│   │   ├── __init__.py
+│   │   ├── dz.py
+│   │   ├── mb.py
+│   │   └── sp.py
+│   ├── db
+│   │   ├── __init__.py
+│   │   └── database.py
+│   ├── models
+│   │   ├── __init__.py
 │   │   ├── album.py
-│   │   ├── artist.py
-│   │   ├── tag.py
-│   │   └── ...
-│   ├── database.py
-│   └── __init__.py
-├── config/
-│   ├── config.py
-│   └── __init__.py
-├── tests/
-│   ├── test_search_controller.py
-│   ├── test_album_controller.py
-│   ├── test_tagging_controller.py
-│   └── ...
-├── docs/
-│   ├── api_docs/
-│   │   ├── swagger.yaml
-│   │   └── ...
-│   ├── user_manual/
-│   │   ├── user_guide.md
-│   │   └── ...
-│   └── ...
-├── scripts/
-│   ├── setup_db.py
-│   ├── import_data.py
-│   └── ...
-├── requirements.txt
+│   │   ├── album_artwork.py
+│   │   ├── data_store.py
+│   │   ├── id_extractor.py
+│   │   ├── query.py
+│   │   ├── tags.py
+│   │   └── track.py
+│   ├── __init__.py
+│   └── console.py
+├── config
+│   ├── __init__.py
+│   └── config.py
+├── docs
+│   ├── api_docs
+│   │   └── swagger.yaml
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── images
+│   │   │   ├── fontawesome-all.min.css
+│   │   │   ├── main.css
+│   │   │   └── noscript.css
+│   │   ├── js
+│   │   ├── sass
+│   │   └── webfonts
+│   ├── images
+│   └── user_manual
+│       └── user_guide.md
+├── test
+├── LICENSE
+├── main.py
 ├── README.md
-├── .gitignore
-├── .env
-└── main.py
+├── requirements.txt
+└── SECURITY.md
 ```
 
-Explanation of the Sample Folder Structure:
+## Project Overview
 
-- **app/**: This directory contains the main application code.
-  - **api/**: Handles API controllers and routes.
-    - **controllers/**: Contains controller files responsible for processing API requests.
-    - **routes/**: Defines API routes and their associated controller methods.
-  - **models/**: Includes data models for various entities like audio files, tracks, albums, etc.
-  - **database.py**: Initializes and configures the database connection.
-  - **__init__.py**: Marks the directory as a Python package.
+- **app**: This directory contains the main application code, including API controllers, database access, and models.
 
-- **config/**: Stores configuration files for the application.
-  - **config.py**: Contains configuration settings for the application.
-  - **__init__.py**: Marks the directory as a Python package.
+- **config**: Configuration files for the application are stored here.
 
-- **tests/**: Houses unit tests for the application controllers and functions.
-  - **test_search_controller.py**: Unit tests for the search controller.
-  - **test_album_controller.py**: Unit tests for the album controller.
-  - **test_tagging_controller.py**: Unit tests for the tagging controller.
+- **docs**: Documentation for the project, including API documentation, assets, and user manuals, is kept here.
 
-- **docs/**: Contains documentation for the project.
-  - **api_docs/**: API documentation, such as a Swagger YAML file.
-  - **user_manual/**: User guides and documentation.
-  
-- **scripts/**: Includes scripts for database setup, data import, and other utility tasks.
+- **test**: This directory is for project tests.
 
-- **requirements.txt**: Lists project dependencies for easy environment setup.
+- **LICENSE**: Contains the project's license information.
 
-- **README.md**: Project documentation with information about setup, usage, and other relevant details.
+- **main.py**: The entry point of the application.
 
-- **.gitignore**: Specifies files and directories to be ignored by version control.
+- **README.md**: Project documentation with detailed information about the project structure and usage.
 
-- **.env**: Stores environment variables (e.g., API keys, database credentials).
+- **requirements.txt**: Lists the project dependencies necessary for running the application.
 
-- **main.py**: Entry point of the CLI autotagging tool.
+- **SECURITY.md**: Contains security-related information and guidelines.
 
+## Installation
 
+To set up this project, follow these steps:
 
-Below is the `requirements.txt` file:
+1. Clone the repository to your local machine.
+2. Create a virtual environment (optional but recommended).
+3. Install the project dependencies by running:
 
-```plaintext
-Flask==2.1.0
-Requests==2.26.0
-SQLAlchemy==1.4.28
-PyYAML==6.0
-pytest==7.4.1
-Click==8.0.3
-Deezer-Py==1.0.0
-Spotipy==2.19.0
-musicbrainzngs==0.7.1
-python-dotenv==0.19.3
-mutagen==1.46.0
+```bash
+pip install -r requirements.txt
 ```
 
-- `Flask` is used for building the web server component of your CLI tool.
-- `Requests` is used for making HTTP requests to external APIs.
-- `SQLAlchemy` is used for database interaction.
-- `PyYAML` is used if you're working with YAML files, which can be handy for configuration.
-- `pytest` is a testing framework for writing and running unit tests.
-- `Click` is a popular library for creating command-line interfaces.
-- `Deezer-Py` is a Python wrapper for the Deezer API.
-- `Spotipy` is a Python library for working with the Spotify API.
-- `musicbrainzngs` is a Python library for interacting with the MusicBrainz API.
-- `python-dotenv` is used for loading environment variables from a `.env` file.
-- `mutagen` is the package for working with audio file metadata. Make sure to specify the appropriate version based on your project's compatibility requirements.
+4. Run the application using the following command:
 
+```bash
+python main.py
+```
+
+You can now access the application at [http://localhost:8080](http://localhost:8080).
+
+## Usage
+
+To use this application, [TODO].
+
+## Contributing
+
+We welcome contributions to this project. To contribute, follow these steps:
+
+1. Fork the repository on GitHub.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and submit a pull request.
+
+Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our contribution guidelines.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+We would like to thank the open-source community for their invaluable contributions that made this project possible.
+
+## Maintainers
+
+- [@Meshack](https://github.com/FourtyThree43/) - [Email](mailto:FourtyThree43@example.com)
+
+- [@Raymond](https://github.com/Kemboiray/) - [Email](mailto:Kemboiray@example.com)
+
+- [@Patrick](https://github.com/Patrick-052/) - [Email](mailto:Patrick-052@example.com)
+
+## Security
+
+Security is a top priority for our project. We take the following measures to ensure the security of our application:
+
+- Regularly updating dependencies to their latest secure versions.
+- Conducting security audits and code reviews.
+- Implementing proper authentication and authorization mechanisms.
+- Following best practices for handling sensitive data.
+
+## Troubleshooting
+
+If you encounter any issues while setting up or using the project, please refer to our [troubleshooting guide](docs/troubleshooting.md) for solutions to common problems.
