@@ -28,12 +28,14 @@ def set_default_path():
     tail = os.getenv("MUSIC_PATH")
 
     if tail:
-        music_path = f"{os.path.expanduser('~')}{os.path.sep}{tail}"
+        tail = os.path.normpath(tail)  # Normalize path separator
+        music_path = os.path.join(os.path.expanduser('~'), tail)
     else:
         click.secho(
             "Path to music directory not set, defaulting to current directory",
             fg="yellow")
         music_path = os.getcwd()
+    print(music_path)
     return music_path
 
 
@@ -45,13 +47,12 @@ def interactive_selection(music_path):
         message="Please enter a path or select file from list:\n",
         amark="✔️",
         qmark=">",
-        validate=PathValidator(is_file=True, message="Invalid file path"),
+        validate=PathValidator(is_file=True, message="Input is not a file"),
         default=f"{music_path}",
         transformer=lambda x: f"File: {os.path.basename(x)}",
         instruction="Press <tab> to list directory contents",
         long_instruction=
-        "Use <up> and <down> arrow keys to navigate list, then <enter> to select"
-    ).execute()
+        "Use: <enter> to select/deselect, <up>/<down> to navigate").execute()
     return os.path.expanduser(filename)
 
 
@@ -62,20 +63,24 @@ def interactive_selection(music_path):
               type=click.Path(exists=True, dir_okay=True, resolve_path=True),
               help="Path to the audio file or its parent directory")
 def main(ctx, path):
+    """ Main entry point for the CLI."""
     app_info()
 
     if ctx.invoked_subcommand is None:
         if path and os.path.isdir(path):
             click.echo("Path provided is a directory, please select a file")
             path = interactive_selection(path)
+
         ctx.obj = path
+
         if ctx.obj is None:
             ctx.obj = interactive_selection(set_default_path())
-        menu(ctx)
+
+        _main_menu(ctx)
 
 
-def menu(ctx):
-    """Display a menu of available actions."""
+def _main_menu(ctx):
+    """Display the Main menu of available actions."""
 
     action = inquirer.select(message="Select an action:",
                              choices=[
@@ -90,15 +95,15 @@ def menu(ctx):
     fp = ctx.obj
 
     if action == "Show-Tags":
-        _show_submenu(ctx)
+        _submenu_show(ctx)
     elif action == "Update-Tags":
-        _update_submenu(ctx)
+        _submenu_update(ctx)
     elif action == "Delete-Tags":
         delete([fp])
 
 
-def _show_submenu(ctx):
-    """Display a submenu for 'Show-tags' options."""
+def _submenu_show(ctx):
+    """Display a submenu for 'Show-Tags' options."""
     fp = ctx.obj
 
     show_tags_choices = [
@@ -108,11 +113,15 @@ def _show_submenu(ctx):
         Choice(name="Go back", value="Back"),
     ]
 
-    show_tags_action = inquirer.select(message="Select a 'Show-tags' option:",
-                                       choices=show_tags_choices,
-                                       default="Back",
-                                       amark="✔️",
-                                       qmark=">").execute()
+    show_tags_action = inquirer.select(
+        message="Select a 'Show-Tags' option:",
+        choices=show_tags_choices,
+        default="Back",
+        amark="✔️",
+        qmark=">",
+        instruction=
+        "Use: <enter> to select/deselect, <up>/<down> to navigate"
+    ).execute()
 
     if show_tags_action == "all":
         ctx.invoke(show, file_path=fp, all_t=True)
@@ -124,7 +133,7 @@ def _show_submenu(ctx):
         menu(ctx)
 
 
-def _update_submenu(ctx):
+def _submenu_update(ctx):
     """Display a submenu for 'Update-tags' options."""
     fp = ctx.obj
     valid_fields = {
@@ -145,6 +154,7 @@ def _update_submenu(ctx):
         max_height="70%",
         qmark=">",
         amark="✔️",
+        instruction="Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
     ).execute()
     updates = []
     click.echo("Enter new values as prompted:")
