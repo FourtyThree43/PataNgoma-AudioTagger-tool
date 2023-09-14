@@ -1,5 +1,5 @@
 from typing import Optional
-from app.models.tags import BaseModel
+from models.tags import BaseModel
 
 
 class TrackInfo(BaseModel):

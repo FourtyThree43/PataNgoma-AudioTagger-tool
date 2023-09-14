@@ -1,6 +1,6 @@
 # Purpose: Command line interface for PataNgoma AutoTagger
 
-from app.models.track import TrackInfo
+from models.track import TrackInfo
 from dotenv import load_dotenv
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice

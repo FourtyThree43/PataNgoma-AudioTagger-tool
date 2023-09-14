@@ -6,19 +6,36 @@ from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from rgbprint import gradient_print, gradient_scroll, Color
 from tags import TrackInfo
+from mediafile import MediaFile
 import click
 import os
+import toml
 
+
+PROJECT_SPECS = "pyproject.toml"
+
+
+def get_app_info():
+    # Load the toml file
+    data = toml.load(PROJECT_SPECS)
+
+    # Get the application name and version
+    app_name = data.get('project', {}).get('name')
+    app_version = data.get('project', {}).get('version')
+
+    return app_name, app_version
 
 def app_info():
     """Print a welcome message."""
-    gradient_print("            ♥ PataNgoma - {version} ♥", start_color='red', end_color='gold', end='\n')
+    app_name, app_version = get_app_info()
+
+    gradient_print(f"            ♥ {app_name} - {app_version} ♥", start_color='red', end_color='gold', end='\n')
     gradient_print(' ──────────────────────────────────────────────────', start_color='orange', end_color='red', end='\n')
-    gradient_print('  │ github  : https://github.com/FourtyThree43/  │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │ repo    : PataNgoma-AudioTagger-tool         │ ', start_color='red', end_color='orange', end='\n')
+    gradient_print('  │ GitHub  : https://github.com/FourtyThree43/  │ ', start_color='red', end_color='orange', end='\n')
+    gradient_print('  │           PataNgoma-AudioTagger-tool         │ ', start_color='red', end_color='orange', end='\n')
     gradient_print('  │ Authors : @FourtyThree43                     │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │ Authors : @Kemboiray                         │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │ Authors : @Patrick-052                       │ ', start_color='red', end_color='orange', end='\n')
+    gradient_print('  │           @Kemboiray                         │ ', start_color='red', end_color='orange', end='\n')
+    gradient_print('  │           @Patrick-052                       │ ', start_color='red', end_color='orange', end='\n')
     gradient_print(' ──────────────────────────────────────────────────', start_color='red', end_color='orange')
 
 
@@ -38,6 +55,15 @@ def set_default_path():
     print(music_path)
     return music_path
 
+def is_valid(file):
+    if not isinstance(file, str):
+        file = file[0]
+    try:
+        f = MediaFile(file)
+        return True
+    except:
+        print("Error: Invalid or unsupported file format, exiting")
+        return False
 
 def interactive_selection(music_path):
     """Interactive selection of file from list."""
@@ -67,16 +93,28 @@ def main(ctx, path):
     app_info()
 
     if ctx.invoked_subcommand is None:
-        if path and os.path.isdir(path):
-            click.echo("Path provided is a directory, please select a file")
-            path = interactive_selection(path)
-
-        ctx.obj = path
-
-        if ctx.obj is None:
+        # if path and os.path.isdir(path):
+        #     click.echo("Path provided is a directory, please select a file")
+        #     path = interactive_selection(path)
+        #
+        # ctx.obj = path
+        #
+        # if ctx.obj is None:
+        #     ctx.obj = interactive_selection(set_default_path())
+        #
+        #
+        # _main_menu(ctx)
+        if path:
+            if os.path.isdir(path):
+                click.echo("Path provided is a directory, please select a file")
+                path = interactive_selection(path)
+            ctx.obj = path
+        else:
             ctx.obj = interactive_selection(set_default_path())
-
-        _main_menu(ctx)
+        if is_valid(ctx.obj):
+            _main_menu(ctx)
+        else:
+            exit(1)
 
 
 def _main_menu(ctx):
@@ -193,14 +231,17 @@ def _submenu_update(ctx):
                                 dir_okay=False))
 def show(file_path, all_t: bool, existing: bool, missing: bool):
     """Show metadata for a media file."""
-    track = TrackInfo(file_path)
+    if is_valid(file_path):
+        track = TrackInfo(file_path)
 
-    if all_t:
-        track.show_all_metadata()
-    elif missing:
-        track.show_missing_metadata()
+        if all_t:
+            track.show_all_metadata()
+        elif missing:
+            track.show_missing_metadata()
+        else:
+            track.show_existing_metadata()
     else:
-        track.show_existing_metadata()
+        exit(1)
 
 
 @click.command()
@@ -210,49 +251,55 @@ def show(file_path, all_t: bool, existing: bool, missing: bool):
 @click.argument('updates', nargs=-1)
 def update(file_path, updates):
     """Update metadata for a media file."""
-    track = TrackInfo(file_path)
-    md_pre_update = track.as_dict()
+    if is_valid(file_path):
+        track = TrackInfo(file_path)
+        md_pre_update = track.as_dict()
 
-    track.batch_update_metadata(updates)
+        track.batch_update_metadata(updates)
 
-    if track.has_changed(track.as_dict(), md_pre_update):
-        click.echo(f"Metadata changes for {track.metadata.filename}:")
-        for key, value in track.as_dict().items():
-            if key != "images" and md_pre_update[key] != value:
-                if key not in ("art", "lyrics"):
-                    click.echo(f"{key}: {md_pre_update[key]} -> {value}")
-                else:
-                    click.echo(f"{key}: changed (diff too large to display)")
+        if track.has_changed(track.as_dict(), md_pre_update):
+            click.echo(f"Metadata changes for {track.metadata.filename}:")
+            for key, value in track.as_dict().items():
+                if key != "images" and md_pre_update[key] != value:
+                    if key not in ("art", "lyrics"):
+                        click.echo(f"{key}: {md_pre_update[key]} -> {value}")
+                    else:
+                        click.echo(f"{key}: changed (diff too large to display)")
 
-        if click.confirm("Do you want to save these changes?"):
-            track.save()
-            click.echo("Changes saved.")
+            if click.confirm("Do you want to save these changes?"):
+                track.save()
+                click.echo("Changes saved.")
+            else:
+                click.echo("Changes not saved.")
         else:
-            click.echo("Changes not saved.")
+            click.echo("No changes to save.")
     else:
-        click.echo("No changes to save.")
+        exit(1)
 
 
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
 def delete(file_path):
     """Delete all metadata from the media file."""
-    track = TrackInfo(file_path)
+    if is_valid(file_path):
+        track = TrackInfo(file_path)
 
-    proceed = inquirer.confirm(
-        message="Are you sure you want to delete all tags?",
-        default=False).execute()
-    if proceed:
-        end_color = Color.random
-        gradient_scroll(f"Deleting tags for {file_path}",
-                        start_color=Color.gold,
-                        end_color=end_color,
-                        delay=0.01)
-        track.delete()
+        proceed = inquirer.confirm(
+            message="Are you sure you want to delete all tags?",
+            default=False).execute()
+        if proceed:
+            end_color = Color.random
+            gradient_scroll(f"Deleting tags for {file_path}",
+                            start_color=Color.gold,
+                            end_color=end_color,
+                            delay=0.01)
+            track.delete()
+        else:
+            gradient_scroll("Aborting...",
+                            start_color=Color.red,
+                            end_color=Color.blue)
     else:
-        gradient_scroll("Aborting...",
-                        start_color=Color.red,
-                        end_color=Color.blue)
+        exit(1)
 
 
 main.add_command(update)
