@@ -5,7 +5,7 @@ from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from rgbprint import gradient_print, gradient_scroll, Color
-from tags import TrackInfo
+from patangoma.track import TrackInfo
 from mediafile import MediaFile
 import click
 import os

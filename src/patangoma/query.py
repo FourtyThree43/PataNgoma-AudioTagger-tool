@@ -1,11 +1,11 @@
-from app.api.mb import MusicBrainzAPI
-from app.models.data_store import DataStore
-from app.models.track import TrackInfo
+from patangoma.mb import MusicBrainzAPI
+from patangoma.data_store import DataStore
+from patangoma.track import TrackInfo
 from cachetools import TTLCache
 import logging
 import re
 
-from app.models.id_extractor import (
+from patangoma.id_extractor import (
     spotify_id_regex,
     deezer_id_regex,
     beatport_id_regex,

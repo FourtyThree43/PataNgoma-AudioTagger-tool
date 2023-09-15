@@ -1,6 +1,6 @@
 from typing import Optional, List
-from app.models.tags import BaseModel
-from app.models.track import TrackInfo
+from patangoma.base import BaseModel
+from patangoma.track import TrackInfo
 
 
 class AlbumInfo(BaseModel):
