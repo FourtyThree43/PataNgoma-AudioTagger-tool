@@ -13,7 +13,7 @@ import toml
 
 
 sep = os.sep
-PROJECT_SPECS = f"{os.path.expanduser('~')}{sep}PataNgoma-AudioTagger-tool{sep}drafts{sep}0x04-cli{sep}pyproject.toml"
+PROJECT_SPECS = os.path.normpath("../pyproject.toml")
 
 
 def get_app_info():
