@@ -16,11 +16,12 @@ class BaseModel:
             self.metadata = MediaFile(file_path)
         except Exception as e:
             print(f"Error loading metadata from {file_path}: {str(e)}")
+            exit(1)
 
     def as_dict(self) -> dict:
         """Return a dictionary representation of the metadata."""
         try:
-            return dict(self.metadata.as_dict())
+            return self.metadata.as_dict()
         except Exception as e:
             print(f"Error converting metadata to dictionary: {str(e)}")
             return {}
@@ -28,6 +29,7 @@ class BaseModel:
     # Metadata Display Methods
     def show_all_metadata(self) -> None:
         """Print all metadata for {self.metadata.filename}."""
+        print(f"All metadata of {self.metadata.filename}:\n")
         metadata = self.as_dict()
         self._display_metadata(metadata)
 
@@ -45,7 +47,6 @@ class BaseModel:
 
     def _display_metadata(self, metadata):
         """Display metadata in a consistent format."""
-        print(f"All metadata of {self.metadata.filename}:\n")
         for key, value in metadata.items():
             if key == self.ART_METADATA:
                 self._display_art(key, value)
@@ -83,22 +84,22 @@ class BaseModel:
         except Exception as e:
             print(f"An error occurred while displaying images: {str(e)}")
 
-    def _display_lyrics(self, key) -> None:
+    def _display_lyrics(self, key):
         print(f"{key}: <LYRICS>")
 
     # Metadata Filtering Methods
-    def _filter_existing_metadata(self) -> dict:
+    def _filter_existing_metadata(self):
         """Filter non-empty."""
         return {
             key: value
-            for key, value in self.as_dict().items() if value is not None
+            for key, value in self.as_dict().items() if value
         }
 
-    def _filter_missing_metadata(self) -> dict:
+    def _filter_missing_metadata(self):
         """Filter missing metadata."""
         return {
             key: None
-            for key, value in self.as_dict().items() if value is None
+            for key, value in self.as_dict().items() if not value
         }
 
     # Metadata Modification Methods
@@ -163,6 +164,7 @@ class BaseModel:
         except Exception as e:
             print(f"An error occurred while saving metadata: {str(e)}")
 
+    # Album Artwork Methods
     def resize_album_art(self, width, height):
         # Use the AlbumArtworkHandler class to resize album artwork
         pass

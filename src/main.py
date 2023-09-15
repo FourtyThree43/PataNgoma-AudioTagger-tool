@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
+from mediafile import MediaFile
 from rgbprint import gradient_print, gradient_scroll, Color
 from src.patangoma.track import TrackInfo
-from mediafile import MediaFile
 import click
 import os
 import toml
@@ -17,14 +17,20 @@ PROJECT_SPECS = os.path.normpath(f"{os.path.expanduser('~')}/PataNgoma-AudioTagg
 
 
 def get_app_info():
-    # Load the toml file
-    data = toml.load(PROJECT_SPECS)
+    try:
+        data = toml.load(PROJECT_SPECS)
 
-    # Get the application name and version
-    app_name = data.get('project', {}).get('name')
-    app_version = data.get('project', {}).get('version')
+        app_name = data.get('project', {}).get('name')
+        app_version = data.get('project', {}).get('version')
 
-    return app_name, app_version
+        return app_name, app_version
+    except FileNotFoundError:
+        print(f"Error: pyproject.toml not found in {PROJECT_SPECS}")
+        return None, None
+    except toml.TomlDecodeError as e:
+        print(f"Error decoding pyproject.toml: {e}")
+        return None, None
+
 
 def app_info():
     """Print a welcome message."""
@@ -55,15 +61,17 @@ def set_default_path():
         music_path = os.getcwd()
     return music_path
 
+
 def is_valid(file):
     if not isinstance(file, str):
         file = file[0]
     try:
         MediaFile(file)
         return True
-    except:
-        click.secho("Error: Invalid or unsupported file format, exiting", fg="red")
+    except Exception:
+        click.secho("Error: Invalid or Unsupported file format, exiting", fg="red")
         return False
+
 
 def interactive_selection(music_path):
     """Interactive selection of file from list."""
