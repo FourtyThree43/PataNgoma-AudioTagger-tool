@@ -1,6 +1,6 @@
 from typing import Optional, List
-from src.patangoma.base import BaseModel
-from src.patangoma.track import TrackInfo
+from patangoma.base import BaseModel
+from patangoma.track import TrackInfo
 
 
 class AlbumInfo(BaseModel):

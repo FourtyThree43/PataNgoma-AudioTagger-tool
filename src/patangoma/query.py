@@ -1,6 +1,6 @@
-from src.patangoma.mb import MusicBrainzAPI
-from src.patangoma.data_store import DataStore
-from src.patangoma.track import TrackInfo
+from patangoma.mb import MusicBrainzAPI
+from patangoma.data_store import DataStore
+from patangoma.track import TrackInfo
 from cachetools import TTLCache
 import logging
 import re

@@ -6,7 +6,7 @@ from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
 from rgbprint import gradient_print, gradient_scroll, Color
-from src.patangoma.track import TrackInfo
+from patangoma.track import TrackInfo
 import click
 import os
 import toml
