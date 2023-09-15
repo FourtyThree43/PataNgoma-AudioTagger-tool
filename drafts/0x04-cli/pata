@@ -53,22 +53,23 @@ def set_default_path():
             "Path to music directory not set, defaulting to current directory",
             fg="yellow")
         music_path = os.getcwd()
+    print(music_path)
     return music_path
 
 def is_valid(file):
     if not isinstance(file, str):
         file = file[0]
     try:
-        MediaFile(file)
+        f = MediaFile(file)
         return True
     except:
-        click.secho("Error: Invalid or unsupported file format, exiting", fg="red")
+        print("Error: Invalid or unsupported file format, exiting")
         return False
 
 def interactive_selection(music_path):
     """Interactive selection of file from list."""
-    if music_path[-1] != sep:
-        music_path += sep
+    if music_path[-1] != os.path.sep:
+        music_path += os.path.sep
     filename = inquirer.filepath(
         message="Please enter a path or select file from list:\n",
         amark="✔️",
@@ -93,6 +94,17 @@ def main(ctx, path):
     app_info()
 
     if ctx.invoked_subcommand is None:
+        # if path and os.path.isdir(path):
+        #     click.echo("Path provided is a directory, please select a file")
+        #     path = interactive_selection(path)
+        #
+        # ctx.obj = path
+        #
+        # if ctx.obj is None:
+        #     ctx.obj = interactive_selection(set_default_path())
+        #
+        #
+        # _main_menu(ctx)
         if path:
             if os.path.isdir(path):
                 click.echo("Path provided is a directory, please select a file")

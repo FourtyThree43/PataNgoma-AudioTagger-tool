@@ -33,6 +33,7 @@ class BaseModel:
     # Metadata Display Methods
     def show_all_metadata(self) -> None:
         """Print all metadata for {self.metadata.filename}."""
+        print(f"All metadata of {self.metadata.filename}:\n")
         metadata = self.as_dict()
         self._display_metadata(metadata)
 
@@ -54,7 +55,6 @@ class BaseModel:
 
     def _display_metadata(self, metadata):
         """Display metadata in a consistent format."""
-        print(f"All metadata of {self.metadata.filename}:\n")
         for key, value in metadata.items():
             if key == self.ART_METADATA:
                 self._display_art(key, value)
