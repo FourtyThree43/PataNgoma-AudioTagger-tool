@@ -13,8 +13,8 @@ class MusicBrainzAPI:
         self.set_format(response_format)
 
     def set_user_agent(self,
-                       app="PataCLI",
-                       version="1.0",
+                       app="PataNgoma",
+                       version="1.0.0",
                        contact="pata@example.com"):
         """Set the user agent for API requests."""
         mb.set_useragent(app=app, version=version, contact=contact)
