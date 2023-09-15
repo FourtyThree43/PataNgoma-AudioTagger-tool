@@ -115,8 +115,63 @@ PataNgoma-AudioTagger-tool
 To set up this project, follow these steps:
 
 1. Clone the repository to your local machine.
+
+```bash
+git clone https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git
+```
+
 2. Create a virtual environment (optional but recommended).
+
+#### pip: `venv` or `virtualenv`
+
+If you use pip as your Python package manager, you can create a virtual 
+environment using either the built-in `venv` or the (better) `virtualenv`
+packages. With `venv`, run
+
+    python -m venv <venv_path>
+
+to initialize the new virtual environment, where `<venv_path>` is the 
+path to the directory to be created, and one of the following commands 
+to activate the environment, depending on your operating system (OS) and 
+shell:
+
+* POSIX: bash/zsh
+
+      source <venv_path>/bin/activate
+
+* POSIX/Windows: PowerShell
+
+      <venv_path>\Scripts\Activate.ps1
+
+* Windows: cmd.exe
+
+      <venv_path>\Scripts\activate.bat
+
+With `virtualenv`, you can create a virtual environment using
+
+    virtualenv <venv_name>
+
+where `<venv_name>` is the name of the new environment, and activate it 
+using
+
+* Linux or macOS:
+
+      source <venv_name>/bin/activate
+
+* Windows: 
+
+      .\<venv_name>\Scripts\activate
+
+
 3. Install the project dependencies by running:
+
+Option 1:
+
+```bash
+python -m pip install -e .
+```
+
+Option 2:
 
 ```bash
 pip install -r requirements.txt
@@ -127,8 +182,6 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
-
-You can now access the application at [http://localhost:8080](http://localhost:8080).
 
 ## Usage
 
