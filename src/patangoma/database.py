@@ -1,6 +1,6 @@
 import sqlite3
-from app.models.tags import BaseModel
-from app.models.track import TrackInfo
+from src.patangoma.base import BaseModel
+from src.patangoma.track import TrackInfo
 
 class FileStorage(BaseModel):
     """ Class to handle database operations. """

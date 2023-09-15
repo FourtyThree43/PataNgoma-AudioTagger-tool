@@ -5,7 +5,7 @@ from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from rgbprint import gradient_print, gradient_scroll, Color
-from patangoma.track import TrackInfo
+from src.patangoma.track import TrackInfo
 from mediafile import MediaFile
 import click
 import os
@@ -13,7 +13,7 @@ import toml
 
 
 sep = os.sep
-PROJECT_SPECS = os.path.normpath("../pyproject.toml")
+PROJECT_SPECS = os.path.normpath(f"{os.path.expanduser('~')}/PataNgoma-AudioTagger-tool/pyproject.toml")
 
 
 def get_app_info():

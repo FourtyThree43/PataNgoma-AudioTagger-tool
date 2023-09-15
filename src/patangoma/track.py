@@ -1,5 +1,5 @@
 from typing import Optional
-from patangoma.base import BaseModel
+from src.patangoma.base import BaseModel
 
 
 class TrackInfo(BaseModel):
