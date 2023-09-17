@@ -32,7 +32,8 @@ dependencies = [
   "rich",
   "rgbprint",
   "pyfiglet",
-  "toml"
+  "toml",
+  "cachetools"
 ]
 description = """
 A command-line tool to enhance your music library's metadata from multiple APIs

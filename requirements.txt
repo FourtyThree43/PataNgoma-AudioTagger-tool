@@ -18,3 +18,4 @@ rich==13.5.2
 rgbprint==4.0.2
 pyfiglet==1.0.0
 toml==0.10.2
+cachetools==5.3.1
