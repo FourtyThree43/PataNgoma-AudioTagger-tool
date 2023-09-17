@@ -9,7 +9,7 @@ from tags import TrackInfo
 from query import Query
 from data_store import DataStore
 from mediafile import MediaFile
-from sp import spotify_search, update_media_file
+from sp import spotify_search, get_updates
 import click
 import os
 import toml
@@ -362,7 +362,10 @@ def search2(ctx, file_path, title, artist, album):
     if is_valid(file_path):
         track = TrackInfo(file_path)
         result, parsed_result = spotify_search(track.title, track.artist)
-        update_media_file(track.metadata, result, parsed_result)
+        sp_updates = get_updates(result, parsed_result)
+        ctx.invoke(update,
+                   file_path=file_path,
+                   updates=sp_updates)
     else:
         exit(1)
 

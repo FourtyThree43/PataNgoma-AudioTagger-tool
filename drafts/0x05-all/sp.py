@@ -1,4 +1,3 @@
-# import os
 import click
 import spotipy
 import yaml
@@ -74,7 +73,7 @@ def spotify_search(title: str, artist: str) -> tuple:
     } for i in range(10)]
 
 
-def update_media_file(media_file: MediaFile, result: list,
+def get_updates(result: list,
                       parsed_result: list):
     selection: str = inquirer.select(
         message="Select a track:",
@@ -87,7 +86,7 @@ def update_media_file(media_file: MediaFile, result: list,
         amark="✔").execute()
     selected = int(selection.split(".")[0])
     raw: dict = result[selected - 1]
-    pre_update = media_file.as_dict()
+    # pre_update = media_file.as_dict()
     update = {}
     update["title"] = raw["name"]
     update["album"] = raw["album"]["name"]
@@ -95,27 +94,28 @@ def update_media_file(media_file: MediaFile, result: list,
     update["artist"] = update["artists"][0]
     # update["length"] = raw["duration_ms"] / 1000
     update["date"] = datetime.fromisoformat(raw["album"]["release_date"])
-    print("Updates:")
-    for k, v in update.items():
-        if pre_update[k] != v:
-            print(f"{k}: {pre_update[k]} --> {v}")
-    media_file.update(update)
-    proceed = inquirer.confirm(
-            message="Save changes?",
-            default=False).execute()
-    if proceed:
-        media_file.save()
-        print("Updated file:", media_file.path)
-    else:
-        print("Changes not saved")
+    return update
+    # print("Updates:")
+    # for k, v in update.items():
+    #     if pre_update[k] != v:
+    #         print(f"{k}: {pre_update[k]} --> {v}")
+    # media_file.update(update)
+    # proceed = inquirer.confirm(
+    #         message="Save changes?",
+    #         default=False).execute()
+    # if proceed:
+    #     media_file.save()
+    #     print("Updated file:", media_file.path)
+    # else:
+    #     print("Changes not saved")
 
 
-def main():
-    """Entry point for the application script"""
-    media_file, title, artist = get_search_params()
-    result, parsed_result = spotify_search(title, artist)
-    update_media_file(media_file, result, parsed_result)
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     """Entry point for the application script"""
+#     media_file, title, artist = get_search_params()
+#     result, parsed_result = spotify_search(title, artist)
+#     update_media_file(media_file, result, parsed_result)
+#
+#
+# if __name__ == "__main__":
+#     main()

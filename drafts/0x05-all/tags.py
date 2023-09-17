@@ -106,23 +106,26 @@ class BaseModel:
 
     def batch_update_metadata(self, updates):
         """Updates """
-        for update in updates:
-            key, value = update.split("=")
-            try:
-                if hasattr(self.metadata, key):
-                    setattr(self.metadata, key, value)
-                else:
-                    possible_matches = get_close_matches(key,
-                                                         dir(self.metadata),
-                                                         n=5,
-                                                         cutoff=0.6)
-                    if possible_matches:
-                        print(f"Invalid metadata field: {key}")
-                        print(f"Did you mean? {', '.join(possible_matches)}")
+        if isinstance(updates, dict):
+            self.metadata.update(updates)
+        else:
+            for update in updates:
+                key, value = update.split("=")
+                try:
+                    if hasattr(self.metadata, key):
+                        setattr(self.metadata, key, value)
                     else:
-                        print(f"Invalid metadata field: {key}")
-            except Exception as e:
-                print(f"An error occurred while updating metadata: {str(e)}")
+                        possible_matches = get_close_matches(key,
+                                                             dir(self.metadata),
+                                                             n=5,
+                                                             cutoff=0.6)
+                        if possible_matches:
+                            print(f"Invalid metadata field: {key}")
+                            print(f"Did you mean? {', '.join(possible_matches)}")
+                        else:
+                            print(f"Invalid metadata field: {key}")
+                except Exception as e:
+                    print(f"An error occurred while updating metadata: {str(e)}")
 
     def single_update_metadata(self, field, value):
         try:
