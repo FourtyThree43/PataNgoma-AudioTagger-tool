@@ -9,7 +9,7 @@ from tags import TrackInfo
 from query import Query
 from data_store import DataStore
 from mediafile import MediaFile
-from sp import store, spotify_search, update_media_file
+from sp import spotify_search, update_media_file
 import click
 import os
 import toml
