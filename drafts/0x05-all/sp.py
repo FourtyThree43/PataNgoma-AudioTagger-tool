@@ -93,11 +93,12 @@ def update_media_file(media_file: MediaFile, result: list,
     update["album"] = raw["album"]["name"]
     update["artists"] = [i["name"] for i in raw["artists"]]
     update["artist"] = update["artists"][0]
-    update["length"] = raw["duration_ms"] / 1000
+    # update["length"] = raw["duration_ms"] / 1000
     update["date"] = datetime.fromisoformat(raw["album"]["release_date"])
     print("Updates:")
     for k, v in update.items():
-        print(f"{k}: {pre_update[k]} --> {v}")
+        if pre_update[k] != v:
+            print(f"{k}: {pre_update[k]} --> {v}")
     media_file.update(update)
     proceed = inquirer.confirm(
             message="Save changes?",

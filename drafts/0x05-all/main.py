@@ -9,6 +9,7 @@ from tags import TrackInfo
 from query import Query
 from data_store import DataStore
 from mediafile import MediaFile
+from sp import store, spotify_search, update_media_file
 import click
 import os
 import toml
@@ -350,8 +351,24 @@ def search(ctx, file_path, title, artist, album):
         exit(1)
 
 
+@click.command()
+@click.pass_context
+@click.argument('file_path', type=click.Path(exists=True, resolve_path=True, dir_okay=False))
+@click.option('--title', '-t', help='Title of the track')
+@click.option('--artist', '-a', help='Artist of the track')
+@click.option('--album', '-b', help='Album of the track')
+def search2(ctx, file_path, title, artist, album):
+    """Search for music information using the provided audio file."""
+    if is_valid(file_path):
+        track = TrackInfo(file_path)
+        result, parsed_result = spotify_search(track.title, track.artist)
+        update_media_file(track.metadata, result, parsed_result)
+    else:
+        exit(1)
+
 main.add_command(delete)
 main.add_command(search)
+main.add_command(search2)
 main.add_command(show)
 main.add_command(update)
 
