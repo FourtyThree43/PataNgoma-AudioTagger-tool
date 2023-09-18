@@ -2,6 +2,7 @@
 import musicbrainzngs as mb
 import logging
 from functools import lru_cache
+from datetime import datetime 
 
 
 class MusicBrainzAPI:
@@ -49,7 +50,7 @@ class MusicBrainzAPI:
             "id": "mb_workid",
             "ext:score": "score",
             "title": "title",
-            "length": "length",
+            # "length": "length",
             "artist-credit[0].name": "artist",
             "artist-credit[0].artist.id": "mb_artistid",
             "artist-credit[0].artist.name": "artist",
@@ -68,7 +69,7 @@ class MusicBrainzAPI:
             "release-list[0].release-group.primary-type": "albumtype",
             "release-list[0].date": "date",
             "release-list[0].country": "country",
-            "release-list[0].release-event-list[0].date": "date",
+            # "release-list[0].release-event-list[0].date": "date",
             # "release-list[0].release-event-list[0].area.id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
             # "release-list[0].release-event-list[0].area.name": "[Worldwide]",
             # "release-list[0].release-event-list[0].area.sort-name": "[Worldwide]",
@@ -78,12 +79,12 @@ class MusicBrainzAPI:
             "release-list[0].medium-list[0].track-list[0].id": "mb_trackid",
             "release-list[0].medium-list[0].track-list[0].number": "track",
             "release-list[0].medium-list[0].track-list[0].title": "title",
-            "release-list[0].medium-list[0].track-list[0].length": "length",
-            "release-list[0].medium-list[0].track-list[0].track_or_recording_length": "length",
+            # "release-list[0].medium-list[0].track-list[0].length": "length",
+            # "release-list[0].medium-list[0].track-list[0].track_or_recording_length": "length",
             "release-list[0].medium-list[0].track-count": "tracktotal",
             "release-list[0].medium-track-count": "tracktotal",
             "release-list[0].medium-count": "disc",
-            "release-list[0].artist-credit-phrase": "Karun",
+            # "release-list[0].artist-credit-phrase": "Karun",
             "artist-credit-phrase": "artist_credit"
         }
 
@@ -92,6 +93,8 @@ class MusicBrainzAPI:
         for flattened_key, value in flattened_data.items():
             if flattened_key in reverse_mapping:
                 mediafile_key = reverse_mapping[flattened_key]
+                if mediafile_key == "date" and not isinstance(value, datetime):
+                    value = datetime.fromisoformat(value)
                 translated_data[mediafile_key] = value
 
         return translated_data

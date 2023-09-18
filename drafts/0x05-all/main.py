@@ -150,6 +150,7 @@ def _main_menu(ctx):
                                  "Show-Tags",
                                  "Update-Tags",
                                  "Delete-Tags",
+                                 "Search",
                                  Choice(value=None, name="Exit"),
                              ],
                              default=None,
@@ -161,6 +162,8 @@ def _main_menu(ctx):
         _submenu_show(ctx)
     elif action == "Update-Tags":
         _submenu_update(ctx)
+    elif action == "Search":
+        _submenu_search(ctx)
     elif action == "Delete-Tags":
         delete([fp])
 
@@ -230,6 +233,12 @@ def _submenu_update(ctx):
                    f"{key}={value}"
                    for key, value in zip(selected_fields, updates)
                ]))
+
+
+def _submenu_search(ctx):
+    source = inquirer.select(message="Select a service to use:", choices=["spotify", "musicbrainz"]
+, qmark=">", amark="✔️").execute()
+    ctx.invoke(search, file_path=ctx.obj, source=source)
 
 
 @click.command()
@@ -333,61 +342,8 @@ def delete(file_path):
 @click.argument('file_path',
                 type=click.Path(exists=True, resolve_path=True,
                                 dir_okay=False))
-@click.option('--title', '-t', help='Title of the track')
-@click.option('--artist', '-a', help='Artist of the track')
-@click.option('--album', '-b', help='Album of the track')
-def search(ctx, file_path, title, artist, album):
-    """Search for music information using the provided audio file."""
-    if is_valid(file_path):
-        track = TrackInfo(file_path)
-        ds = DataStore()
-        query = Query(track, ds)
-        musicbrainz_data = query.fetch_musicbrainz_data()
-
-        if musicbrainz_data:
-            choices = []
-
-            for idx, rec in enumerate(musicbrainz_data, start=1):
-                choice_item = {
-                    "name":
-                    f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n"
-                    +
-                    f"   \tAlbum: {rec.get('album')} - {rec.get('year')} - {rec.get('albumtype')}\n"
-                    +
-                    f"   \tTrack: {rec.get('tracknumber')} - Duration: {rec.get('length')}",
-                    "value":
-                    idx
-                }
-                choices.append(choice_item)
-
-            selection = inquirer.select(message="Select a track:",
-                                        choices=choices,
-                                        amark="✔",
-                                        max_height="70%").execute()
-
-            selected = int(selection)
-            se_res: dict = musicbrainz_data[selected - 1]
-
-            # print(se_res)
-
-            up_fields = [
-                f"{key}={value}"
-                for key, value in zip(se_res.keys(), se_res.values())
-            ]
-
-            ctx.invoke(update, file_path=file_path, updates=up_fields)
-        else:
-            print("No results found.")
-    else:
-        exit(1)
-
-
-@click.command()
-@click.pass_context
-@click.argument('file_path',
-                type=click.Path(exists=True, resolve_path=True,
-                                dir_okay=False))
-def search2(ctx, file_path):
+@click.option('--source', '-s', help='Source service to use for search')
+def search(ctx, file_path, source):
     """
     Search for music information using the provided audio file.
 
@@ -396,6 +352,15 @@ def search2(ctx, file_path):
     """
     if is_valid(file_path):
         track = TrackInfo(file_path)
+        source_choices = ["spotify", "musicbrainz"]
+        source_select = inquirer.select(message="Specify a service to use:", choices=source_choices, qmark=">", amark="✔️")
+        if not source:
+            click.secho("Source missing", fg="yellow")
+            source = source_select.execute()
+        elif source not in source_choices:
+            click.secho("Invalid source provided", fg="yellow")
+            source = source_select.execute()
+
         if track.title and track.artist:
             title, artist = track.title, track.artist
         elif track.title:
@@ -419,22 +384,74 @@ def search2(ctx, file_path):
             title = inquirer.text(message="Provide a title:",
                                   qmark=">",
                                   amark="✔️").execute()
-        result, parsed_result = spotify_search(title, artist)
-        if result and parsed_result:
-            sp_updates = get_updates(result, parsed_result)
+        if source == "spotify":
+            up_fields = spotify_subsearch(title, artist)
+        elif source == "musicbrainz":
+            up_fields = mb_subsearch(track, title, artist)
+        else:
+            up_fields = None
+        if up_fields:
             proceed = inquirer.confirm(
                 message=
                 "Potential updates found. Would you like to preview them?",
                 default=False, qmark=">", amark="✔️").execute()
             if proceed:
-                ctx.invoke(update, file_path=file_path, updates=sp_updates)
+                ctx.invoke(update, file_path=file_path, updates=up_fields)
+        else:
+            click.secho("No results found", fg="yellow")
+
     else:
         exit(1)
 
 
+def spotify_subsearch(title, artist):
+    result, parsed_result = spotify_search(title, artist)
+    if result and parsed_result:
+        return get_updates(result, parsed_result)
+    else:
+        return {}
+
+
+def mb_subsearch(track, title, artist):
+    ds = DataStore()
+    query = Query(track, ds)
+    musicbrainz_data = query.fetch_musicbrainz_data(title, artist)
+
+    if musicbrainz_data:
+        choices = []
+
+        for idx, rec in enumerate(musicbrainz_data, start=1):
+            choice_item = {
+                "name":
+                f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n"
+                +
+                f"       Album: {rec.get('album')} - {rec.get('year')} - {rec.get('albumtype')}\n"
+                +
+                f"       Track: {rec.get('tracknumber')} - Duration: {rec.get('length')}",
+                "value":
+                idx
+            }
+            choices.append(choice_item)
+
+        selection = inquirer.select(message="Select a track:",
+                                    choices=choices,
+                                    amark="✔",
+                                    max_height="70%").execute()
+
+        selected = int(selection)
+        se_res: dict = musicbrainz_data[selected - 1]
+
+        # print(se_res)
+
+        up_fields = [f"{key}={value}" for key, value in zip(se_res.keys(), se_res.values())]
+
+        return up_fields
+    else:
+        return {}
+
+
 main.add_command(delete)
 main.add_command(search)
-main.add_command(search2)
 main.add_command(show)
 main.add_command(update)
 

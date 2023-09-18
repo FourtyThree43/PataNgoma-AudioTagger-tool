@@ -3,6 +3,7 @@ from cachetools import TTLCache
 from data_store import DataStore
 from mb import MusicBrainzAPI
 from tags import TrackInfo
+import click
 import logging
 
 
@@ -21,9 +22,12 @@ class Query:
 
     def fetch_musicbrainz_data(self, title=None, artist=None):
         # Extract title and artist from TrackInfo
-        if self.track_info.title or self.track_info.artist:
+        if not (self.track_info.title and self.track_info.artist):
             title = self.track_info.title
             artist = self.track_info.artist
+        # else:
+        #     click.secho("Error: Missing title or artist", fg="red")
+        #     exit(1)
 
         cache_key = (title, artist)
 
