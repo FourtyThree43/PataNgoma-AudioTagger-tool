@@ -363,6 +363,8 @@ def search2(ctx, file_path, title, artist, album):
         track = TrackInfo(file_path)
         result, parsed_result = spotify_search(track.title, track.artist)
         sp_updates = get_updates(result, parsed_result)
+        if sp_updates:
+            pass
         ctx.invoke(update,
                    file_path=file_path,
                    updates=sp_updates)
