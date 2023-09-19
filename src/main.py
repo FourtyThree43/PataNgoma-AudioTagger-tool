@@ -1,4 +1,4 @@
-#!/home/kemboiray/PataNgoma-AudioTagger-tool/env/bin/python3
+#!/usr/bin/env python3
 
 from dotenv import load_dotenv
 from InquirerPy import inquirer
@@ -82,7 +82,7 @@ def set_default_path():
         tail = os.path.normpath(tail)  # Normalize path separator
         music_path = os.path.join(os.path.expanduser('~'), tail)
         if not os.path.exists(music_path):
-            click.secho("Default path to music directory does not exist,\ndefaulting to current directory")
+            click.secho("Default path to music directory does not exist,\ndefaulting to current directory", fg="yellow")
             return os.getcwd()
     else:
         click.secho(
