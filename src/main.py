@@ -81,6 +81,9 @@ def set_default_path():
     if tail:
         tail = os.path.normpath(tail)  # Normalize path separator
         music_path = os.path.join(os.path.expanduser('~'), tail)
+        if not os.path.exists(music_path):
+            click.secho("Default path to music directory does not exist,\ndefaulting to current directory")
+            return os.getcwd()
     else:
         click.secho(
             "Path to music directory not set, defaulting to current directory",
