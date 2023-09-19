@@ -168,5 +168,6 @@ Romeo*
 Sunny*
 *.mp3
 
-# Storage file
-store.yaml
+# Storage files
+sp_store.yaml
+mb_store.json

@@ -6,6 +6,9 @@ from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
 from rgbprint import gradient_print, gradient_scroll, Color
+from patangoma.query import Query
+from patangoma.data_store import DataStore
+from patangoma.sp import spotify_search, get_updates
 from patangoma.track import TrackInfo
 import click
 import os
@@ -13,7 +16,8 @@ import toml
 
 
 sep = os.sep
-PROJECT_SPECS = os.path.normpath(f"{os.path.expanduser('~')}/PataNgoma-AudioTagger-tool/pyproject.toml")
+PROJECT_SPECS = os.path.normpath(
+    f"{os.path.expanduser('~')}/PataNgoma-AudioTagger-tool/pyproject.toml")
 
 
 def get_app_info():
@@ -36,14 +40,37 @@ def app_info():
     """Print a welcome message."""
     app_name, app_version = get_app_info()
 
-    gradient_print(f"            ♥ {app_name} - {app_version} ♥", start_color='red', end_color='gold', end='\n')
-    gradient_print(' ──────────────────────────────────────────────────', start_color='orange', end_color='red', end='\n')
-    gradient_print('  │ GitHub  : https://github.com/FourtyThree43/  │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │           PataNgoma-AudioTagger-tool         │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │ Authors : @FourtyThree43                     │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │           @Kemboiray                         │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print('  │           @Patrick-052                       │ ', start_color='red', end_color='orange', end='\n')
-    gradient_print(' ──────────────────────────────────────────────────', start_color='red', end_color='orange')
+    gradient_print(f"            ♥ {app_name} - {app_version} ♥",
+                   start_color='red',
+                   end_color='gold',
+                   end='\n')
+    gradient_print(' ──────────────────────────────────────────────────',
+                   start_color='orange',
+                   end_color='red',
+                   end='\n')
+    gradient_print('  │ GitHub  : https://github.com/FourtyThree43/  │ ',
+                   start_color='red',
+                   end_color='orange',
+                   end='\n')
+    gradient_print('  │           PataNgoma-AudioTagger-tool         │ ',
+                   start_color='red',
+                   end_color='orange',
+                   end='\n')
+    gradient_print('  │ Authors : @FourtyThree43                     │ ',
+                   start_color='red',
+                   end_color='orange',
+                   end='\n')
+    gradient_print('  │           @Kemboiray                         │ ',
+                   start_color='red',
+                   end_color='orange',
+                   end='\n')
+    gradient_print('  │           @Patrick-052                       │ ',
+                   start_color='red',
+                   end_color='orange',
+                   end='\n')
+    gradient_print(' ──────────────────────────────────────────────────',
+                   start_color='red',
+                   end_color='orange')
 
 
 def set_default_path():
@@ -69,7 +96,8 @@ def is_valid(file):
         MediaFile(file)
         return True
     except Exception:
-        click.secho("Error: Invalid or Unsupported file format, exiting", fg="red")
+        click.secho("Error: Invalid or unsupported file format, exiting",
+                    fg="red")
         return False
 
 
@@ -103,7 +131,8 @@ def main(ctx, path):
     if ctx.invoked_subcommand is None:
         if path:
             if os.path.isdir(path):
-                click.echo("Path provided is a directory, please select a file")
+                click.echo(
+                    "Path provided is a directory, please select a file")
                 path = interactive_selection(path)
             ctx.obj = path
         else:
@@ -122,6 +151,7 @@ def _main_menu(ctx):
                                  "Show-Tags",
                                  "Update-Tags",
                                  "Delete-Tags",
+                                 "Search",
                                  Choice(value=None, name="Exit"),
                              ],
                              default=None,
@@ -133,6 +163,8 @@ def _main_menu(ctx):
         _submenu_show(ctx)
     elif action == "Update-Tags":
         _submenu_update(ctx)
+    elif action == "Search":
+        _submenu_search(ctx)
     elif action == "Delete-Tags":
         delete([fp])
 
@@ -154,8 +186,7 @@ def _submenu_show(ctx):
         default="Back",
         amark="✔️",
         qmark=">",
-        instruction=
-        "Use: <enter> to select/deselect, <up>/<down> to navigate"
+        instruction="Use: <enter> to select/deselect, <up>/<down> to navigate"
     ).execute()
 
     if show_tags_action == "all":
@@ -189,7 +220,8 @@ def _submenu_update(ctx):
         max_height="70%",
         qmark=">",
         amark="✔️",
-        instruction="Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
+        instruction=
+        "Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
     ).execute()
     updates = []
     click.echo("Enter new values as prompted:")
@@ -202,6 +234,12 @@ def _submenu_update(ctx):
                    f"{key}={value}"
                    for key, value in zip(selected_fields, updates)
                ]))
+
+
+def _submenu_search(ctx):
+    source = inquirer.select(message="Select a service to use:", choices=["spotify", "musicbrainz"]
+, qmark=">", amark="✔️").execute()
+    ctx.invoke(search, file_path=ctx.obj, source=source)
 
 
 @click.command()
@@ -261,7 +299,8 @@ def update(file_path, updates):
                     if key not in ("art", "lyrics"):
                         click.echo(f"{key}: {md_pre_update[key]} -> {value}")
                     else:
-                        click.echo(f"{key}: changed (diff too large to display)")
+                        click.echo(
+                            f"{key}: changed (diff too large to display)")
 
             if click.confirm("Do you want to save these changes?"):
                 track.save()
@@ -299,9 +338,123 @@ def delete(file_path):
         exit(1)
 
 
-main.add_command(update)
+@click.command()
+@click.pass_context
+@click.argument('file_path',
+                type=click.Path(exists=True, resolve_path=True,
+                                dir_okay=False))
+@click.option('--source', '-s', help='Source service to use for search')
+def search(ctx, file_path, source):
+    """
+    Search for music information using the provided audio file.
+
+    The function searches using `artist` and `title` tags obtained from the music file.
+    If either tag is missing, the user is prompted to provide them.
+    """
+    if is_valid(file_path):
+        track = TrackInfo(file_path)
+        source_choices = ["spotify", "musicbrainz"]
+        source_select = inquirer.select(message="Specify a service to use:", choices=source_choices, qmark=">", amark="✔️")
+        if not source:
+            click.secho("Source missing", fg="yellow")
+            source = source_select.execute()
+        elif source not in source_choices:
+            click.secho("Invalid source provided", fg="yellow")
+            source = source_select.execute()
+
+        if track.title and track.artist:
+            title, artist = track.title, track.artist
+        elif track.title:
+            title = track.title
+            click.secho("Music file is missing an artist tag...", fg="yellow")
+            artist = inquirer.text(message="Provide an artist name:",
+                                   qmark=">",
+                                   amark="✔️").execute()
+        elif track.artist:
+            artist = track.artist
+            click.secho("Music file is missing a title tag...", fg="yellow")
+            title = inquirer.text(message="Provide a title:",
+                                  qmark=">",
+                                  amark="✔️").execute()
+        else:
+            click.secho("Music file is missing artist and title tags...",
+                        fg="yellow")
+            artist = inquirer.text(message="Provide an artist name:",
+                                   qmark=">",
+                                   amark="✔️").execute()
+            title = inquirer.text(message="Provide a title:",
+                                  qmark=">",
+                                  amark="✔️").execute()
+        if source == "spotify":
+            up_fields = spotify_subsearch(title, artist)
+        elif source == "musicbrainz":
+            up_fields = mb_subsearch(track, title, artist)
+        else:
+            up_fields = None
+        if up_fields:
+            proceed = inquirer.confirm(
+                message=
+                "Potential updates found. Would you like to preview them?",
+                default=False, qmark=">", amark="✔️").execute()
+            if proceed:
+                ctx.invoke(update, file_path=file_path, updates=up_fields)
+        else:
+            click.secho("No results found", fg="yellow")
+
+    else:
+        exit(1)
+
+
+def spotify_subsearch(title, artist):
+    result, parsed_result = spotify_search(title, artist)
+    if result and parsed_result:
+        return get_updates(result, parsed_result)
+    else:
+        return {}
+
+
+def mb_subsearch(track, title, artist):
+    ds = DataStore()
+    query = Query(track, ds)
+    musicbrainz_data = query.fetch_musicbrainz_data(title, artist)
+
+    if musicbrainz_data:
+        choices = []
+
+        for idx, rec in enumerate(musicbrainz_data, start=1):
+            choice_item = {
+                "name":
+                f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n"
+                +
+                f"       Album: {rec.get('album')} - {rec.get('year')} - {rec.get('albumtype')}\n"
+                +
+                f"       Track: {rec.get('tracknumber')} - Duration: {rec.get('length')}",
+                "value":
+                idx
+            }
+            choices.append(choice_item)
+
+        selection = inquirer.select(message="Select a track:",
+                                    choices=choices,
+                                    amark="✔",
+                                    max_height="70%").execute()
+
+        selected = int(selection)
+        se_res: dict = musicbrainz_data[selected - 1]
+
+        # print(se_res)
+
+        up_fields = [f"{key}={value}" for key, value in zip(se_res.keys(), se_res.values())]
+
+        return up_fields
+    else:
+        return {}
+
+
 main.add_command(delete)
+main.add_command(search)
 main.add_command(show)
+main.add_command(update)
 
 if __name__ == "__main__":
     main()

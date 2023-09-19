@@ -9,8 +9,7 @@ class BaseModel:
     IMAGES_METADATA = "images"
     LYRICS_METADATA = "lyrics"
 
-    def __init__(self, file_path: str):
-        """Initialize the model with the file path."""
+    def __init__(self, file_path):
         self.file = file_path
         try:
             self.metadata = MediaFile(file_path)
@@ -18,18 +17,17 @@ class BaseModel:
             print(f"Error loading metadata from {file_path}: {str(e)}")
             exit(1)
 
-    def as_dict(self) -> dict:
-        """Return a dictionary representation of the metadata."""
+    def as_dict(self):
+        """Return metadata as a dictionary."""
         try:
-            return self.metadata.as_dict()
+            return dict(self.metadata.as_dict())
         except Exception as e:
             print(f"Error converting metadata to dictionary: {str(e)}")
             return {}
 
     # Metadata Display Methods
-    def show_all_metadata(self) -> None:
+    def show_all_metadata(self):
         """Print all metadata for {self.metadata.filename}."""
-        print(f"All metadata of {self.metadata.filename}:\n")
         metadata = self.as_dict()
         self._display_metadata(metadata)
 
@@ -47,6 +45,7 @@ class BaseModel:
 
     def _display_metadata(self, metadata):
         """Display metadata in a consistent format."""
+        print(f"All metadata of {self.metadata.filename}:\n")
         for key, value in metadata.items():
             if key == self.ART_METADATA:
                 self._display_art(key, value)
@@ -60,27 +59,18 @@ class BaseModel:
                 print(f"{key}: {value}")
 
     def _display_art(self, key, value):
-        """Display art in a consistent format."""
         try:
             print(key + ": ")
             imgcat(value, width=24, height=24)
-        except ImportError:
-            print(
-                "imgcat library is not available. Please add it to view art.")
         except Exception as e:
             print(f"An error occurred while displaying art: {str(e)}")
 
     def _display_images(self, key, images):
-        """Display images in a consistent format."""
         try:
             print(key + ": ")
             for image in images:
                 imgcat(image.data, width=24, height=24)
                 print()
-        except ImportError:
-            print(
-                "imgcat library is not available. Please add it to view images."
-            )
         except Exception as e:
             print(f"An error occurred while displaying images: {str(e)}")
 
@@ -92,14 +82,14 @@ class BaseModel:
         """Filter non-empty."""
         return {
             key: value
-            for key, value in self.as_dict().items() if value
+            for key, value in self.as_dict().items() if value is not None
         }
 
     def _filter_missing_metadata(self):
         """Filter missing metadata."""
         return {
             key: None
-            for key, value in self.as_dict().items() if not value
+            for key, value in self.as_dict().items() if value is None
         }
 
     # Metadata Modification Methods
@@ -112,28 +102,30 @@ class BaseModel:
             for key, value in new_meta.items())
         return changed
 
-    def batch_update_metadata(self, updates: list | tuple):
-        """ Batch update metadata with a list of fields and values."""
-        for update in updates:
-            key, value = update.split("=")
-            try:
-                if hasattr(self.metadata, key):
-                    setattr(self.metadata, key, value)
-                else:
-                    possible_matches = get_close_matches(key,
-                                                         dir(self.metadata),
-                                                         n=5,
-                                                         cutoff=0.6)
-                    if possible_matches:
-                        print(f"Invalid metadata field: {key}")
-                        print(f"Did you mean? {', '.join(possible_matches)}")
+    def batch_update_metadata(self, updates):
+        """Updates """
+        if isinstance(updates, dict):
+            self.metadata.update(updates)
+        else:
+            for update in updates:
+                key, value = update.split("=")
+                try:
+                    if hasattr(self.metadata, key):
+                        setattr(self.metadata, key, value)
                     else:
-                        print(f"Invalid metadata field: {key}")
-            except Exception as e:
-                print(f"An error occurred while updating metadata: {str(e)}")
+                        possible_matches = get_close_matches(key,
+                                                             dir(self.metadata),
+                                                             n=5,
+                                                             cutoff=0.6)
+                        if possible_matches:
+                            print(f"Invalid metadata field: {key}")
+                            print(f"Did you mean? {', '.join(possible_matches)}")
+                        else:
+                            print(f"Invalid metadata field: {key}")
+                except Exception as e:
+                    print(f"An error occurred while updating metadata: {str(e)}")
 
     def single_update_metadata(self, field, value):
-        """Update metadata with a single field and value."""
         try:
             if hasattr(self.metadata, field):
                 setattr(self.metadata, field, value)
@@ -151,14 +143,13 @@ class BaseModel:
             print(f"An error occurred while updating metadata: {str(e)}")
 
     def delete(self):
-        """Delete all metadata."""
+        """Delete metadata for {self.metadata.filename}."""
         try:
             self.metadata.delete()
         except Exception as e:
             print(f"An error occurred while deleting metadata: {str(e)}")
 
     def save(self):
-        """Save metadata"""
         try:
             self.metadata.save()
         except Exception as e:

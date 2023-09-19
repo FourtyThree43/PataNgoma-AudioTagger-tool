@@ -6,7 +6,7 @@ import logging
 
 class DataStore:
 
-    def __init__(self, file_path="datastore.json"):
+    def __init__(self, file_path="mb_store.json"):
         self.metadata = {}
         self.file_path = file_path
         self.lock = threading.Lock()

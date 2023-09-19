@@ -24,11 +24,17 @@ class Query:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
         self.cache = TTLCache(maxsize=100, ttl=3600)  # Cache for 1 hour
+        self.fetched_data = None
 
-    def fetch_musicbrainz_data(self):
+    def fetch_musicbrainz_data(self, title=None, artist=None):
         # Extract title and artist from TrackInfo
-        title = self.track_info.title
-        artist = self.track_info.artist
+        if not (self.track_info.title and self.track_info.artist):
+            title = self.track_info.title
+            artist = self.track_info.artist
+        # else:
+        #     click.secho("Error: Missing title or artist", fg="red")
+        #     exit(1)
+
         cache_key = (title, artist)
 
         if cache_key in self.cache:
@@ -47,12 +53,16 @@ class Query:
             result = self.mb_api.search_track(title, artist)
 
             if result:
-                flatted_result = self.flatten_dict(result[0])
-                translated_data = self.mb_api.translate_mb_result(flatted_result)
-                self.data_store.add_metadata("musicbrainz", result[0])
-                self.cache[cache_key] = flatted_result
+                translated_data_list = []
+                self.cache[cache_key] = result
 
-                return translated_data
+                for idx, res in enumerate(result, start=1):
+                    flat_result = self.flatten_dict(res)
+                    translated_data = self.mb_api.translate_mb_result(flat_result)
+                    translated_data_list.append(translated_data)
+                    self.store_metadata("musicbrainz", translated_data)
+
+                return translated_data_list
                 # return self.mb_api.translate_mb_result(result[0])
         except Exception as e:
             print(f"Error searching track on MusicBrainz: {str(e)}")
@@ -74,8 +84,7 @@ class Query:
                 for i, item in enumerate(value):
                     if isinstance(item, dict):
                         flat_dict.update(
-                            self.flatten_dict(item, f"{new_key}[{i}]",
-                                              separator))
+                            self.flatten_dict(item, f"{new_key}[{i}]", separator))
                     else:
                         flat_dict[f"{new_key}[{i}]"] = item
             else:
@@ -97,8 +106,8 @@ class Query:
 
         # Define a mapping between your parameters and MusicBrainz fields
         parameter_mapping = {
-            "my_param1": "mb_field1",
-            "my_param2": "mb_field2",
+            "album": "releases",
+            # "my_param2": "mb_field2",
             # Add more mappings as needed
         }
 
@@ -128,40 +137,3 @@ class Query:
     def store_metadata(self, source, data: dict):
         """Store the metadata in the DataStore"""
         self.data_store.add_metadata(source, data)
-
-    def search_by_spotify_id(self, text):
-        """
-        Search for items/albums by Spotify ID in the given text.
-        Returns a list of matching items/albums.
-        """
-        spotify_id_matches = re.finditer(spotify_id_regex['pattern'], text)
-        matching_ids = [match.group(spotify_id_regex['match_group']) for match in spotify_id_matches]
-        # Use matching_ids to perform your query and return the results
-
-    def search_by_deezer_id(self, text):
-        """
-        Search for items/albums by Deezer ID in the given text.
-        Returns a list of matching items/albums.
-        """
-        deezer_id_matches = re.finditer(deezer_id_regex['pattern'], text)
-        matching_ids = [match.group(deezer_id_regex['match_group']) for match in deezer_id_matches]
-        # Use matching_ids to perform your query and return the results
-
-    def search_by_beatport_id(self, text):
-        """
-        Search for items/albums by Beatport ID in the given text.
-        Returns a list of matching items/albums.
-        """
-        beatport_id_matches = re.finditer(beatport_id_regex['pattern'], text)
-        matching_ids = [match.group(beatport_id_regex['match_group']) for match in beatport_id_matches]
-        # Use matching_ids to perform your query and return the results
-
-    def search_by_discogs_id(self, text):
-        """
-        Search for items/albums by Discogs ID in the given text.
-        Returns a list of matching items/albums.
-        """
-        discogs_id = extract_discogs_id_regex(text)
-        if discogs_id is not None:
-            # Use discogs_id to perform your query and return the results
-            pass

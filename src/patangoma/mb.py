@@ -1,6 +1,8 @@
-from functools import lru_cache
-import logging
+# mb.py
 import musicbrainzngs as mb
+import logging
+from functools import lru_cache
+from datetime import datetime 
 
 
 class MusicBrainzAPI:
@@ -14,7 +16,7 @@ class MusicBrainzAPI:
 
     def set_user_agent(self,
                        app="PataNgoma",
-                       version="1.0.0",
+                       version="1.0",
                        contact="pata@example.com"):
         """Set the user agent for API requests."""
         mb.set_useragent(app=app, version=version, contact=contact)
@@ -31,7 +33,7 @@ class MusicBrainzAPI:
             if query:
                 query_params.update(query)
 
-            result = mb.search_recordings(**query_params)
+            result = mb.search_recordings(**query_params, limit=10)
 
             if "recording-list" in result:
                 return result["recording-list"]
@@ -45,45 +47,45 @@ class MusicBrainzAPI:
         Translate flattened data back to MediaFile keys.
         """
         reverse_mapping = {
-            'id': 'mbid',
-            'ext:score': 'scores',
-            'title': 'title',
-            'length': 'length',
-            'artist-credit[0].name': 'artist',
-            'artist-credit[0].artist.id': 'artist-mbid',
-            'artist-credit[0].artist.name': 'artist',
-            'artist-credit[0].artist.sort-name': 'artist-sort',
-            'artist-credit[1]': 'artist-credit-phrase',
-            'release-list[0].id': 'album-mbid',
-            'release-list[0].title': 'album',
-            'release-list[0].status': 'albumstatus',
-            'release-list[0].artist-credit[0].name': 'albumartist',
-            'release-list[0].artist-credit[0].artist.id': 'albumartist-mbid',
-            'release-list[0].artist-credit[0].artist.name': 'albumartist',
-            'release-list[0].artist-credit[0].artist.sort-name': 'albumartist-sort',
-            'release-list[0].release-group.id': 'album-mbid',
-            'release-list[0].release-group.type': 'albumtype',
-            'release-list[0].release-group.title': 'album',
-            'release-list[0].release-group.primary-type': 'albumtype',
-            'release-list[0].date': 'year',
-            'release-list[0].country': 'country',
-            'release-list[0].release-event-list[0].date': 'year',
-            'release-list[0].release-event-list[0].area.id': 'country-mbid',
-            'release-list[0].release-event-list[0].area.name': 'country',
-            'release-list[0].release-event-list[0].area.sort-name': 'country-sort',
-            # 'release-list[0].release-event-list[0].area.iso-3166-1-code-list[0]': 'country',
-            'release-list[0].medium-list[0].position': 'discnumber',
-            'release-list[0].medium-list[0].format': 'media',
-            'release-list[0].medium-list[0].track-list[0].id': 'track-mbid',
-            'release-list[0].medium-list[0].track-list[0].number': 'tracknumber',
-            'release-list[0].medium-list[0].track-list[0].title': 'title',
-            'release-list[0].medium-list[0].track-list[0].length': 'length',
-            'release-list[0].medium-list[0].track-list[0].track_or_recording_length': 'length',
-            'release-list[0].medium-list[0].track-count': 'track',
-            'release-list[0].medium-track-count': 'track',
-            'release-list[0].medium-count': 'disc',
-            'release-list[0].artist-credit-phrase': 'artist-credit-phrase',
-            'artist-credit-phrase': 'artist',
+            "id": "mb_workid",
+            "ext:score": "score",
+            "title": "title",
+            # "length": "length",
+            "artist-credit[0].name": "artist",
+            "artist-credit[0].artist.id": "mb_artistid",
+            "artist-credit[0].artist.name": "artist",
+            "artist-credit[0].artist.sort-name": "artist_sort",
+            # "artist-credit[1]": ", Mombru",
+            "release-list[0].id": "mb_albumid",
+            "release-list[0].title": "album",
+            "release-list[0].status": "albumstatus",
+            "release-list[0].artist-credit[0].name": "albumartist",
+            "release-list[0].artist-credit[0].artist.id": "mb_albumartistid",
+            "release-list[0].artist-credit[0].artist.name": "albumartist",
+            "release-list[0].artist-credit[0].artist.sort-name": "albumartist_sort",
+            "release-list[0].release-group.id": "mb_albumid",
+            "release-list[0].release-group.type": "albumtype",
+            "release-list[0].release-group.title": "album",
+            "release-list[0].release-group.primary-type": "albumtype",
+            "release-list[0].date": "date",
+            "release-list[0].country": "country",
+            # "release-list[0].release-event-list[0].date": "date",
+            # "release-list[0].release-event-list[0].area.id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            # "release-list[0].release-event-list[0].area.name": "[Worldwide]",
+            # "release-list[0].release-event-list[0].area.sort-name": "[Worldwide]",
+            # "release-list[0].release-event-list[0].area.iso-3166-1-code-list[0]": "XW",
+            "release-list[0].medium-list[0].position": "track",
+            "release-list[0].medium-list[0].format": "media",
+            "release-list[0].medium-list[0].track-list[0].id": "mb_trackid",
+            "release-list[0].medium-list[0].track-list[0].number": "track",
+            "release-list[0].medium-list[0].track-list[0].title": "title",
+            # "release-list[0].medium-list[0].track-list[0].length": "length",
+            # "release-list[0].medium-list[0].track-list[0].track_or_recording_length": "length",
+            "release-list[0].medium-list[0].track-count": "tracktotal",
+            "release-list[0].medium-track-count": "tracktotal",
+            "release-list[0].medium-count": "disc",
+            # "release-list[0].artist-credit-phrase": "Karun",
+            "artist-credit-phrase": "artist_credit"
         }
 
         translated_data = {}
@@ -91,6 +93,8 @@ class MusicBrainzAPI:
         for flattened_key, value in flattened_data.items():
             if flattened_key in reverse_mapping:
                 mediafile_key = reverse_mapping[flattened_key]
+                if mediafile_key == "date" and not isinstance(value, datetime):
+                    value = datetime.fromisoformat(value)
                 translated_data[mediafile_key] = value
 
         return translated_data
