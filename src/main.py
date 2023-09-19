@@ -14,7 +14,6 @@ import click
 import os
 import toml
 
-
 sep = os.sep
 PROJECT_SPECS = os.path.normpath(
     f"{os.path.expanduser('~')}/PataNgoma-AudioTagger-tool/pyproject.toml")
@@ -82,7 +81,9 @@ def set_default_path():
         tail = os.path.normpath(tail)  # Normalize path separator
         music_path = os.path.join(os.path.expanduser('~'), tail)
         if not os.path.exists(music_path):
-            click.secho("Default path to music directory does not exist,\ndefaulting to current directory", fg="yellow")
+            click.secho(
+                "Default path to music directory does not exist,\ndefaulting to current directory",
+                fg="yellow")
             return os.getcwd()
     else:
         click.secho(
@@ -240,8 +241,10 @@ def _submenu_update(ctx):
 
 
 def _submenu_search(ctx):
-    source = inquirer.select(message="Select a service to use:", choices=["spotify", "musicbrainz"]
-, qmark=">", amark="✔️").execute()
+    source = inquirer.select(message="Select a service to use:",
+                             choices=["spotify", "musicbrainz"],
+                             qmark=">",
+                             amark="✔️").execute()
     ctx.invoke(search, file_path=ctx.obj, source=source)
 
 
@@ -357,7 +360,10 @@ def search(ctx, file_path, source):
     if is_valid(file_path):
         track = TrackInfo(file_path)
         source_choices = ["spotify", "musicbrainz"]
-        source_select = inquirer.select(message="Specify a service to use:", choices=source_choices, qmark=">", amark="✔️")
+        source_select = inquirer.select(message="Specify a service to use:",
+                                        choices=source_choices,
+                                        qmark=">",
+                                        amark="✔️")
         if not source:
             click.secho("Source missing", fg="yellow")
             source = source_select.execute()
@@ -398,7 +404,9 @@ def search(ctx, file_path, source):
             proceed = inquirer.confirm(
                 message=
                 "Potential updates found. Would you like to preview them?",
-                default=False, qmark=">", amark="✔️").execute()
+                default=False,
+                qmark=">",
+                amark="✔️").execute()
             if proceed:
                 ctx.invoke(update, file_path=file_path, updates=up_fields)
         else:
@@ -427,8 +435,7 @@ def mb_subsearch(track, title, artist):
         for idx, rec in enumerate(musicbrainz_data, start=1):
             choice_item = {
                 "name":
-                f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n"
-                +
+                f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n" +
                 f"       Album: {rec.get('album')} - {rec.get('year')} - {rec.get('albumtype')}\n"
                 +
                 f"       Track: {rec.get('tracknumber')} - Duration: {rec.get('length')}",
@@ -447,7 +454,10 @@ def mb_subsearch(track, title, artist):
 
         # print(se_res)
 
-        up_fields = [f"{key}={value}" for key, value in zip(se_res.keys(), se_res.values())]
+        up_fields = [
+            f"{key}={value}"
+            for key, value in zip(se_res.keys(), se_res.values())
+        ]
 
         return up_fields
     else:
