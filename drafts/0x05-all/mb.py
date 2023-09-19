@@ -55,7 +55,6 @@ class MusicBrainzAPI:
             "artist-credit[0].artist.id": "mb_artistid",
             "artist-credit[0].artist.name": "artist",
             "artist-credit[0].artist.sort-name": "artist_sort",
-            # "artist-credit[1]": ", Mombru",
             "release-list[0].id": "mb_albumid",
             "release-list[0].title": "album",
             "release-list[0].status": "albumstatus",
@@ -93,8 +92,14 @@ class MusicBrainzAPI:
         for flattened_key, value in flattened_data.items():
             if flattened_key in reverse_mapping:
                 mediafile_key = reverse_mapping[flattened_key]
+
                 if mediafile_key == "date" and not isinstance(value, datetime):
-                    value = datetime.fromisoformat(value)
+                    try:
+                        value = datetime.strptime(value, "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Cannot convert {value} to datetime.date")
+                        continue
+
                 translated_data[mediafile_key] = value
 
         return translated_data
