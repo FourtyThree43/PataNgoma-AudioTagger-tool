@@ -10,11 +10,15 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from mediafile import MediaFile
 from datetime import datetime
 
-home = os.path.expanduser("~")
-storage_path = os.path.normpath(f"{home}/.patangoma_store/")
-if not os.path.exists(storage_path):
-    os.makedirs(storage_path)
-storage_file = os.path.join(storage_path, "sp_storage.yaml")
+
+def storage():
+    home = os.path.expanduser("~")
+    storage_path = os.path.normpath(f"{home}/.patangoma_store/")
+    if not os.path.exists(storage_path):
+        os.makedirs(storage_path)
+    return storage_path
+
+storage_file = os.path.join(storage(), "sp_storage.yaml")
 
 
 def store(dump: dict):

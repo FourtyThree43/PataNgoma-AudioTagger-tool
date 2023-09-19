@@ -33,19 +33,16 @@ class BaseModel:
 
     def show_existing_metadata(self):
         """Print non-empty non-binary metadata for {self.metadata.filename}."""
-        print(f"Existing Metadata of {self.metadata.filename}:\n")
         metadata = self._filter_existing_metadata()
         self._display_metadata(metadata)
 
     def show_missing_metadata(self):
         """Print missing metadata for {self.metadata.filename}."""
-        print(f"Missing Metadata of {self.metadata.filename}:\n")
         metadata = self._filter_missing_metadata()
         self._display_metadata(metadata)
 
     def _display_metadata(self, metadata):
         """Display metadata in a consistent format."""
-        print(f"All metadata of {self.metadata.filename}:\n")
         for key, value in metadata.items():
             if key == self.ART_METADATA:
                 self._display_art(key, value)
@@ -82,14 +79,14 @@ class BaseModel:
         """Filter non-empty."""
         return {
             key: value
-            for key, value in self.as_dict().items() if value is not None
+            for key, value in self.as_dict().items() if value
         }
 
     def _filter_missing_metadata(self):
         """Filter missing metadata."""
         return {
             key: None
-            for key, value in self.as_dict().items() if value is None
+            for key, value in self.as_dict().items() if not value
         }
 
     # Metadata Modification Methods

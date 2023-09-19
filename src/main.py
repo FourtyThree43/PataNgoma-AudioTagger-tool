@@ -271,7 +271,7 @@ def _submenu_search(ctx):
                 type=click.Path(exists=True, resolve_path=True,
                                 dir_okay=False))
 def show(file_path, all_t: bool, existing: bool, missing: bool):
-    """Show metadata for a media file."""
+    """Show metadata for a media file <file_path>"""
     if is_valid(file_path):
         track = TrackInfo(file_path)
 
@@ -291,7 +291,7 @@ def show(file_path, all_t: bool, existing: bool, missing: bool):
                                 dir_okay=False))
 @click.argument('updates', nargs=-1)
 def update(file_path, updates):
-    """Update metadata for a media file."""
+    """Update metadata for a media file <file_path>"""
     if is_valid(file_path):
         track = TrackInfo(file_path)
         md_pre_update = track.as_dict()
@@ -322,7 +322,7 @@ def update(file_path, updates):
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
 def delete(file_path):
-    """Delete all metadata from the media file."""
+    """Delete all metadata from the media file <file_path>"""
     if is_valid(file_path):
         track = TrackInfo(file_path)
 
@@ -354,6 +354,7 @@ def search(ctx, file_path, source):
     """
     Search for music information using the provided audio file.
 
+    The path to the file is provided as an argument.
     The function searches using `artist` and `title` tags obtained from the music file.
     If either tag is missing, the user is prompted to provide them.
     """

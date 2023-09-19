@@ -94,7 +94,12 @@ class MusicBrainzAPI:
             if flattened_key in reverse_mapping:
                 mediafile_key = reverse_mapping[flattened_key]
                 if mediafile_key == "date" and not isinstance(value, datetime):
-                    value = datetime.fromisoformat(value)
+                    try:
+                        value = datetime.strptime(value, "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Cannot convert {value} to datetime.date")
+                        continue
+
                 translated_data[mediafile_key] = value
 
         return translated_data
