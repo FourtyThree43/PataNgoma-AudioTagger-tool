@@ -1,0 +1,968 @@
+_filters: {}
+_list_key: results
+_num_items: 260
+_num_pages: 6
+_pages:
+  1:
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: &id001 !!python/object:discogs_client.client.Client
+      _fetcher: !!python/object:discogs_client.fetchers.UserTokenRequestsFetcher
+        rate_limit: '60'
+        rate_limit_remaining: '60'
+        rate_limit_used: '0'
+        user_token: prBSVqpdTzvXiBxTLXNjpCvjwIpvgqGcleCcTybo
+      user_agent: PataNgoma
+      verbose: false
+    data:
+      cover_image: https://i.discogs.com/ZPrC2JT2K_NnaHp2WFy2vBdjGAvyHpVWK1p7aEZljmQ/rs:fit/g:sm/q:90/h:900/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTEyNzA4/ODMtMTQ3Mjc1NTQx/Mi05NjY1LmpwZWc.jpeg
+      id: 1270883
+      master_id: null
+      master_url: null
+      name: nf
+      resource_url: https://api.discogs.com/artists/1270883
+      thumb: https://i.discogs.com/cWFfY8vc8etwCCycnmRBY6Zp7Sy3IzrR_I_HSUPef90/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTEyNzA4/ODMtMTQ3Mjc1NTQx/Mi05NjY1LmpwZWc.jpeg
+      title: nf
+      type: artist
+      uri: /artist/1270883-nf
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/NTSrw-gL21D68xUCH5JN-KGoppHoGbONjmNj99poUcU/rs:fit/g:sm/q:90/h:317/w:450/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM3NjY5/MS0xNjA0MzEzMjM0/LTQ2MTQuanBlZw.jpeg
+      id: 376691
+      master_id: null
+      master_url: null
+      name: Willy N'For
+      resource_url: https://api.discogs.com/artists/376691
+      thumb: https://i.discogs.com/-O8Kv_0jzQn0KOv4R8_8l945eNVpT2JfLkG1bC2b5Gg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM3NjY5/MS0xNjA0MzEzMjM0/LTQ2MTQuanBlZw.jpeg
+      title: Willy N'For
+      type: artist
+      uri: /artist/376691-Willy-NFor
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/vYu-q1oWvpxdyDmIq4MzLrRDsmV2VO0_0h9lL_MsboM/rs:fit/g:sm/q:90/h:250/w:250/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTE3MDky/OC0xNDU1NDY4MTEw/LTgwODEuanBlZw.jpeg
+      id: 170928
+      master_id: null
+      master_url: null
+      name: 2NF
+      resource_url: https://api.discogs.com/artists/170928
+      thumb: https://i.discogs.com/e6u5QG_KWVt0sh9anlIZ91gnU7GbFEDnj03ENQ3N8Ho/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTE3MDky/OC0xNDU1NDY4MTEw/LTgwODEuanBlZw.jpeg
+      title: 2NF
+      type: artist
+      uri: /artist/170928-2NF
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 95557
+      master_id: null
+      master_url: null
+      name: Kuroda NF
+      resource_url: https://api.discogs.com/artists/95557
+      thumb: ''
+      title: Kuroda NF
+      type: artist
+      uri: /artist/95557-Kuroda-NF
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/J6aZdHoqOrVx3hp_i-Wnapz5hs4uXo1oMcvR-cziLAs/rs:fit/g:sm/q:90/h:434/w:303/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ4MjA4/MC0xMTgyNzE3NzY3/LmpwZWc.jpeg
+      id: 482080
+      master_id: null
+      master_url: null
+      name: N'Faly Kouyate
+      resource_url: https://api.discogs.com/artists/482080
+      thumb: https://i.discogs.com/l1T8-bzcAnhrY5FedAPamgdnwfMQof7efDAp5RPyqlA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ4MjA4/MC0xMTgyNzE3NzY3/LmpwZWc.jpeg
+      title: N'Faly Kouyate
+      type: artist
+      uri: /artist/482080-NFaly-Kouyate
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/63L1j0eQIZQOqLhryNXI0fTLA2Rte9t04vON5S95NG4/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTg4ODA3/Ni0xNTY5NDAyMzg2/LTI3ODUuanBlZw.jpeg
+      id: 888076
+      master_id: null
+      master_url: null
+      name: NF Project
+      resource_url: https://api.discogs.com/artists/888076
+      thumb: https://i.discogs.com/k4hCJsipH-3OOB7zuTRgYaK7NatNucKSbH8W7S-Smt4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTg4ODA3/Ni0xNTY5NDAyMzg2/LTI3ODUuanBlZw.jpeg
+      title: NF Project
+      type: artist
+      uri: /artist/888076-NF-Project
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/h6qzPkDJ4_RiCwBhNb23OMWT388KlyyBD0jT1DhSTNc/rs:fit/g:sm/q:90/h:840/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTcwMjE4/Ni0xNTc3NTIyMDM0/LTY2MjUuanBlZw.jpeg
+      id: 702186
+      master_id: null
+      master_url: null
+      name: N'fa
+      resource_url: https://api.discogs.com/artists/702186
+      thumb: https://i.discogs.com/KT65gKbCRR0O11m0iO6_8WtHa2UJOLGSYmxGoQ3Pflw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTcwMjE4/Ni0xNTc3NTIyMDM0/LTY2MjUuanBlZw.jpeg
+      title: N'fa
+      type: artist
+      uri: /artist/702186-Nfa
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/RpHHMOJsVSjVVha1YOecXvpcn75I4FBiCu4kWKA9jDo/rs:fit/g:sm/q:90/h:350/w:447/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM4MDY5/Mi0xMzM3ODUzODY4/LTQzMjcuanBlZw.jpeg
+      id: 380692
+      master_id: null
+      master_url: null
+      name: NFD
+      resource_url: https://api.discogs.com/artists/380692
+      thumb: https://i.discogs.com/D-94k4Sdo0Lbui8IvRcguISeABhhiWg_rBsl9t2cxw8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM4MDY5/Mi0xMzM3ODUzODY4/LTQzMjcuanBlZw.jpeg
+      title: NFD
+      type: artist
+      uri: /artist/380692-NFD
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 2336893
+      master_id: null
+      master_url: null
+      name: Marco NFT
+      resource_url: https://api.discogs.com/artists/2336893
+      thumb: ''
+      title: Marco NFT
+      type: artist
+      uri: /artist/2336893-Marco-NFT
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 525512
+      master_id: null
+      master_url: null
+      name: Nfaze
+      resource_url: https://api.discogs.com/artists/525512
+      thumb: ''
+      title: Nfaze
+      type: artist
+      uri: /artist/525512-Nfaze
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/F0NzPoBcYOb1Fs-wK4O6SZvF225U7vNbN1-3FvPAq2I/rs:fit/g:sm/q:90/h:400/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ0MjA1/MzItMTUyMjEyNjM1/OS00MDcxLmpwZWc.jpeg
+      id: 4420532
+      master_id: null
+      master_url: null
+      name: NF Zessho
+      resource_url: https://api.discogs.com/artists/4420532
+      thumb: https://i.discogs.com/ysNCUORMYS6ums8W3rH_Lw6YyANrjktJ0weYdUdNXsA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ0MjA1/MzItMTUyMjEyNjM1/OS00MDcxLmpwZWc.jpeg
+      title: NF Zessho
+      type: artist
+      uri: /artist/4420532-NF-Zessho
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/Fo1zpsL_CerxfSHPNYiJ3yck8JleDG_hEgR5ILLlquU/rs:fit/g:sm/q:90/h:170/w:227/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ2ODY5/NS0xMTYxODc1NDU3/LmpwZWc.jpeg
+      id: 468695
+      master_id: null
+      master_url: null
+      name: NFX
+      resource_url: https://api.discogs.com/artists/468695
+      thumb: https://i.discogs.com/fllpGPYT5Vtw0G0U63wEtSTo5RDIO98ZbFSO-y8p0sY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ2ODY5/NS0xMTYxODc1NDU3/LmpwZWc.jpeg
+      title: NFX
+      type: artist
+      uri: /artist/468695-NFX
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7525864
+      master_id: null
+      master_url: null
+      name: NF-2
+      resource_url: https://api.discogs.com/artists/7525864
+      thumb: ''
+      title: NF-2
+      type: artist
+      uri: /artist/7525864-NF-2
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/jXlpZP-bZIjA0IvUjSbTO0d1R448PVo1rT18wt_pxKA/rs:fit/g:sm/q:90/h:360/w:360/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTI0MDE0/OTktMTM0Mjg4Mjk0/MC00MzQzLmpwZWc.jpeg
+      id: 2401499
+      master_id: null
+      master_url: null
+      name: Nfktd (2)
+      resource_url: https://api.discogs.com/artists/2401499
+      thumb: https://i.discogs.com/jFROOgeieWjU1lt8DIILsZPqzDg0IZMke8tNyii9tZE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTI0MDE0/OTktMTM0Mjg4Mjk0/MC00MzQzLmpwZWc.jpeg
+      title: Nfktd (2)
+      type: artist
+      uri: /artist/2401499-Nfktd-2
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 1092484
+      master_id: null
+      master_url: null
+      name: NFW
+      resource_url: https://api.discogs.com/artists/1092484
+      thumb: ''
+      title: NFW
+      type: artist
+      uri: /artist/1092484-NFW
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/B9yDCvPbMwMFjSUqxxMA-DVKKc1tnTMsZdZt8bRlTpk/rs:fit/g:sm/q:90/h:328/w:480/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTMyNzY0/MS0xMzc3Nzg5MjQ5/LTE1MTYuanBlZw.jpeg
+      id: 327641
+      master_id: null
+      master_url: null
+      name: NFA
+      resource_url: https://api.discogs.com/artists/327641
+      thumb: https://i.discogs.com/psZIyLBnq-kHh6luZzRioG5NFOamE-2ZME7YR4U7s_0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTMyNzY0/MS0xMzc3Nzg5MjQ5/LTE1MTYuanBlZw.jpeg
+      title: NFA
+      type: artist
+      uri: /artist/327641-NFA
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/TRIm923MnmEmxSRgVTQyKRvQ8j7lhdrFDDmxZR7TBXE/rs:fit/g:sm/q:90/h:202/w:203/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQwMjU4/NTUtMTQxMjA1NjYz/Mi04Mjk1LmpwZWc.jpeg
+      id: 4025855
+      master_id: null
+      master_url: null
+      name: nfmedias
+      resource_url: https://api.discogs.com/artists/4025855
+      thumb: https://i.discogs.com/XKgY3sa3djFCr_4GMFldU-yIL7gFj4C1ux_9oHEWAAQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQwMjU4/NTUtMTQxMjA1NjYz/Mi04Mjk1LmpwZWc.jpeg
+      title: nfmedias
+      type: artist
+      uri: /artist/4025855-nfmedias
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/uGxa7AimTSmhj927YfuwlG99XxCN_hIynizVzCBn4tM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM3MzYx/ODktMTY3Mjk5OTY3/Ny00NjQ2LmpwZWc.jpeg
+      id: 3736189
+      master_id: null
+      master_url: null
+      name: Nfunk
+      resource_url: https://api.discogs.com/artists/3736189
+      thumb: https://i.discogs.com/xFd0TzRXhgfQibJ8mPXvqGCVxw4sgymfZH3dTwh0M2g/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTM3MzYx/ODktMTY3Mjk5OTY3/Ny00NjQ2LmpwZWc.jpeg
+      title: Nfunk
+      type: artist
+      uri: /artist/3736189-Nfunk
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/cCZn56jOvBfEMtrVwChHhV32PLI2dQsJFYBMWNd3SXU/rs:fit/g:sm/q:90/h:840/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTc3ODQ4/MTUtMTYzMDQ0NTky/OS00MjI0LmpwZWc.jpeg
+      id: 7784815
+      master_id: null
+      master_url: null
+      name: N'fa Forster-Jones
+      resource_url: https://api.discogs.com/artists/7784815
+      thumb: https://i.discogs.com/LNyGtD3a_0VPwLStdPUGr5-uP7unSlkx6GSs-2Fh_Uk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTc3ODQ4/MTUtMTYzMDQ0NTky/OS00MjI0LmpwZWc.jpeg
+      title: N'fa Forster-Jones
+      type: artist
+      uri: /artist/7784815-Nfa-Forster-Jones
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7379747
+      master_id: null
+      master_url: null
+      name: "N'Famady Kouyat\xE9"
+      resource_url: https://api.discogs.com/artists/7379747
+      thumb: ''
+      title: "N'Famady Kouyat\xE9"
+      type: artist
+      uri: "/artist/7379747-NFamady-Kouyat\xE9"
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 3109053
+      master_id: null
+      master_url: null
+      name: "N'Fa Diabat\xE9"
+      resource_url: https://api.discogs.com/artists/3109053
+      thumb: ''
+      title: "N'Fa Diabat\xE9"
+      type: artist
+      uri: "/artist/3109053-NFa-Diabat\xE9"
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 2128668
+      master_id: null
+      master_url: null
+      name: Mbombo Nfumi
+      resource_url: https://api.discogs.com/artists/2128668
+      thumb: ''
+      title: Mbombo Nfumi
+      type: artist
+      uri: /artist/2128668-Mbombo-Nfumi
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/hGTmQPOHnmbWa4rfbgM1Brb5eI1UZUHlza4wz6rvqV8/rs:fit/g:sm/q:90/h:750/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTcyNjQw/Ni0xNTczMDI2NjA5/LTI5MDYucG5n.jpeg
+      id: 726406
+      master_id: null
+      master_url: null
+      name: The Posse NFX
+      resource_url: https://api.discogs.com/artists/726406
+      thumb: https://i.discogs.com/_R9fxol3ihsqRs6ThDvUTrmYnW9WJlqPhOMAh_VAzxg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTcyNjQw/Ni0xNTczMDI2NjA5/LTI5MDYucG5n.jpeg
+      title: The Posse NFX
+      type: artist
+      uri: /artist/726406-The-Posse-NFX
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 4993772
+      master_id: null
+      master_url: null
+      name: Papa Nfon Joe
+      resource_url: https://api.discogs.com/artists/4993772
+      thumb: ''
+      title: Papa Nfon Joe
+      type: artist
+      uri: /artist/4993772-Papa-Nfon-Joe
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 6769416
+      master_id: null
+      master_url: null
+      name: NF (4)
+      resource_url: https://api.discogs.com/artists/6769416
+      thumb: ''
+      title: NF (4)
+      type: artist
+      uri: /artist/6769416-NF-4
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/R3_qbk2OP4sIYQ1bXArMeYVkyMqdpdosdHu8nR3iqEQ/rs:fit/g:sm/q:90/h:475/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY3MDk3/OTEtMTY2MjkyMTc5/OC0xNzcyLmpwZWc.jpeg
+      id: 6709791
+      master_id: null
+      master_url: null
+      name: Gyrlz NF/X
+      resource_url: https://api.discogs.com/artists/6709791
+      thumb: https://i.discogs.com/dt1JRoeoasV0bVV_GJAUDe8tnv3bMuTV9oWKiz2x0qM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY3MDk3/OTEtMTY2MjkyMTc5/OC0xNzcyLmpwZWc.jpeg
+      title: Gyrlz NF/X
+      type: artist
+      uri: /artist/6709791-Gyrlz-NFX
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/w6MvQkeU-YseNc9-wCLitDwoHX3RgRdDnXrc1KODuAo/rs:fit/g:sm/q:90/h:219/w:270/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYxOTMx/Ny0xMTY5NDAxNjAw/LmpwZWc.jpeg
+      id: 619317
+      master_id: null
+      master_url: null
+      name: NFL Kru
+      resource_url: https://api.discogs.com/artists/619317
+      thumb: https://i.discogs.com/GtZCN_fsXYgwqBsWFU46S7RI0o7L4xOJYhp__uHkRFs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYxOTMx/Ny0xMTY5NDAxNjAw/LmpwZWc.jpeg
+      title: NFL Kru
+      type: artist
+      uri: /artist/619317-NFL-Kru
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 5000007
+      master_id: null
+      master_url: null
+      name: NF (2)
+      resource_url: https://api.discogs.com/artists/5000007
+      thumb: ''
+      title: NF (2)
+      type: artist
+      uri: /artist/5000007-NF-2
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7535586
+      master_id: null
+      master_url: null
+      name: NFIN8 Soundcraft
+      resource_url: https://api.discogs.com/artists/7535586
+      thumb: ''
+      title: NFIN8 Soundcraft
+      type: artist
+      uri: /artist/7535586-NFIN8-Soundcraft
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 2411866
+      master_id: null
+      master_url: null
+      name: N'Fulo Kanda Manuel
+      resource_url: https://api.discogs.com/artists/2411866
+      thumb: ''
+      title: N'Fulo Kanda Manuel
+      type: artist
+      uri: /artist/2411866-NFulo-Kanda-Manuel
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/gzb3Ih9-Dl1XfCKNp3w76z22675tlczqpOfA1qnmsYs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTI1NjAy/ODEtMTQ5NDUzMTk0/Ny0xNDQxLmpwZWc.jpeg
+      id: 2560281
+      master_id: null
+      master_url: null
+      name: NFD (2)
+      resource_url: https://api.discogs.com/artists/2560281
+      thumb: https://i.discogs.com/2v4oPnSDMwzWWCpzMqHGzSePE-lMbumToGK_bgADAmA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTI1NjAy/ODEtMTQ5NDUzMTk0/Ny0xNDQxLmpwZWc.jpeg
+      title: NFD (2)
+      type: artist
+      uri: /artist/2560281-NFD-2
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 1082250
+      master_id: null
+      master_url: null
+      name: DJ N'finit
+      resource_url: https://api.discogs.com/artists/1082250
+      thumb: ''
+      title: DJ N'finit
+      type: artist
+      uri: /artist/1082250-DJ-Nfinit
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 206480
+      master_id: null
+      master_url: null
+      name: NFF
+      resource_url: https://api.discogs.com/artists/206480
+      thumb: ''
+      title: NFF
+      type: artist
+      uri: /artist/206480-NFF
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7511730
+      master_id: null
+      master_url: null
+      name: Nfidell
+      resource_url: https://api.discogs.com/artists/7511730
+      thumb: ''
+      title: Nfidell
+      type: artist
+      uri: /artist/7511730-Nfidell
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 6398084
+      master_id: null
+      master_url: null
+      name: NFC (4)
+      resource_url: https://api.discogs.com/artists/6398084
+      thumb: ''
+      title: NFC (4)
+      type: artist
+      uri: /artist/6398084-NFC-4
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/p4QQ7n1n8-_TIEQ7JkBQ9xD2S_lrzwJAN8_zkogU3W8/rs:fit/g:sm/q:90/h:165/w:220/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTIzMzA4/NTItMTQyNTM5NzY1/NC01NTkwLmpwZWc.jpeg
+      id: 2330852
+      master_id: null
+      master_url: null
+      name: NFZ (2)
+      resource_url: https://api.discogs.com/artists/2330852
+      thumb: https://i.discogs.com/tU_oUQlnfV5wMONiTg0vmiqrRfCvz1s9cR1R89FT0N0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTIzMzA4/NTItMTQyNTM5NzY1/NC01NTkwLmpwZWc.jpeg
+      title: NFZ (2)
+      type: artist
+      uri: /artist/2330852-NFZ-2
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/uHEVjdmgDhZbEEOcejaJmVF6f076hbsnCpMcs7elMpA/rs:fit/g:sm/q:90/h:567/w:530/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYyMzc0/Ni0xMzczNjYyNjY5/LTU4NjcuanBlZw.jpeg
+      id: 623746
+      master_id: null
+      master_url: null
+      name: Nfamous
+      resource_url: https://api.discogs.com/artists/623746
+      thumb: https://i.discogs.com/zqvHZGiuyokeWIi7__pRLssWUdEEWFPhXVjh7ITyy6A/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYyMzc0/Ni0xMzczNjYyNjY5/LTU4NjcuanBlZw.jpeg
+      title: Nfamous
+      type: artist
+      uri: /artist/623746-Nfamous
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 744424
+      master_id: null
+      master_url: null
+      name: NFR Productions
+      resource_url: https://api.discogs.com/artists/744424
+      thumb: ''
+      title: NFR Productions
+      type: artist
+      uri: /artist/744424-NFR-Productions
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 4560841
+      master_id: null
+      master_url: null
+      name: NFM Symphony Orchestra
+      resource_url: https://api.discogs.com/artists/4560841
+      thumb: ''
+      title: NFM Symphony Orchestra
+      type: artist
+      uri: /artist/4560841-NFM-Symphony-Orchestra
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/CT_vqxhGcTaWj5ol8BVcbE8Zxmypa5f6T-KZARvwDdk/rs:fit/g:sm/q:90/h:250/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY0Mzk1/MDEtMTUyNDMzMDg5/My0xODU2LmpwZWc.jpeg
+      id: 6439501
+      master_id: null
+      master_url: null
+      name: "NFM Wroc\u0142aw Philharmonic"
+      resource_url: https://api.discogs.com/artists/6439501
+      thumb: https://i.discogs.com/vRH5h9_4RMHXE_hzyfiuuGhkKVd0nwwJvLSFNwWqLx8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY0Mzk1/MDEtMTUyNDMzMDg5/My0xODU2LmpwZWc.jpeg
+      title: "NFM Wroc\u0142aw Philharmonic"
+      type: artist
+      uri: "/artist/6439501-NFM-Wroc\u0142aw-Philharmonic"
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7930386
+      master_id: null
+      master_url: null
+      name: N'Fali
+      resource_url: https://api.discogs.com/artists/7930386
+      thumb: ''
+      title: N'Fali
+      type: artist
+      uri: /artist/7930386-NFali
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7930385
+      master_id: null
+      master_url: null
+      name: N'Famara
+      resource_url: https://api.discogs.com/artists/7930385
+      thumb: ''
+      title: N'Famara
+      type: artist
+      uri: /artist/7930385-NFamara
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 75743
+      master_id: null
+      master_url: null
+      name: The NFL Horns Project
+      resource_url: https://api.discogs.com/artists/75743
+      thumb: ''
+      title: The NFL Horns Project
+      type: artist
+      uri: /artist/75743-The-NFL-Horns-Project
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 5729289
+      master_id: null
+      master_url: null
+      name: NFRS
+      resource_url: https://api.discogs.com/artists/5729289
+      thumb: ''
+      title: NFRS
+      type: artist
+      uri: /artist/5729289-NFRS
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 3056403
+      master_id: null
+      master_url: null
+      name: NF Brooks
+      resource_url: https://api.discogs.com/artists/3056403
+      thumb: ''
+      title: NF Brooks
+      type: artist
+      uri: /artist/3056403-NF-Brooks
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 4560840
+      master_id: null
+      master_url: null
+      name: Soloists Of NFM Choir
+      resource_url: https://api.discogs.com/artists/4560840
+      thumb: ''
+      title: Soloists Of NFM Choir
+      type: artist
+      uri: /artist/4560840-Soloists-Of-NFM-Choir
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/0P78GZi8_oPaeaKJLq5QtgX-JSnjQb6o5bk5yrW30FM/rs:fit/g:sm/q:90/h:400/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ3ODE3/OC0xMTQ0OTE3NDM1/LmpwZWc.jpeg
+      id: 478178
+      master_id: null
+      master_url: null
+      name: Radium.nfo
+      resource_url: https://api.discogs.com/artists/478178
+      thumb: https://i.discogs.com/xvo0rWXsWds-q6MDgeHOK2yWtaE1O5ndM2fkE3zzWf8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ3ODE3/OC0xMTQ0OTE3NDM1/LmpwZWc.jpeg
+      title: Radium.nfo
+      type: artist
+      uri: /artist/478178-Radiumnfo
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://st.discogs.com/44d52ec0a974dcb2340571852300e90323299329/images/spacer.gif
+      id: 7930384
+      master_id: null
+      master_url: null
+      name: "N'Fore Samb\xFA"
+      resource_url: https://api.discogs.com/artists/7930384
+      thumb: ''
+      title: "N'Fore Samb\xFA"
+      type: artist
+      uri: "/artist/7930384-NFore-Samb\xFA"
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/1rqFw27PcxzUiHoH_a-_mebXnm4ZjlV1KGmSfGPL-m4/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY3ODA5/ODItMTU1NDkzOTQz/Mi01MzEzLmpwZWc.jpeg
+      id: 6780982
+      master_id: null
+      master_url: null
+      name: Nferee
+      resource_url: https://api.discogs.com/artists/6780982
+      thumb: https://i.discogs.com/LKVMijNXfeq_X_ox4f_ENdQqHlmXw_HQkPvi7PieQ-M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTY3ODA5/ODItMTU1NDkzOTQz/Mi01MzEzLmpwZWc.jpeg
+      title: Nferee
+      type: artist
+      uri: /artist/6780982-Nferee
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+  - !!python/object:discogs_client.models.Artist
+    _known_invalid_keys: []
+    changes: {}
+    client: *id001
+    data:
+      cover_image: https://i.discogs.com/wt7dQT_-zqa3z3DFDAOoxZQp18QHMy4PfBtK30NFdLI/rs:fit/g:sm/q:90/h:297/w:443/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYyOTE3/ODctMTU4NjgwODg1/NC0xMjU1LmpwZWc.jpeg
+      id: 6291787
+      master_id: null
+      master_url: null
+      name: NFL Ryders
+      resource_url: https://api.discogs.com/artists/6291787
+      thumb: https://i.discogs.com/HO3S2u7sCbXXJDFRNdR3qX3Xj38R52oZFqXPCVA3Gq4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTYyOTE3/ODctMTU4NjgwODg1/NC0xMjU1LmpwZWc.jpeg
+      title: NFL Ryders
+      type: artist
+      uri: /artist/6291787-NFL-Ryders
+      user_data:
+        in_collection: false
+        in_wantlist: false
+    previous_request: null
+_per_page: 50
+_sort_key: null
+_sort_order: asc
+client: *id001
+url: https://api.discogs.com/database/search?type=artist&q=nf

@@ -1,0 +1,155 @@
+@startuml
+!define ENTITY class
+!define RELATIONSHIP arrow
+!define ENTITY_ATTRIBUTES \
+  id : int
+
+ENTITY AudioFile {
+  ENTITY_ATTRIBUTES
+  filename : string
+  added_date : datetime
+  file_type_id : int
+}
+
+ENTITY FileType {
+  ENTITY_ATTRIBUTES
+  extension : string
+}
+
+ENTITY Track {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  album_id : int
+}
+
+ENTITY Tag {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY Artist {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY Genre {
+  ENTITY_ATTRIBUTES
+  name : string
+}
+
+ENTITY AlbumTag {
+  ENTITY_ATTRIBUTES
+  album_id : int
+  track_id : int
+  type_id : int
+}
+
+ENTITY AlbumTagType {
+  ENTITY_ATTRIBUTES
+  name : string
+  description : string
+}
+
+
+ENTITY PrimaryType {
+  ENTITY_ATTRIBUTES
+  name : string
+  description : string
+}
+
+ENTITY Album {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY EP {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Single {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY SecondaryType {
+  ENTITY_ATTRIBUTES
+  name : string
+  description : string
+}
+
+ENTITY Compilation {
+  ENTITY_ATTRIBUTES
+  title : string
+  artists : string
+  release_date : date
+}
+
+ENTITY Soundtrack {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Live {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Audiobook {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Broadcast {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+ENTITY Mixtape {
+  ENTITY_ATTRIBUTES
+  title : string
+  artist : string
+  release_date : date
+}
+
+AudioFile --o Track : contains
+AudioFile --o Tag : tagged with
+AudioFile --o FileType : has type
+
+Track --o Artist : performed by
+Track --o Genre : belongs to
+
+AlbumTag --o Artist : released by
+AlbumTag o--o Track : relates to
+
+AlbumTagType --o PrimaryType : is primary type of
+AlbumTagType --o SecondaryType : is secondary type of
+
+AlbumTag --o AlbumTagType : has type
+PrimaryType --o Album
+PrimaryType --o Single
+PrimaryType --o EP
+PrimaryType --o Broadcast
+
+SecondaryType --o Compilation
+SecondaryType --o Soundtrack
+SecondaryType --o Audiobook
+SecondaryType --o Live
+SecondaryType --o Mixtape
+
+@enduml
