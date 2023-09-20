@@ -200,7 +200,7 @@ def _submenu_show(ctx):
     elif show_tags_action == "missing":
         ctx.invoke(show, file_path=fp, missing=True)
     elif show_tags_action == "Back":
-        menu(ctx)
+        _main_menu(ctx)
 
 
 def _submenu_update(ctx):
