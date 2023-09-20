@@ -1,6 +1,8 @@
 import deezer  # pip install deezer-py
 
+
 class DeezerProvider:
+    """ Deezer API provider class. """
 
     def __init__(self, api_key):
         self.api_key = api_key

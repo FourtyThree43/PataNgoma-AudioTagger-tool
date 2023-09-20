@@ -2,10 +2,20 @@
 import musicbrainzngs as mb
 import logging
 from functools import lru_cache
-from datetime import datetime 
+from datetime import datetime
 
 
 class MusicBrainzAPI:
+    """Wrapper class for the MusicBrainz API.
+
+    This class provides a wrapper around the MusicBrainz API to
+    provide a more convenient interface for searching and retrieving
+    track, artist, and album metadata.
+
+    Attributes:
+        logger (logging.Logger): The logger instance for this class.
+        response_format (str): The format of the response from the API.
+    """
 
     def __init__(self, response_format="xml"):
         self.logger = logging.getLogger(__name__)
@@ -18,15 +28,35 @@ class MusicBrainzAPI:
                        app="PataNgoma",
                        version="1.0",
                        contact="pata@example.com"):
-        """Set the user agent for API requests."""
+        """Set the user agent for API requests.
+
+        Args:
+            app (str): The name of the application.
+            version (str): The version of the application.
+            contact (str): The contact email address of the application.
+        """
         mb.set_useragent(app=app, version=version, contact=contact)
 
     def set_format(self, fmt="xml"):
-        """Set the response format for API requests."""
+        """Set the response format for API requests.
+
+        Args:
+            fmt (str): The format of the response from the API.
+        """
         mb.set_format(fmt=fmt)
 
     @lru_cache(maxsize=None)
-    def search_track(self, track_title, artist_name, query=None):
+    def search_track(self, track_title: str, artist_name: str, query=None):
+        """Search for a track on MusicBrainz.
+
+        Args:
+            track_title (str): The title of the track to search for.
+            artist_name (str): The name of the artist of the track to search for.
+            query (dict): Optional additional query parameters to pass to the API.
+
+        Returns:
+            list: A list of matching tracks.
+        """
         try:
             query_params = {"artist": artist_name, "recording": track_title}
 
@@ -44,7 +74,13 @@ class MusicBrainzAPI:
 
     def translate_mb_result(self, flattened_data):
         """
-        Translate flattened data back to MediaFile keys.
+        Translate flattened data back to MediaFile keys
+
+        Args:
+            flattened_data (dict): flattened data from MusicBrainz
+
+        Returns:
+            dict: translated data
         """
         reverse_mapping = {
             "id": "mb_workid",
@@ -97,7 +133,10 @@ class MusicBrainzAPI:
                     try:
                         value = datetime.strptime(value, "%Y-%m-%d").date()
                     except ValueError:
-                        print(f"Cannot convert {value} to datetime.date")
+                        try:
+                            value = datetime.strptime(value, "%Y").date()
+                        except ValueError:
+                            print(f"Cannot convert {value} to datetime.date")
                         continue
 
                 translated_data[mediafile_key] = value

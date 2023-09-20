@@ -97,7 +97,10 @@ class MusicBrainzAPI:
                     try:
                         value = datetime.strptime(value, "%Y-%m-%d").date()
                     except ValueError:
-                        print(f"Cannot convert {value} to datetime.date")
+                        try:
+                            value = datetime.strptime(value, "%Y").date()
+                        except ValueError:
+                            print(f"Cannot convert {value} to datetime.date")
                         continue
 
                 translated_data[mediafile_key] = value

@@ -4,6 +4,7 @@ from patangoma.track import TrackInfo
 
 
 class AlbumInfo(BaseModel):
+    """Class to hold information about an album."""
 
     def __init__(self, file_path, tracks: List[TrackInfo]):
         super().__init__(file_path)

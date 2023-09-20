@@ -20,6 +20,7 @@ PROJECT_SPECS = os.path.normpath(
 
 
 def get_app_info():
+    """Get application name and version from pyproject.toml."""
     try:
         data = toml.load(PROJECT_SPECS)
 
@@ -94,6 +95,7 @@ def set_default_path():
 
 
 def is_valid(file):
+    """Check if file is valid."""
     if not isinstance(file, str):
         file = file[0]
     try:

@@ -3,7 +3,6 @@ from cachetools import TTLCache
 from data_store import DataStore
 from mb import MusicBrainzAPI
 from tags import TrackInfo
-import click
 import logging
 
 
@@ -63,7 +62,7 @@ class Query:
 
         return None
 
-    def flatten_dict(self, input_dict, parent_key='', separator='.'):
+    def flatten_dict(self, input_dict: dict, parent_key='', separator='.'):
         """
         Recursively flatten a nested dict and convert keys to dot notation.
         """
