@@ -3,7 +3,7 @@ import logging
 import os
 import threading
 import yaml
-from sp import storage
+from patangoma.sp import storage
 
 storage_file = os.path.join(storage(), "mb_storage.yaml")
 
