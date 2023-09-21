@@ -2,6 +2,7 @@ import sqlite3
 from patangoma.base import BaseModel
 from patangoma.track import TrackInfo
 
+
 class FileStorage(BaseModel):
     """ Class to handle database operations. """
 

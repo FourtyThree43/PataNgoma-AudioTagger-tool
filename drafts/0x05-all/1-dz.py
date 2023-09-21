@@ -97,131 +97,6 @@ class DeezerClient:
 
             return {}
 
-    def get_album_by_id(self, album_id: int) -> Dict[str, Any]:
-        """
-        Retrieves an album from Deezer's database using its unique album_id.
-
-        Parameters
-        ----------
-        album_id : int
-            The unique identifier for the album.
-
-        Returns
-        -------
-        dict or None
-            If the album is found, returns a dict containing the album data.
-            If an error occurs (e.g., the album_id is not valid), returns None.
-        """
-        try:
-            results = self.client.get_album(album_id)
-
-            return results.as_dict()
-
-        except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
-
-            return {}
-
-    def get_artist_by_id(self, album_id: int) -> Dict[str, Any]:
-        """
-        Retrieves an artist from Deezer's database using its unique album_id.
-
-        Parameters
-        ----------
-        album_id : int
-            The unique identifier for the album.
-
-        Returns
-        -------
-        dict or None
-            If the album is found, returns a dict containing the album data.
-            If an error occurs (e.g., the album_id is not valid), returns None.
-        """
-        try:
-            results = self.client.get_artist(album_id)
-
-            return results.as_dict()
-
-        except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
-
-            return {}
-
-    def get_album_by_isrc(self, isrc: str) -> Dict[str, Any]:
-        """
-        Retrieves an album from Deezer's database using its unique ISRC code.
-
-        Parameters
-        ----------
-        isrc : str
-            The ISRC code for the album.
-
-        Returns
-        -------
-        dict or None
-            If the album is found, returns a dict containing the album data.
-            If an error occurs (e.g., the ISRC code is not valid), returns None.
-        """
-        try:
-            results = self.client.get_album(isrc)
-
-            return results.as_dict()
-
-        except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
-
-            return {}
-
-    def get_artist_by_isrc(self, isrc: str) -> Dict[str, Any]:
-        """
-        Retrieves an artist from Deezer's database using its unique ISRC code.
-
-        Parameters
-        ----------
-        isrc : str
-            The ISRC code for the artist.
-
-        Returns
-        -------
-        dict or None
-            If the artist is found, returns a dict containing the artist data.
-            If an error occurs (e.g., the ISRC code is not valid), returns None.
-        """
-        try:
-            results = self.client.get_artist(isrc)
-
-            return results.as_dict()
-
-        except Exception as e:
-            self.logger.error(f"Error searching artist on Deezer: {str(e)}")
-
-            return {}
-
-    def get_album_by_upc(self, upc: str) -> Dict[str, Any]:
-        """
-        Retrieves an album from Deezer's database using its unique UPC code.
-
-        Parameters
-        ----------
-        upc : str
-            The UPC code for the album.
-
-        Returns
-        -------
-        dict or None
-            If the album is found, returns a dict containing the album data.
-            If an error occurs (e.g., the UPC code is not valid), returns None.
-        """
-        try:
-            results = self.client.get_album(upc)
-
-            return results.as_dict()
-
-        except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
-
-            return {}
-
     def translate_deezer_result(self, result: Dict[str,
                                                    Any]) -> Dict[str, Any]:
         """
@@ -238,16 +113,31 @@ class DeezerClient:
             The translated result.
         """
         reverse_mapping = {
-            "album.release_date": "date",
-            "album.title": "album",
-            "album.type": "albumtype",
-            "artist.name": "artist",
-            "disk_number": "disc",
+            # "id": "dz_TrackID",
+            # "readable": True,
+            "title": "title",
             "isrc": "isrc",
             "link": "url",
-            "release_date": "date",
-            "title": "title",
+            # "duration": "length",
             "track_position": "track",
+            "disk_number": "disc",
+            "release_date": "date",
+            # "preview": "url/.mp3",
+            # "contributors[0].id": 4750006,
+            # "contributors[0].name": "artist_credit",
+            # "contributors[1].name": "artists_credit",
+            # "md5_image": "image-hash",
+            # "artist.id": "dz_ArtistID",
+            "artist.name": "artist",
+            # "album.id": "dz_AlbumID",
+            "album.title": "album",
+            # "album.link": "url",
+            # "album.cover": "url/image",
+            # "album.cover_big": "url/image",
+            # "album.cover_xl": "url/image",
+            # "album.md5_image": "image-hash",
+            "album.release_date": "date",
+            "album.type": "albumtype",
         }
 
         translated_data = {}
@@ -331,9 +221,9 @@ if __name__ == "__main__":
         else:
             click.echo("No changes to save.")
 
-    tr = TrackInfo("../../../musix/track")
+    tr = TrackInfo("../music/track")
 
-    print(f"Searching Track...\n {tr.title}, {tr.artist}, {tr.album}")
+    print(f"Searched Track: {tr.title}, {tr.artist}, {tr.album}")
 
     dz = DeezerClient()
     dz_data = dz.search_track(track_title=tr.title,
@@ -365,62 +255,43 @@ if __name__ == "__main__":
         ).execute()
 
         if selection:
+            client = deezer.Client()
+
             selected_track = dz_data[selection - 1]
 
-            track_data = dz.get_track_by_id(selected_track["id"])
-            album_data = dz.get_album_by_id(selected_track["album"]["id"])
-            artist_data = dz.get_artist_by_id(selected_track["artist"]["id"])
+            track_data = client.get_track(selected_track["id"])
+            trkInfo = deezer.Track(client, track_data.__dict__)
+
+            album_data = trkInfo.get_album()
+            albInfo = deezer.Album(client, album_data)
+
+            metadata_mapping = {
+                "album": f"{albInfo.title}",
+                "albumartist": f"{albInfo.artist}",
+                "albumtype": f"{albInfo.type}",
+                "artist": f"{trkInfo.artist}",
+                "artists_credit": f"{trkInfo.contributors}",
+                "date": f"{albInfo.release_date}",
+                "disc": f"{trkInfo.disk_number}",
+                "genres": f"{albInfo.genres}",
+                "images": f"{albInfo.cover_xl}",
+                "isrc": f"{trkInfo.isrc}",
+                "label": f"{albInfo.label}",
+                "title": f"{trkInfo.title}",
+                "track": f"{trkInfo.track_position}",
+                "tracktotal": f"{albInfo.nb_tracks}",
+                "url": f"{trkInfo.link}",
+                "year": f"{albInfo.release_date}",
+            }
 
             # del track_data["available_countries"]
-            # del album_data["tracks"]
             # flt_Tdata = dz.flatten_dict(track_data)
             # flt_Adata = dz.flatten_dict(album_data)
 
-            # trans_Tdata = dz.translate_deezer_result(flt_Adata)
-            # trans_Adata = dz.translate_deezer_result(flt_Adata)
+            # trans_data = dz.translate_deezer_result(flt_data)
 
             # dz.dump_res(flt_Adata)
-
-            try:
-                import requests
-                import imgcat
-
-                print("Fetching track info...")
-
-                trkInfo = deezer.Track(dz, track_data)
-                albInfo = deezer.Album(dz, album_data)
-
-                try:
-                    art = requests.get(albInfo.cover).content
-                    print("Album cover fetched")
-                    imgcat.imgcat(art)
-
-                except Exception as e:
-                    print(f"An error occurred while fetching album cover: {e}")
-                    art = None
-
-                metadata_mapping = {
-                    "album": albInfo.title,
-                    "albumartist": albInfo.artist["name"],
-                    "albumtype": albInfo.type,
-                    "artist": trkInfo.artist["name"],
-                    "artists_credit": [co.name for co in trkInfo.contributors],
-                    "date": albInfo.release_date,
-                    "disc": trkInfo.disk_number,
-                    "genres": [genre["name"] for genre in albInfo.genres],
-                    "art": art,
-                    "isrc": trkInfo.isrc,
-                    "label": albInfo.label,
-                    "title": trkInfo.title,
-                    "track": trkInfo.track_position,
-                    "tracktotal": albInfo.nb_tracks,
-                    "url": trkInfo.link,
-                }
-
-                update("../music/track", metadata_mapping)
-
-            except AttributeError as e:
-                print(f"An error occurred: {e}")
+            update("../music/track", metadata_mapping)
 
     else:
         print("Track not found")
