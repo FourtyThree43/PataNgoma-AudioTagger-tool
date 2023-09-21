@@ -9,6 +9,7 @@ from functools import lru_cache
 from spotipy.oauth2 import SpotifyClientCredentials
 from mediafile import MediaFile
 from datetime import datetime
+from rgbprint import gradient_print, gradient_scroll, Color
 
 
 def storage():
@@ -69,7 +70,10 @@ def get_search_params() -> tuple:
 @lru_cache(maxsize=128)
 def spotify_search(title: str, artist: str) -> tuple:
     """Search for matching tracks in the Spotify database using track title and artist name"""
-    print("Searching for", title, "by", artist)
+    # end_color = Color.random
+    gradient_print(f"\nSearching for {title} by {artist}...\n",
+                    start_color=Color.gold,
+                    end_color=0xFF00FF)
     load_dotenv()
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
     q = f"remaster track:{title} artist:{artist}".replace(" ", "%20")

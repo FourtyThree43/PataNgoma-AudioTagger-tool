@@ -83,12 +83,12 @@ def set_default_path():
         music_path = os.path.join(os.path.expanduser('~'), tail)
         if not os.path.exists(music_path):
             click.secho(
-                "Default path to music directory does not exist,\ndefaulting to current directory",
+                "\nWARNING: Default path to music directory does not exist,\ndefaulting to current directory\n",
                 fg="yellow")
             return os.getcwd()
     else:
         click.secho(
-            "Path to music directory not set, defaulting to current directory",
+            "\nWARNING: Path to music directory not set, defaulting to current directory\n",
             fg="yellow")
         music_path = os.getcwd()
     return music_path
@@ -102,7 +102,7 @@ def is_valid(file):
         MediaFile(file)
         return True
     except Exception:
-        click.secho("Error: Invalid or unsupported file format, exiting",
+        click.secho("\nERROR: Invalid or unsupported file format, exiting\n",
                     fg="red")
         return False
 
@@ -114,10 +114,10 @@ def interactive_selection(music_path):
     filename = inquirer.filepath(
         message="Please enter a path or select file from list:\n",
         amark="✔️",
-        qmark=">",
+        qmark="\n>",
         validate=PathValidator(is_file=True, message="Input is not a file"),
         default=f"{music_path}",
-        transformer=lambda x: f"File: {os.path.basename(x)}",
+        transformer=lambda x: f"\nFile: {os.path.basename(x)}",
         instruction="Press <tab> to list directory contents",
         long_instruction=
         "Use: <enter> to select/deselect, <up>/<down> to navigate").execute()
@@ -138,7 +138,7 @@ def cli(ctx, path):
         if path:
             if os.path.isdir(path):
                 click.echo(
-                    "Path provided is a directory, please select a file")
+                    "\nPath provided is a directory, please select a file")
                 path = interactive_selection(path)
             ctx.obj = path
         else:
@@ -161,7 +161,7 @@ def _main_menu(ctx):
                                  Choice(value=None, name="Exit"),
                              ],
                              default=None,
-                             qmark=">",
+                             qmark="\n>",
                              amark="✔️").execute()
     fp = ctx.obj
 
@@ -191,7 +191,7 @@ def _submenu_show(ctx):
         choices=show_tags_choices,
         default="Back",
         amark="✔️",
-        qmark=">",
+        qmark="\n>",
         instruction="Use: <enter> to select/deselect, <up>/<down> to navigate"
     ).execute()
 
@@ -224,13 +224,13 @@ def _submenu_update(ctx):
         validate=lambda result: len(result) >= 1,
         invalid_message="minimum 1 selection",
         max_height="70%",
-        qmark=">",
+        qmark="\n>",
         amark="✔️",
         instruction=
         "Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
     ).execute()
     updates = []
-    click.echo("Enter new values as prompted:")
+    click.echo("\nEnter new values as prompted:")
     for key in selected_fields:
         updates.append(
             inquirer.text(message=f"{key}:", qmark=">", amark="✔️").execute())
@@ -245,7 +245,7 @@ def _submenu_update(ctx):
 def _submenu_search(ctx):
     source = inquirer.select(message="Select a service to use:",
                              choices=["spotify", "musicbrainz"],
-                             qmark=">",
+                             qmark="\n>",
                              amark="✔️").execute()
     ctx.invoke(search, file_path=ctx.obj, source=source)
 
@@ -301,7 +301,7 @@ def update(file_path, updates):
         track.batch_update_metadata(updates)
 
         if track.has_changed(track.as_dict(), md_pre_update):
-            click.echo(f"Metadata changes for {track.metadata.filename}:")
+            click.echo(f"\nMetadata changes for {track.metadata.filename}:\n")
             for key, value in track.as_dict().items():
                 if key != "images" and md_pre_update[key] != value:
                     if key not in ("art", "lyrics"):
@@ -310,7 +310,7 @@ def update(file_path, updates):
                         click.echo(
                             f"{key}: changed (diff too large to display)")
 
-            if click.confirm("Do you want to save these changes?"):
+            if click.confirm("\nDo you want to save these changes?"):
                 track.save()
                 click.echo("Changes saved.")
             else:
@@ -330,16 +330,18 @@ def delete(file_path):
 
         proceed = inquirer.confirm(
             message="Are you sure you want to delete all tags?",
+            qmark="\n>",
+            amark="✔️",
             default=False).execute()
         if proceed:
             end_color = Color.random
-            gradient_scroll(f"Deleting tags for {file_path}",
+            gradient_scroll(f"\nDeleting tags for {file_path}",
                             start_color=Color.gold,
                             end_color=end_color,
                             delay=0.01)
             track.delete()
         else:
-            gradient_scroll("Aborting...",
+            gradient_scroll("\nAborting...",
                             start_color=Color.red,
                             end_color=Color.blue)
     else:
@@ -365,37 +367,37 @@ def search(ctx, file_path, source):
         source_choices = ["spotify", "musicbrainz"]
         source_select = inquirer.select(message="Specify a service to use:",
                                         choices=source_choices,
-                                        qmark=">",
+                                        qmark="\n>",
                                         amark="✔️")
         if not source:
-            click.secho("Source missing", fg="yellow")
+            click.secho("\nSource missing", fg="yellow")
             source = source_select.execute()
         elif source not in source_choices:
-            click.secho("Invalid source provided", fg="yellow")
+            click.secho("\nInvalid source provided", fg="yellow")
             source = source_select.execute()
 
         if track.title and track.artist:
             title, artist = track.title, track.artist
         elif track.title:
             title = track.title
-            click.secho("Music file is missing an artist tag...", fg="yellow")
+            click.secho("\nWARNING: Music file is missing an artist tag...", fg="yellow")
             artist = inquirer.text(message="Provide an artist name:",
-                                   qmark=">",
+                                   qmark="\n>",
                                    amark="✔️").execute()
         elif track.artist:
             artist = track.artist
-            click.secho("Music file is missing a title tag...", fg="yellow")
+            click.secho("\nMusic file is missing a title tag...", fg="yellow")
             title = inquirer.text(message="Provide a title:",
-                                  qmark=">",
+                                  qmark="\n>",
                                   amark="✔️").execute()
         else:
-            click.secho("Music file is missing artist and title tags...",
+            click.secho("\nMusic file is missing artist and title tags...",
                         fg="yellow")
             artist = inquirer.text(message="Provide an artist name:",
-                                   qmark=">",
+                                   qmark="\n>",
                                    amark="✔️").execute()
             title = inquirer.text(message="Provide a title:",
-                                  qmark=">",
+                                  qmark="\n>",
                                   amark="✔️").execute()
         if source == "spotify":
             up_fields = spotify_subsearch(title, artist)
@@ -408,7 +410,7 @@ def search(ctx, file_path, source):
                 message=
                 "Potential updates found. Would you like to preview them?",
                 default=False,
-                qmark=">",
+                qmark="\n>",
                 amark="✔️").execute()
             if proceed:
                 ctx.invoke(update, file_path=file_path, updates=up_fields)
@@ -449,7 +451,8 @@ def mb_subsearch(track, title, artist):
 
         selection = inquirer.select(message="Select a track:",
                                     choices=choices,
-                                    amark="✔",
+                                    amark="✔️",
+                                    qmark="\n>",
                                     max_height="70%").execute()
 
         selected = int(selection)
