@@ -3,7 +3,6 @@ import json
 import logging
 from functools import lru_cache
 from typing import Optional, List, Dict, Any
-from datetime import datetime
 
 
 class DeezerClient:
@@ -222,56 +221,37 @@ class DeezerClient:
 
             return {}
 
-    def translate_deezer_result(self, result: Dict[str,
-                                                   Any]) -> Dict[str, Any]:
+    def deezTrack(self, track_data: Dict[str, Any]) -> deezer.Track:
         """
-        Translate Deezer result to a format that of MediaFile.
+        Create a deezer.Track object from the given track_data.
 
         Parameters
         ----------
-        result : dict
-            The Deezer result to translate.
+        track_data : dict
+            The track data to use.
 
         Returns
         -------
-        dict
-            The translated result.
+        deezer.Track
+            The deezer.Track object.
         """
-        reverse_mapping = {
-            "album.release_date": "date",
-            "album.title": "album",
-            "album.type": "albumtype",
-            "artist.name": "artist",
-            "disk_number": "disc",
-            "isrc": "isrc",
-            "link": "url",
-            "release_date": "date",
-            "title": "title",
-            "track_position": "track",
-        }
+        return deezer.Track(self.client, track_data)
 
-        translated_data = {}
+    def deezAlbum(self, album_data: Dict[str, Any]) -> deezer.Album:
+        """
+        Create a deezer.Album object from the given album_data.
 
-        for flattened_key, value in result.items():
-            if flattened_key in reverse_mapping:
-                mediafile_key = reverse_mapping[flattened_key]
-                if mediafile_key == "date" and not isinstance(value, datetime):
-                    try:
-                        value = datetime.strptime(value, "%Y-%m-%d").date()
-                    except ValueError:
-                        try:
-                            value = datetime.strptime(value, "%Y").date()
-                        except ValueError:
-                            print(f"Cannot convert {value} to datetime.date")
-                        continue
+        Parameters
+        ----------
+        album_data : dict
+            The album data to use.
 
-                translated_data[mediafile_key] = value
-
-        return translated_data
-
-    def dump_res(self, results: Dict[str, Any]) -> None:
-        json_results = json.dumps(results, indent=4)
-        print(json_results)
+        Returns
+        -------
+        deezer.Album
+            The deezer.Album object.
+        """
+        return deezer.Album(self.client, album_data)
 
     def flatten_dict(self,
                      input_dict: Dict[str, Any],
@@ -331,7 +311,7 @@ if __name__ == "__main__":
         else:
             click.echo("No changes to save.")
 
-    tr = TrackInfo("../../../musix/track")
+    tr = TrackInfo("../music/track")
 
     print(f"Searching Track...\n {tr.title}, {tr.artist}, {tr.album}")
 
@@ -387,8 +367,8 @@ if __name__ == "__main__":
 
                 print("Fetching track info...")
 
-                trkInfo = deezer.Track(dz, track_data)
-                albInfo = deezer.Album(dz, album_data)
+                trkInfo = dz.deezTrack(track_data)
+                albInfo = dz.deezAlbum(album_data)
 
                 try:
                     art = requests.get(albInfo.cover).content
