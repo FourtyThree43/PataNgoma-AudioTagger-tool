@@ -1,5 +1,5 @@
 import requests
-import imgcat
+from imgcat import imgcat
 import deezer
 import logging
 from functools import lru_cache
@@ -533,9 +533,11 @@ if __name__ == "__main__":
                     if key not in ("art", "lyrics"):
                         click.echo(f"{key}: {md_pre_update[key]} -> {value}")
                     elif key == "art":
-                        click.echo(
-                            f"{key}: {imgcat.imgcat(md_pre_update[key])} -> {imgcat.imgcat(value)}"
-                        )
+                        click.echo(f"{'-' * 10} Original {'-' * 10}\n")
+                        imgcat(md_pre_update[key], width=24, height=24)
+
+                        click.echo(f"{'-' * 10} Updated {'-' * 10}\n")
+                        imgcat(value, width=24, height=24)
                     else:
                         click.echo(
                             f"{key}: changed (diff too large to display)")

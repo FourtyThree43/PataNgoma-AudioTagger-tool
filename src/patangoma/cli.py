@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from dotenv import load_dotenv
+from imgcat import imgcat
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
@@ -307,6 +308,12 @@ def update(file_path, updates):
                 if key != "images" and md_pre_update[key] != value:
                     if key not in ("art", "lyrics"):
                         click.echo(f"{key}: {md_pre_update[key]} -> {value}")
+                    elif key == "art":
+                        click.echo(f"{'-' * 10} Original {'-' * 10}\n")
+                        imgcat(md_pre_update[key], width=24, height=24)
+
+                        click.echo(f"{'-' * 10} Updated {'-' * 10}\n")
+                        imgcat(value, width=24, height=24)
                     else:
                         click.echo(
                             f"{key}: changed (diff too large to display)")
