@@ -1,11 +1,187 @@
+import requests
+import imgcat
 import deezer
-import json
 import logging
 from functools import lru_cache
 from typing import Optional, List, Dict, Any
+from cachetools import TTLCache
+from data_store import DataStore
+from mb import MusicBrainzAPI
+from tags import TrackInfo
 
 
-class DeezerClient:
+class Query:
+    """ Class that handles the query to the MusicBrainzAPI """
+
+    def __init__(self, track_info: TrackInfo, data_store: DataStore):
+
+        self.track_info = track_info
+        self.mb_api = MusicBrainzAPI()
+        self.dz_api = DeezerAPI()
+        self.data_store = data_store
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        self.cache = TTLCache(maxsize=100, ttl=3600)  # Cache for 1 hour
+        self.fetched_data = None
+
+    def fetch_musicbrainz_data(self, title: Optional[str],
+                               artist: Optional[str]) -> List[Dict[str, Any]]:
+        # Extract title and artist from TrackInfo
+        if not (self.track_info.title and self.track_info.artist):
+            title = self.track_info.title
+            artist = self.track_info.artist
+
+        cache_key = (title, artist)
+
+        if cache_key in self.cache:
+            self.logger.info("Using cached result for MusicBrainz query.")
+            return self.cache[cache_key]
+
+        try:
+            # qparams = {}
+
+            # to implement later: Translates the query params
+            # form meadifile fields to mb fields
+
+            # qparams = self.translate_query_params(
+            #     self.track_info.get_params()) if self.track_info else {}
+
+            result = self.mb_api.search_track(title, artist)
+
+            if result:
+                translated_data_list = []
+                self.cache[cache_key] = result
+
+                for idx, res in enumerate(result, start=1):
+                    flat_result = self.flatten_dict(res)
+                    translated_data = self.mb_api.translate_mb_result(
+                        flat_result)
+                    translated_data_list.append(translated_data)
+                    self.store_metadata("musicbrainz", translated_data)
+
+                return translated_data_list
+                # return self.mb_api.translate_mb_result(result[0])
+        except Exception as e:
+            print(f"Error searching track on MusicBrainz: {str(e)}")
+
+        return []
+
+    def fetch_deezer_data(self, title: Optional[str], artist: Optional[str],
+                          album: Optional[str]) -> List[Dict[str, Any]]:
+        """ Searches for tracks in Deezer's database based on the given
+            parameters & returns a list of Track instances.
+
+            Parameters
+            ----------
+            title : str, optional
+                The title of the track to search for, if applicable.
+            artist : str, optional
+                The name of the artist to search for, if applicable.
+            album : str, optional
+                The title of the album to search for, if applicable.
+
+            Returns
+            -------
+            List[Track]
+                A list of Track instances matching the search criteria.
+                An empty list if an error occurs or no matches are found.
+        """
+        try:
+            results = self.dz_api.search_track(title, artist, album)
+
+            if results:
+                data_list: List[Dict[str, Any]] = []
+
+                for idx, res in enumerate(results, start=1):
+                    data_list.append(res)
+                    self.store_metadata("deezer", res)
+
+                return data_list
+
+        except Exception as e:
+            print(f"Error searching track on Deezer: {str(e)}")
+
+        return []
+
+    def fetch_spotify_data(self):
+        pass
+
+    def flatten_dict(self,
+                     input_dict: Dict[str, Any],
+                     parent_key='',
+                     separator='.') -> Dict[str, Any]:
+        """
+        Recursively flatten a nested dict and convert keys to dot notation.
+        """
+        flat_dict = {}
+
+        for key, value in input_dict.items():
+            new_key = f"{parent_key}{separator}{key}" if parent_key else key
+
+            if isinstance(value, dict):
+                flat_dict.update(self.flatten_dict(value, new_key, separator))
+            elif isinstance(value, list):
+                for i, item in enumerate(value):
+                    if isinstance(item, dict):
+                        flat_dict.update(
+                            self.flatten_dict(item, f"{new_key}[{i}]",
+                                              separator))
+                    else:
+                        flat_dict[f"{new_key}[{i}]"] = item
+            else:
+                flat_dict[new_key] = value
+
+        return flat_dict
+
+    def translate_query_params(self,
+                               query_params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Translate query parameters to match MusicBrainz fields.
+
+        Args:
+            query_params (dict): The query parameters to translate.
+
+        Returns:
+            dict: Translated query parameters.
+        """
+        mb_query_params = {}
+
+        # Define a mapping between your parameters and MusicBrainz fields
+        parameter_mapping = {
+            "album": "releases",
+            # "my_param2": "mb_field2",
+            # Add more mappings as needed
+        }
+
+        # Translate query parameters using the mapping
+        for key, value in query_params.items():
+            if key in parameter_mapping:
+                mb_key = parameter_mapping[key]
+                mb_query_params[mb_key] = value
+
+        return mb_query_params
+
+    def fetch_DataStore_data(self, source=None):
+        """
+        Retrieve metadata from the DataStore based on the source or
+        return all the metadata if no source is specified
+        """
+        if source is None:
+            data = self.data_store.get_all_metadata()
+        else:
+            data = self.data_store.get_metadata(source)
+
+        if data:
+            self.fetched_data = data
+
+        return data
+
+    def store_metadata(self, source, data: Dict[str, Any]):
+        """Store the metadata in the DataStore"""
+        self.data_store.add_metadata(source, data)
+
+
+class DeezerAPI:
     """
     A class used to access Deezer's API
     ...
@@ -253,32 +429,89 @@ class DeezerClient:
         """
         return deezer.Album(self.client, album_data)
 
-    def flatten_dict(self,
-                     input_dict: Dict[str, Any],
-                     parent_key="",
-                     separator="."):
+    def deezArtist(self, artist_data: Dict[str, Any]) -> deezer.Artist:
         """
-        Recursively flatten a nested dict and convert keys to dot notation.
+        Create a deezer.Artist object from the given artist_data.
+
+        Parameters
+        ----------
+        artist_data : dict
+            The artist data to use.
+
+        Returns
+        -------
+        deezer.Artist
+            The deezer.Artist object.
         """
-        flat_dict = {}
+        return deezer.Artist(self.client, artist_data)
 
-        for key, value in input_dict.items():
-            new_key = f"{parent_key}{separator}{key}" if parent_key else key
+    def mapData(self, track_data: Dict[str, Any],
+                album_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Map the given track's data to a dict with the required fields.
 
-            if isinstance(value, dict):
-                flat_dict.update(self.flatten_dict(value, new_key, separator))
-            elif isinstance(value, list):
-                for i, item in enumerate(value):
-                    if isinstance(item, dict):
-                        flat_dict.update(
-                            self.flatten_dict(item, f"{new_key}[{i}]",
-                                              separator))
-                    else:
-                        flat_dict[f"{new_key}[{i}]"] = item
-            else:
-                flat_dict[new_key] = value
+        Parameters
+        ----------
+        track_data : dict
+            The track data to use.
 
-        return flat_dict
+        album_data : dict
+            The album data to use.
+
+        Returns
+        -------
+        dict
+            The mapped track data.
+        """
+        track = self.deezTrack(track_data)
+        album = self.deezAlbum(album_data)
+
+        album_art = self._fetch_art(album.cover_big)
+
+        mapped_data = {
+            "album": album.title,
+            "albumartist": album.artist["name"],
+            "albumtype": album.type,
+            "artist": track.artist["name"],
+            "artists": [co.name for co in track.contributors],
+            "artists_credit": [co.name for co in track.contributors],
+            "date": album.release_date,
+            "disc": track.disk_number,
+            "genres": [genre["name"] for genre in album.genres],
+            "art": album_art,
+            "isrc": track.isrc,
+            "label": album.label,
+            "title": track.title,
+            "track": track.track_position,
+            "tracktotal": album.nb_tracks,
+            "url": track.link,
+        }
+
+        return mapped_data
+
+    def _fetch_art(self, art_url: str) -> Optional[bytes]:
+        """
+        Fetch the album art for the given album.
+
+        Parameters
+        ----------
+        art_url : str
+            The album art url to fetch.
+
+        Returns
+        -------
+        bytes or None
+            The album art, if found.
+            None, otherwise.
+        """
+        try:
+            art = requests.get(art_url).content
+
+        except Exception as e:
+            print(f"An error occurred while fetching album cover: {e}")
+            art = None
+
+        return art
 
 
 if __name__ == "__main__":
@@ -299,6 +532,10 @@ if __name__ == "__main__":
                 if key != "images" and md_pre_update[key] != value:
                     if key not in ("art", "lyrics"):
                         click.echo(f"{key}: {md_pre_update[key]} -> {value}")
+                    elif key == "art":
+                        click.echo(
+                            f"{key}: {imgcat.imgcat(md_pre_update[key])} -> {imgcat.imgcat(value)}"
+                        )
                     else:
                         click.echo(
                             f"{key}: changed (diff too large to display)")
@@ -315,21 +552,19 @@ if __name__ == "__main__":
 
     print(f"Searching Track...\n {tr.title}, {tr.artist}, {tr.album}")
 
-    dz = DeezerClient()
-    dz_data = dz.search_track(track_title=tr.title,
-                              artist_name=tr.artist,
-                              album_title=None)
+    ds = DataStore()
+    qy = Query(tr, ds)
+    dz = DeezerAPI()
+    dz_data = qy.fetch_deezer_data(title=tr.title, artist=tr.artist, album="")
+
     if dz_data:
         choices = []
 
         for idx, rec in enumerate(dz_data, start=1):
-            flt_rec = dz.flatten_dict(rec)
-
             choice_item = {
                 "name":
-                f"{idx}. Title: {flt_rec['title']} - {flt_rec['artist.name']}\n"
-                +
-                f"       Album: {flt_rec['album.title']} - {flt_rec['album.type']}\n",
+                f"{idx}. Title: {rec['title']} - {rec['artist']['name']}\n" +
+                f"       Album: {rec['album']['title']} - {rec['album']['type']}\n",
                 "value":
                 idx,
             }
@@ -347,55 +582,13 @@ if __name__ == "__main__":
         if selection:
             selected_track = dz_data[selection - 1]
 
+            print("Fetching track info...")
+
             track_data = dz.get_track_by_id(selected_track["id"])
             album_data = dz.get_album_by_id(selected_track["album"]["id"])
-            artist_data = dz.get_artist_by_id(selected_track["artist"]["id"])
-
-            # del track_data["available_countries"]
-            # del album_data["tracks"]
-            # flt_Tdata = dz.flatten_dict(track_data)
-            # flt_Adata = dz.flatten_dict(album_data)
-
-            # trans_Tdata = dz.translate_deezer_result(flt_Adata)
-            # trans_Adata = dz.translate_deezer_result(flt_Adata)
-
-            # dz.dump_res(flt_Adata)
 
             try:
-                import requests
-                import imgcat
-
-                print("Fetching track info...")
-
-                trkInfo = dz.deezTrack(track_data)
-                albInfo = dz.deezAlbum(album_data)
-
-                try:
-                    art = requests.get(albInfo.cover).content
-                    print("Album cover fetched")
-                    imgcat.imgcat(art)
-
-                except Exception as e:
-                    print(f"An error occurred while fetching album cover: {e}")
-                    art = None
-
-                metadata_mapping = {
-                    "album": albInfo.title,
-                    "albumartist": albInfo.artist["name"],
-                    "albumtype": albInfo.type,
-                    "artist": trkInfo.artist["name"],
-                    "artists_credit": [co.name for co in trkInfo.contributors],
-                    "date": albInfo.release_date,
-                    "disc": trkInfo.disk_number,
-                    "genres": [genre["name"] for genre in albInfo.genres],
-                    "art": art,
-                    "isrc": trkInfo.isrc,
-                    "label": albInfo.label,
-                    "title": trkInfo.title,
-                    "track": trkInfo.track_position,
-                    "tracktotal": albInfo.nb_tracks,
-                    "url": trkInfo.link,
-                }
+                metadata_mapping = dz.mapData(track_data, album_data)
 
                 update("../music/track", metadata_mapping)
 

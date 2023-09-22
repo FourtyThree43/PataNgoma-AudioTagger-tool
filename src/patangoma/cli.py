@@ -5,11 +5,12 @@ from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
-from rgbprint import gradient_print, gradient_scroll, Color
-from patangoma.query import Query
 from patangoma.data_store import DataStore
+from patangoma.query import Query
 from patangoma.sp import spotify_search, get_updates
 from patangoma.track import TrackInfo
+from rgbprint import gradient_print, gradient_scroll, Color
+from typing import Any, Dict, List, Optional, Union
 import click
 import os
 import toml
@@ -364,7 +365,7 @@ def search(ctx, file_path, source):
     """
     if is_valid(file_path):
         track = TrackInfo(file_path)
-        source_choices = ["spotify", "musicbrainz"]
+        source_choices = ["spotify", "musicbrainz", "deezer"]
         source_select = inquirer.select(message="Specify a service to use:",
                                         choices=source_choices,
                                         qmark="\n>",
@@ -380,7 +381,8 @@ def search(ctx, file_path, source):
             title, artist = track.title, track.artist
         elif track.title:
             title = track.title
-            click.secho("\nWARNING: Music file is missing an artist tag...", fg="yellow")
+            click.secho("\nWARNING: Music file is missing an artist tag...",
+                        fg="yellow")
             artist = inquirer.text(message="Provide an artist name:",
                                    qmark="\n>",
                                    amark="✔️").execute()
@@ -403,6 +405,8 @@ def search(ctx, file_path, source):
             up_fields = spotify_subsearch(title, artist)
         elif source == "musicbrainz":
             up_fields = mb_subsearch(track, title, artist)
+        elif source == "deezer":
+            up_fields = dz_subsearch(track, title, artist, album="")
         else:
             up_fields = None
         if up_fields:
@@ -421,7 +425,7 @@ def search(ctx, file_path, source):
         exit(1)
 
 
-def spotify_subsearch(title, artist):
+def spotify_subsearch(title: str, artist: str) -> Dict[str, Any]:
     result, parsed_result = spotify_search(title, artist)
     if result and parsed_result:
         return get_updates(result, parsed_result)
@@ -429,7 +433,7 @@ def spotify_subsearch(title, artist):
         return {}
 
 
-def mb_subsearch(track, title, artist):
+def mb_subsearch(track: TrackInfo, title: str, artist: str) -> List[str]:
     ds = DataStore()
     query = Query(track, ds)
     musicbrainz_data = query.fetch_musicbrainz_data(title, artist)
@@ -458,8 +462,6 @@ def mb_subsearch(track, title, artist):
         selected = int(selection)
         se_res: dict = musicbrainz_data[selected - 1]
 
-        # print(se_res)
-
         up_fields = [
             f"{key}={value}"
             for key, value in zip(se_res.keys(), se_res.values())
@@ -467,7 +469,53 @@ def mb_subsearch(track, title, artist):
 
         return up_fields
     else:
-        return {}
+        return []
+
+
+def dz_subsearch(track: TrackInfo, title: str, artist: str,
+                 album: Optional[str]) -> Union[Dict[str, Any], List[str]]:
+    ds = DataStore()
+    query = Query(track, ds)
+    deezer_data = query.fetch_deezer_data(title, artist, album)
+
+    gradient_scroll("Fetching ...",
+                    start_color=Color.dark_sea_green,
+                    end_color=Color.antique_white)
+    if deezer_data:
+        choices = []
+
+        for idx, rec in enumerate(deezer_data, start=1):
+            choice_item = {
+                "name":
+                f"{idx}. Title: {rec['title']} - {rec['artist']['name']}\n" +
+                f"       Album: {rec['album']['title']} - {rec['album']['type']}\n",
+                "value":
+                idx,
+            }
+            choices.append(choice_item)
+
+        selection = inquirer.select(
+            message="Select a track:",
+            choices=choices,
+            amark="✔",
+            default=1,
+            instruction="Use arrow keys to navigate, press Enter to select",
+            max_height="70%",
+        ).execute()
+
+        if selection:
+            selected_track = deezer_data[selection - 1]
+
+            track_data = query.dz_api.get_track_by_id(selected_track["id"])
+            album_data = query.dz_api.get_album_by_id(
+                selected_track["album"]["id"])
+            metadata_mapping = query.dz_api.mapData(track_data, album_data)
+
+            return metadata_mapping
+        else:
+            return {}
+    else:
+        return []
 
 
 cli.add_command(delete)

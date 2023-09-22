@@ -2,6 +2,7 @@
 from cachetools import TTLCache
 from data_store import DataStore
 from mb import MusicBrainzAPI
+from dz import DeezerAPI
 from tags import TrackInfo
 import logging
 
@@ -24,9 +25,6 @@ class Query:
         if not (self.track_info.title and self.track_info.artist):
             title = self.track_info.title
             artist = self.track_info.artist
-        # else:
-        #     click.secho("Error: Missing title or artist", fg="red")
-        #     exit(1)
 
         cache_key = (title, artist)
 
@@ -61,6 +59,12 @@ class Query:
             print(f"Error searching track on MusicBrainz: {str(e)}")
 
         return None
+
+    def fetch_deezer_data(self):
+        pass
+
+    def fetch_spotify_data(self):
+        pass
 
     def flatten_dict(self, input_dict: dict, parent_key='', separator='.'):
         """

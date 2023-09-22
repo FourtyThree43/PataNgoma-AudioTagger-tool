@@ -1,194 +1,793 @@
-musicbrainz:
-- album: "SHS///N\xD8NE"
-  albumartist: Siberian Hell Sounds
-  albumartist_sort: Siberian Hell Sounds
-  albumstatus: Official
-  albumtype: EP
-  artist: "N\xD8NE"
-  artist_credit: "N\xD8NE"
-  artist_sort: None
-  country: XW
-  date: 2014-10-26
-  disc: 1
-  mb_albumartistid: a1a3a73b-37c9-4dfb-b6c0-7e8ac64eb8ab
-  mb_albumid: a2c38839-4a95-41e7-8c92-30dfc68b3a32
-  mb_artistid: 8b4cef34-0b2c-424a-a04d-34f4bbe13252
-  mb_trackid: 7b37db38-7a14-458d-b2d5-1267d784b708
-  mb_workid: 36d947f7-9608-4da1-bf58-e91725c871b5
-  media: Digital Media
-  score: '100'
-  title: "N\xD8NE///Reap///Finding a Way"
-  track: '2'
-  tracktotal: 3
-- album: Compton Muzik
-  albumartist: 2nd II None
-  albumartist_sort: 2nd II None
-  albumstatus: Official
-  albumtype: Album
-  artist: 2nd II None
-  artist_credit: 2nd II None
-  artist_sort: 2nd II None
-  country: XW
-  date: 2014-02-26
-  disc: 1
-  mb_albumartistid: db759662-2053-4256-b803-4585f5bc2d40
-  mb_albumid: 742b417c-a853-4ea2-a24f-fbaccd428648
-  mb_artistid: db759662-2053-4256-b803-4585f5bc2d40
-  mb_trackid: 15e68a93-267e-4c66-a15e-cb767ef9a826
-  mb_workid: 71076020-0eaf-46ff-bf6a-5ce31610305f
-  media: Digital Media
-  score: '90'
-  title: 2nd II None
-  track: '2'
-  tracktotal: 13
-- album: Two Sticks + Six Strings
-  albumstatus: Official
-  albumtype: EP
-  artist: Apologies, I Have None
-  artist_credit: Apologies, I Have None
-  artist_sort: Apologies, I Have None
-  country: GB
-  date: 2009-04-01
-  disc: 1
-  mb_albumid: 562e26b9-98aa-4d88-b115-9e756d830514
-  mb_artistid: f2c43e05-f2fd-4ba7-900f-c60f207bd18d
-  mb_trackid: 44fda3a4-cfb2-3266-a79e-a8a9ffc0b211
-  mb_workid: 958c18cf-2851-4d6a-8487-a6944da3e534
-  media: CD
-  score: '79'
-  title: Apologies, I Have None
-  track: '4'
-  tracktotal: 5
-- album: Those Days Are Gone
-  artist: None Shall Be Saved
-  artist_credit: None Shall Be Saved
-  artist_sort: None Shall Be Saved
-  disc: 1
-  mb_albumid: d3522689-e4f4-467e-b6fb-38dc3da85fd0
-  mb_artistid: 2ee57309-1218-4d05-970c-a1c2d638ccce
-  mb_trackid: dd8bfaae-7a3c-4d86-8793-a9e9cea3dcee
-  mb_workid: f5de56ba-1539-40ff-89c2-e5be0788bc73
-  media: CD
-  score: '79'
-  title: None Shall Be Saved
-  track: '7'
-  tracktotal: 12
-- album: Sam Sampler
-  albumartist: Various Artists
-  albumartist_sort: Various Artists
-  albumstatus: Promotion
-  albumtype: Album
-  artist: Papa Dee
-  artist_credit: "Competition Is None & Rob n\u2019Raz"
-  artist_sort: Papa Dee
-  country: SE
-  disc: 1
-  mb_albumartistid: 89ad4ac3-39f7-470e-963a-56509c546377
-  mb_albumid: 805b4667-40bb-4c7e-8491-ec3d8d7d5609
-  mb_artistid: 635c4205-b466-4f28-b7a9-6af7bb37ea5f
-  mb_trackid: 6461d368-a46c-47b5-93dc-1a5be85c7be2
-  mb_workid: 44c5ead3-b66b-46da-bb9e-67949cd9fcbd
-  media: Cassette
-  score: '76'
-  title: Competition Is None
-  track: B18
-  tracktotal: 41
-- album: 'HRX: Holy Roar 10th Birthday live sets'
-  albumartist: Various Artists
-  albumartist_sort: Various Artists
-  albumstatus: Official
-  albumtype: Album
-  artist: Apologies, I Have None
-  artist_credit: Apologies, I Have None
-  artist_sort: Apologies, I Have None
-  country: XW
-  date: 2016-12-02
-  disc: 1
-  mb_albumartistid: 89ad4ac3-39f7-470e-963a-56509c546377
-  mb_albumid: 6f745ef2-3e3f-46d6-b0d2-9ba2ba9f179d
-  mb_artistid: f2c43e05-f2fd-4ba7-900f-c60f207bd18d
-  mb_trackid: d8ff85b8-2ff8-49c0-9851-6a76d34f6771
-  mb_workid: 434cd7ad-8dc8-4be7-a322-0433f7c13119
-  media: Digital Media
-  score: '75'
-  title: Apologies, I Have None (live)
-  track: '6'
-  tracktotal: 16
-- album: Handlebars (Dubstep Cover by None Like Joshua)
-  albumartist: PalmMute
-  albumartist_sort: PalmMute
-  albumstatus: Official
-  albumtype: Single
-  artist: None Like Joshua
-  artist_credit: None Like Joshua
-  artist_sort: None Like Joshua
-  country: NR
-  date: 2014-02-07
-  disc: 1
-  mb_albumartistid: 83332754-845b-48e4-8b1c-e72b91f6055a
-  mb_albumid: 68d0fb89-1abd-4141-876e-65aecffe2001
-  mb_artistid: c04231c2-8ad7-4345-b69a-46e744b33239
-  mb_trackid: efeab4c2-452b-4feb-9ff2-56526681f170
-  mb_workid: d2fbb59f-cd4d-4161-bb34-7e6b38e816b5
-  media: Digital Media
-  score: '75'
-  title: Handlebars (Dubstep Cover by None Like Joshua)
-  track: '1'
-  tracktotal: 1
-- album: PR Vol 33
-  albumartist: DJ SCOOB
-  albumartist_sort: DJ SCOOB
-  albumstatus: Bootleg
-  albumtype: Album
-  artist: DJ SCOOB
-  artist_credit: DJ SCOOB & None
-  artist_sort: DJ SCOOB
-  country: US
-  date: 2016-05-18
-  disc: 1
-  mb_albumartistid: f681d39e-b1e3-46af-a17f-0165239f55d0
-  mb_albumid: 6755dae1-35cb-4790-9308-56d736bd4752
-  mb_artistid: f681d39e-b1e3-46af-a17f-0165239f55d0
-  mb_trackid: cd500671-d4c8-4b93-a4b5-8c97f4a3cc09
-  mb_workid: 1249f7d5-ddbc-4ccb-9d45-cbcfa524582c
-  media: CD-R
-  score: '69'
-  title: The One After None-Slave To Perfection
-  track: '2'
-  tracktotal: 22
-- album: Demo
-  albumstatus: Official
-  albumtype: EP
-  artist: Option Anxiety
-  artist_credit: Option Anxiety
-  artist_sort: Option Anxiety
-  country: XW
-  date: 2018-09-06
-  disc: 1
-  mb_albumid: e8760c34-4ee8-483f-b9c9-8293327aecce
-  mb_artistid: 3900ef8e-da3a-4241-a74c-e46206e2994b
-  mb_trackid: 72ae5729-9150-4802-bd1c-26cd83f0941d
-  mb_workid: 5f863cc2-6681-403c-aaea-676c45d47efa
-  media: Digital Media
-  score: '69'
-  title: None, None, None
-  track: '4'
-  tracktotal: 5
-- album: 15 Minutes of Hell
-  albumstatus: Official
-  albumtype: EP
-  artist: Option Anxiety
-  artist_credit: Option Anxiety
-  artist_sort: Option Anxiety
-  country: XW
-  date: 2019-06-04
-  disc: 1
-  mb_albumid: 6e64660b-ae7a-4f2a-8619-719dddb31a14
-  mb_artistid: 3900ef8e-da3a-4241-a74c-e46206e2994b
-  mb_trackid: 20df75c1-b415-4d55-bc4d-de65c6f34c66
-  mb_workid: 5df188e9-c43b-4e2b-9b58-485ac7c0135c
-  media: Digital Media
-  score: '69'
-  title: None, None, None
-  track: '1'
-  tracktotal: 8
+deezer:
+- album:
+    cover: https://api.deezer.com/album/115888392/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/1000x1000-000000-80-0-0.jpg
+    id: 115888392
+    md5_image: fe779e632872f7c6e9f1c84ffa7afc33
+    title: The Best of Me
+    tracklist: https://api.deezer.com/album/115888392/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 213
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 781592622
+  link: https://www.deezer.com/track/781592622
+  md5_image: fe779e632872f7c6e9f1c84ffa7afc33
+  preview: https://cdns-preview-0.dzcdn.net/stream/c-011d4d9f43c89a3046a769ab71059a27-5.mp3
+  rank: 767111
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/1321413/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/a37761cd98b72998ff1d8cbfedbf0863/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/a37761cd98b72998ff1d8cbfedbf0863/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/a37761cd98b72998ff1d8cbfedbf0863/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/a37761cd98b72998ff1d8cbfedbf0863/1000x1000-000000-80-0-0.jpg
+    id: 1321413
+    md5_image: a37761cd98b72998ff1d8cbfedbf0863
+    title: Reeling In The Decades
+    tracklist: https://api.deezer.com/album/1321413/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 213
+  explicit_content_cover: 0
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 14408104
+  link: https://www.deezer.com/track/14408104
+  md5_image: a37761cd98b72998ff1d8cbfedbf0863
+  preview: https://cdns-preview-d.dzcdn.net/stream/c-dccbfd5489031f7f0640e833105cfa2b-8.mp3
+  rank: 778841
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/115888392/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/fe779e632872f7c6e9f1c84ffa7afc33/1000x1000-000000-80-0-0.jpg
+    id: 115888392
+    md5_image: fe779e632872f7c6e9f1c84ffa7afc33
+    title: The Best of Me
+    tracklist: https://api.deezer.com/album/115888392/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 209
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 781592802
+  link: https://www.deezer.com/track/781592802
+  md5_image: fe779e632872f7c6e9f1c84ffa7afc33
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8b3c9b1e9caa3f80371cb8135903cabf-5.mp3
+  rank: 165088
+  readable: true
+  title: Never Gonna Give You Up (Pianoforte)
+  title_short: Never Gonna Give You Up
+  title_version: (Pianoforte)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/54690242/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/1000x1000-000000-80-0-0.jpg
+    id: 54690242
+    md5_image: 80544db9ed5b8b6ac428add743cc85fe
+    title: The Hit Factory Ultimate Collection
+    tracklist: https://api.deezer.com/album/54690242/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 212
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 448121722
+  link: https://www.deezer.com/track/448121722
+  md5_image: 80544db9ed5b8b6ac428add743cc85fe
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8d88315113866ae0ca3bf535ba710570-3.mp3
+  rank: 465124
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/214959662/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/ab5b1ae89b02ae1c96aac4d896e0a90b/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/ab5b1ae89b02ae1c96aac4d896e0a90b/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/ab5b1ae89b02ae1c96aac4d896e0a90b/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/ab5b1ae89b02ae1c96aac4d896e0a90b/1000x1000-000000-80-0-0.jpg
+    id: 214959662
+    md5_image: ab5b1ae89b02ae1c96aac4d896e0a90b
+    title: Whenever You Need Somebody
+    tracklist: https://api.deezer.com/album/214959662/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 213
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 1276231202
+  link: https://www.deezer.com/track/1276231202
+  md5_image: ab5b1ae89b02ae1c96aac4d896e0a90b
+  preview: https://cdns-preview-4.dzcdn.net/stream/c-40e95c7e182a29db2f99380ef4f20775-3.mp3
+  rank: 476205
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/214956702/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/490a48a1ca56112b3cea905a98b30cc1/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/490a48a1ca56112b3cea905a98b30cc1/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/490a48a1ca56112b3cea905a98b30cc1/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/490a48a1ca56112b3cea905a98b30cc1/1000x1000-000000-80-0-0.jpg
+    id: 214956702
+    md5_image: 490a48a1ca56112b3cea905a98b30cc1
+    title: 3 Originals
+    tracklist: https://api.deezer.com/album/214956702/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 214
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 1276215372
+  link: https://www.deezer.com/track/1276215372
+  md5_image: 490a48a1ca56112b3cea905a98b30cc1
+  preview: https://cdns-preview-6.dzcdn.net/stream/c-663a594c5684a36cacaa00a161576201-5.mp3
+  rank: 176218
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 213
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729828787
+  link: https://www.deezer.com/track/1729828787
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-e.dzcdn.net/stream/c-e8f41a0ecfeaa63bec675935dd113d68-2.mp3
+  rank: 235225
+  readable: true
+  title: Never Gonna Give You Up (2022 - Remaster)
+  title_short: Never Gonna Give You Up
+  title_version: (2022 - Remaster)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 209
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 1729828917
+  link: https://www.deezer.com/track/1729828917
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8b3c9b1e9caa3f80371cb8135903cabf-5.mp3
+  rank: 117795
+  readable: true
+  title: Never Gonna Give You Up (Pianoforte)
+  title_short: Never Gonna Give You Up
+  title_version: (Pianoforte)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 441
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729828957
+  link: https://www.deezer.com/track/1729828957
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-e.dzcdn.net/stream/c-e63ec33f6d3853e8f91b9f8b124c5ae2-3.mp3
+  rank: 129917
+  readable: true
+  title: Never Gonna Give You Up (Phil Harding 12" Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (Phil Harding 12" Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 347
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729829017
+  link: https://www.deezer.com/track/1729829017
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-2.dzcdn.net/stream/c-272eeaaee8d9d3a4dae680c21ca0b8be-3.mp3
+  rank: 261684
+  readable: true
+  title: Never Gonna Give You Up (Cake Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (Cake Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 384
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729829047
+  link: https://www.deezer.com/track/1729829047
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-2.dzcdn.net/stream/c-2ec922ebd9dc69a53d3ea39b0e483c68-3.mp3
+  rank: 141401
+  readable: true
+  title: Never Gonna Give You Up (Escape from Newton Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (Escape from Newton Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 422
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729829077
+  link: https://www.deezer.com/track/1729829077
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-f.dzcdn.net/stream/c-ffc81df32f5636e8d7e61ce9ae2362e7-2.mp3
+  rank: 25094
+  readable: true
+  title: Never Gonna Give You Up (Escape to New York Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (Escape to New York Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/313227187/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c94557c692be8a1dfd55f576d88cc3a3/1000x1000-000000-80-0-0.jpg
+    id: 313227187
+    md5_image: c94557c692be8a1dfd55f576d88cc3a3
+    title: Whenever You Need Somebody (Deluxe Edition - 2022 Remaster)
+    tracklist: https://api.deezer.com/album/313227187/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 378
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1729829117
+  link: https://www.deezer.com/track/1729829117
+  md5_image: c94557c692be8a1dfd55f576d88cc3a3
+  preview: https://cdns-preview-1.dzcdn.net/stream/c-1e7a11810d9c03c5761bf6c32dcb3c6c-2.mp3
+  rank: 102791
+  readable: true
+  title: Never Gonna Give You Up (Instrumental)
+  title_short: Never Gonna Give You Up
+  title_version: (Instrumental)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/331293077/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/9928b1dd433e81add27b46afa3034867/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/9928b1dd433e81add27b46afa3034867/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/9928b1dd433e81add27b46afa3034867/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/9928b1dd433e81add27b46afa3034867/1000x1000-000000-80-0-0.jpg
+    id: 331293077
+    md5_image: 9928b1dd433e81add27b46afa3034867
+    title: 80s Party Anthems
+    tracklist: https://api.deezer.com/album/331293077/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 213
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 1807136047
+  link: https://www.deezer.com/track/1807136047
+  md5_image: 9928b1dd433e81add27b46afa3034867
+  preview: https://cdns-preview-e.dzcdn.net/stream/c-e8f41a0ecfeaa63bec675935dd113d68-2.mp3
+  rank: 127788
+  readable: true
+  title: Never Gonna Give You Up (2022 Remaster)
+  title_short: Never Gonna Give You Up
+  title_version: (2022 Remaster)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/54690242/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/80544db9ed5b8b6ac428add743cc85fe/1000x1000-000000-80-0-0.jpg
+    id: 54690242
+    md5_image: 80544db9ed5b8b6ac428add743cc85fe
+    title: The Hit Factory Ultimate Collection
+    tracklist: https://api.deezer.com/album/54690242/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 421
+  explicit_content_cover: 2
+  explicit_content_lyrics: 6
+  explicit_lyrics: false
+  id: 448121922
+  link: https://www.deezer.com/track/448121922
+  md5_image: 80544db9ed5b8b6ac428add743cc85fe
+  preview: https://cdns-preview-3.dzcdn.net/stream/c-39e66301f70b075a891facfa1d5ca19b-4.mp3
+  rank: 139492
+  readable: true
+  title: Never Gonna Give You Up (Escape to NY Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (Escape to NY Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/68079122/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/79a9936e7d63c0eedae928361d280ccd/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/79a9936e7d63c0eedae928361d280ccd/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/79a9936e7d63c0eedae928361d280ccd/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/79a9936e7d63c0eedae928361d280ccd/1000x1000-000000-80-0-0.jpg
+    id: 68079122
+    md5_image: 79a9936e7d63c0eedae928361d280ccd
+    title: Football Songs
+    tracklist: https://api.deezer.com/album/68079122/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 212
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 526677002
+  link: https://www.deezer.com/track/526677002
+  md5_image: 79a9936e7d63c0eedae928361d280ccd
+  preview: https://cdns-preview-1.dzcdn.net/stream/c-11a49e295d34124b7507a9e9da29ed48-5.mp3
+  rank: 32185
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/81562202/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/c9a0f0f93a01047200666cfea29953b8/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/c9a0f0f93a01047200666cfea29953b8/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/c9a0f0f93a01047200666cfea29953b8/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/c9a0f0f93a01047200666cfea29953b8/1000x1000-000000-80-0-0.jpg
+    id: 81562202
+    md5_image: c9a0f0f93a01047200666cfea29953b8
+    title: 1980s XL
+    tracklist: https://api.deezer.com/album/81562202/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 207
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 603125612
+  link: https://www.deezer.com/track/603125612
+  md5_image: c9a0f0f93a01047200666cfea29953b8
+  preview: https://cdns-preview-3.dzcdn.net/stream/c-3a51adc6adbe334dde8f50eaab4211ed-5.mp3
+  rank: 113615
+  readable: true
+  title: Never Gonna Give You Up (7" Mix)
+  title_short: Never Gonna Give You Up
+  title_version: (7" Mix)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/84421912/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/536a56c3ccda7262fa48f43ac1dcaab4/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/536a56c3ccda7262fa48f43ac1dcaab4/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/536a56c3ccda7262fa48f43ac1dcaab4/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/536a56c3ccda7262fa48f43ac1dcaab4/1000x1000-000000-80-0-0.jpg
+    id: 84421912
+    md5_image: 536a56c3ccda7262fa48f43ac1dcaab4
+    title: The 80s
+    tracklist: https://api.deezer.com/album/84421912/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 212
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 617708072
+  link: https://www.deezer.com/track/617708072
+  md5_image: 536a56c3ccda7262fa48f43ac1dcaab4
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8d88315113866ae0ca3bf535ba710570-3.mp3
+  rank: 17313
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/84427882/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/8c52f48763dabfc4701d259840f0090b/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/8c52f48763dabfc4701d259840f0090b/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/8c52f48763dabfc4701d259840f0090b/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/8c52f48763dabfc4701d259840f0090b/1000x1000-000000-80-0-0.jpg
+    id: 84427882
+    md5_image: 8c52f48763dabfc4701d259840f0090b
+    title: 80s Dance
+    tracklist: https://api.deezer.com/album/84427882/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 212
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 617738882
+  link: https://www.deezer.com/track/617738882
+  md5_image: 8c52f48763dabfc4701d259840f0090b
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8d88315113866ae0ca3bf535ba710570-3.mp3
+  rank: 18777
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/87088752/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/81fe41dabe92663702c3aab21709c12c/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/81fe41dabe92663702c3aab21709c12c/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/81fe41dabe92663702c3aab21709c12c/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/81fe41dabe92663702c3aab21709c12c/1000x1000-000000-80-0-0.jpg
+    id: 87088752
+    md5_image: 81fe41dabe92663702c3aab21709c12c
+    title: "Rom\xE2nticas Anos 80"
+    tracklist: https://api.deezer.com/album/87088752/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 212
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 631385862
+  link: https://www.deezer.com/track/631385862
+  md5_image: 81fe41dabe92663702c3aab21709c12c
+  preview: https://cdns-preview-9.dzcdn.net/stream/c-969d2bf4dfd24f911990bdac688cb319-5.mp3
+  rank: 275221
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
+- album:
+    cover: https://api.deezer.com/album/115603002/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/a15f1506bd41a3aa13030498d1d585e6/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/a15f1506bd41a3aa13030498d1d585e6/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/a15f1506bd41a3aa13030498d1d585e6/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/a15f1506bd41a3aa13030498d1d585e6/1000x1000-000000-80-0-0.jpg
+    id: 115603002
+    md5_image: a15f1506bd41a3aa13030498d1d585e6
+    title: Never Gonna Give You Up (Pianoforte)
+    tracklist: https://api.deezer.com/album/115603002/tracks
+    type: album
+  artist:
+    id: 6160
+    link: https://www.deezer.com/artist/6160
+    name: Rick Astley
+    picture: https://api.deezer.com/artist/6160/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/572ff4d8a877291e3abfb4c17f570233/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/6160/top?limit=50
+    type: artist
+  duration: 209
+  explicit_content_cover: 2
+  explicit_content_lyrics: 0
+  explicit_lyrics: false
+  id: 780474902
+  link: https://www.deezer.com/track/780474902
+  md5_image: a15f1506bd41a3aa13030498d1d585e6
+  preview: https://cdns-preview-8.dzcdn.net/stream/c-8b3c9b1e9caa3f80371cb8135903cabf-5.mp3
+  rank: 338611
+  readable: true
+  title: Never Gonna Give You Up (Pianoforte)
+  title_short: Never Gonna Give You Up
+  title_version: (Pianoforte)
+  type: track
+- album:
+    cover: https://api.deezer.com/album/8795315/image
+    cover_big: https://e-cdns-images.dzcdn.net/images/cover/3ccc729302c9c96ae49dfd8a8238f6f6/500x500-000000-80-0-0.jpg
+    cover_medium: https://e-cdns-images.dzcdn.net/images/cover/3ccc729302c9c96ae49dfd8a8238f6f6/250x250-000000-80-0-0.jpg
+    cover_small: https://e-cdns-images.dzcdn.net/images/cover/3ccc729302c9c96ae49dfd8a8238f6f6/56x56-000000-80-0-0.jpg
+    cover_xl: https://e-cdns-images.dzcdn.net/images/cover/3ccc729302c9c96ae49dfd8a8238f6f6/1000x1000-000000-80-0-0.jpg
+    id: 8795315
+    md5_image: 3ccc729302c9c96ae49dfd8a8238f6f6
+    title: Where Are You on the Ruby, Pt. 2
+    tracklist: https://api.deezer.com/album/8795315/tracks
+    type: album
+  artist:
+    id: 115930
+    link: https://www.deezer.com/artist/115930
+    name: Hollywood
+    picture: https://api.deezer.com/artist/115930/image
+    picture_big: https://e-cdns-images.dzcdn.net/images/artist/3f17a86ab39e2c34070f19c5e590d9be/500x500-000000-80-0-0.jpg
+    picture_medium: https://e-cdns-images.dzcdn.net/images/artist/3f17a86ab39e2c34070f19c5e590d9be/250x250-000000-80-0-0.jpg
+    picture_small: https://e-cdns-images.dzcdn.net/images/artist/3f17a86ab39e2c34070f19c5e590d9be/56x56-000000-80-0-0.jpg
+    picture_xl: https://e-cdns-images.dzcdn.net/images/artist/3f17a86ab39e2c34070f19c5e590d9be/1000x1000-000000-80-0-0.jpg
+    tracklist: https://api.deezer.com/artist/115930/top?limit=50
+    type: artist
+  duration: 308
+  explicit_content_cover: 2
+  explicit_content_lyrics: 2
+  explicit_lyrics: false
+  id: 87155985
+  link: https://www.deezer.com/track/87155985
+  md5_image: 3ccc729302c9c96ae49dfd8a8238f6f6
+  preview: https://cdns-preview-2.dzcdn.net/stream/c-27cd35f1da62f08ad7d2ee5b58a13d10-2.mp3
+  rank: 6193
+  readable: true
+  title: Never Gonna Give You Up
+  title_short: Never Gonna Give You Up
+  title_version: ''
+  type: track
