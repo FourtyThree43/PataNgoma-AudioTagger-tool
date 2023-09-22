@@ -41,7 +41,7 @@ def app_info():
     """Print a welcome message."""
     app_name, app_version = get_app_info()
 
-    gradient_print(f"            ♥ {app_name} - {app_version} ♥",
+    gradient_print(f"            ♥  {app_name} - {app_version} ♥",
                    start_color='red',
                    end_color='gold',
                    end='\n')
@@ -114,8 +114,8 @@ def interactive_selection(music_path):
         music_path += sep
     filename = inquirer.filepath(
         message="Please enter a path or select file from list:\n",
-        amark="✔️",
-        qmark="\n>",
+        amark="✔️ ",
+        qmark="\n> ",
         validate=PathValidator(is_file=True, message="Input is not a file"),
         default=f"{music_path}",
         transformer=lambda x: f"\nFile: {os.path.basename(x)}",
@@ -162,8 +162,8 @@ def _main_menu(ctx):
                                  Choice(value=None, name="Exit"),
                              ],
                              default=None,
-                             qmark="\n>",
-                             amark="✔️").execute()
+                             qmark="\n> ",
+                             amark="✔️ ").execute()
     fp = ctx.obj
 
     if action == "Show-Tags":
@@ -191,8 +191,8 @@ def _submenu_show(ctx):
         message="Select a 'Show-Tags' option:",
         choices=show_tags_choices,
         default="Back",
-        amark="✔️",
-        qmark="\n>",
+        amark="✔️ ",
+        qmark="\n> ",
         instruction="Use: <enter> to select/deselect, <up>/<down> to navigate"
     ).execute()
 
@@ -225,8 +225,8 @@ def _submenu_update(ctx):
         validate=lambda result: len(result) >= 1,
         invalid_message="minimum 1 selection",
         max_height="70%",
-        qmark="\n>",
-        amark="✔️",
+        qmark="\n> ",
+        amark="✔️ ",
         instruction=
         "Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
     ).execute()
@@ -234,7 +234,7 @@ def _submenu_update(ctx):
     click.echo("\nEnter new values as prompted:")
     for key in selected_fields:
         updates.append(
-            inquirer.text(message=f"{key}:", qmark=">", amark="✔️").execute())
+            inquirer.text(message=f"{key}:", qmark="> ", amark="✔️ ").execute())
     ctx.invoke(update,
                file_path=fp,
                updates=tuple([
@@ -245,9 +245,9 @@ def _submenu_update(ctx):
 
 def _submenu_search(ctx):
     source = inquirer.select(message="Select a service to use:",
-                             choices=["spotify", "musicbrainz"],
-                             qmark="\n>",
-                             amark="✔️").execute()
+                             choices=["spotify", "musicbrainz", "deezer"],
+                             qmark="\n> ",
+                             amark="✔️ ").execute()
     ctx.invoke(search, file_path=ctx.obj, source=source)
 
 
@@ -331,18 +331,20 @@ def delete(file_path):
 
         proceed = inquirer.confirm(
             message="Are you sure you want to delete all tags?",
-            qmark="\n>",
-            amark="✔️",
+            qmark="\n> ",
+            amark="✔️ ",
             default=False).execute()
         if proceed:
             end_color = Color.random
-            gradient_scroll(f"\nDeleting tags for {file_path}",
+            print()
+            gradient_scroll(f"Deleting tags for {file_path}",
                             start_color=Color.gold,
                             end_color=end_color,
                             delay=0.01)
             track.delete()
         else:
-            gradient_scroll("\nAborting...",
+            print()
+            gradient_scroll("Aborting...",
                             start_color=Color.red,
                             end_color=Color.blue)
     else:
@@ -368,8 +370,8 @@ def search(ctx, file_path, source):
         source_choices = ["spotify", "musicbrainz", "deezer"]
         source_select = inquirer.select(message="Specify a service to use:",
                                         choices=source_choices,
-                                        qmark="\n>",
-                                        amark="✔️")
+                                        qmark="\n> ",
+                                        amark="✔️ ")
         if not source:
             click.secho("\nSource missing", fg="yellow")
             source = source_select.execute()
@@ -384,23 +386,23 @@ def search(ctx, file_path, source):
             click.secho("\nWARNING: Music file is missing an artist tag...",
                         fg="yellow")
             artist = inquirer.text(message="Provide an artist name:",
-                                   qmark="\n>",
-                                   amark="✔️").execute()
+                                   qmark="\n> ",
+                                   amark="✔️ ").execute()
         elif track.artist:
             artist = track.artist
             click.secho("\nMusic file is missing a title tag...", fg="yellow")
             title = inquirer.text(message="Provide a title:",
-                                  qmark="\n>",
-                                  amark="✔️").execute()
+                                  qmark="\n> ",
+                                  amark="✔️ ").execute()
         else:
             click.secho("\nMusic file is missing artist and title tags...",
                         fg="yellow")
             artist = inquirer.text(message="Provide an artist name:",
-                                   qmark="\n>",
-                                   amark="✔️").execute()
+                                   qmark="\n> ",
+                                   amark="✔️ ").execute()
             title = inquirer.text(message="Provide a title:",
-                                  qmark="\n>",
-                                  amark="✔️").execute()
+                                  qmark="\n> ",
+                                  amark="✔️ ").execute()
         if source == "spotify":
             up_fields = spotify_subsearch(title, artist)
         elif source == "musicbrainz":
@@ -414,8 +416,8 @@ def search(ctx, file_path, source):
                 message=
                 "Potential updates found. Would you like to preview them?",
                 default=False,
-                qmark="\n>",
-                amark="✔️").execute()
+                qmark="\n> ",
+                amark="✔️ ").execute()
             if proceed:
                 ctx.invoke(update, file_path=file_path, updates=up_fields)
         else:
@@ -455,8 +457,8 @@ def mb_subsearch(track: TrackInfo, title: str, artist: str) -> List[str]:
 
         selection = inquirer.select(message="Select a track:",
                                     choices=choices,
-                                    amark="✔️",
-                                    qmark="\n>",
+                                    amark="✔️ ",
+                                    qmark="\n> ",
                                     max_height="70%").execute()
 
         selected = int(selection)
@@ -497,7 +499,8 @@ def dz_subsearch(track: TrackInfo, title: str, artist: str,
         selection = inquirer.select(
             message="Select a track:",
             choices=choices,
-            amark="✔",
+            qmark="\n> ",
+            amark="✔ ",
             default=1,
             instruction="Use arrow keys to navigate, press Enter to select",
             max_height="70%",

@@ -51,7 +51,7 @@ def get_search_params() -> tuple:
                              only_files=True,
                              validate=PathValidator(is_file=True,
                                                     message="Invalid path"),
-                             amark="✔").execute()
+                             qmark="\n> ", amark="✔ ").execute()
     try:
         media_file = MediaFile(path)
     except Exception as e:
@@ -71,9 +71,11 @@ def get_search_params() -> tuple:
 def spotify_search(title: str, artist: str) -> tuple:
     """Search for matching tracks in the Spotify database using track title and artist name"""
     # end_color = Color.random
-    gradient_print(f"\nSearching for {title} by {artist}...\n",
+    print()
+    gradient_scroll(f"Searching for {title} by {artist}...",
                     start_color=Color.gold,
                     end_color=0xFF00FF)
+    print()
     load_dotenv()
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
     q = f"remaster track:{title} artist:{artist}".replace(" ", "%20")
@@ -111,8 +113,8 @@ def get_updates(result: list, parsed_result: list):
             f" (popularity: {parsed_result[i]['popularity']})"
             for i in range(len(parsed_result))
         ],
-        qmark=">",
-        amark="✔️").execute()
+        qmark="\n> ",
+        amark="✔️ ").execute()
     selected = int(selection.split(".")[0])
     raw: dict = result[selected - 1]
     update = {}
