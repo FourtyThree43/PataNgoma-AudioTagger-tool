@@ -1,6 +1,6 @@
 click==8.1.7
 deezer-python==6.1.1
-flask==2.3.3
+flask==3.0.0
 fuzzywuzzy==0.18.0
 imgcat==0.5.0
 inquirerpy==0.3.4
