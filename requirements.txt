@@ -16,6 +16,6 @@ spotipy==2.23.0
 sqlalchemy==2.0.23
 rich==13.7.0
 rgbprint==4.0.2
-pyfiglet==1.0.0
+pyfiglet==1.0.2
 toml==0.10.2
 cachetools==5.3.1
