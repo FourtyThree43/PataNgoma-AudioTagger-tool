@@ -40,7 +40,7 @@ class Query:
 
             if result:
                 flattened_result = self.flatten_dict(result[0])
-                translated_data = self.mb_api.translate_mb_result(flatted_result)
+                translated_data = self.mb_api.translate_mb_result(flattened_result)
                 self.data_store.add_metadata("musicbrainz", result[0])
                 self.cache[cache_key] = flattened_result
 

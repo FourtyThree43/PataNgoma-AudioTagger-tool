@@ -1,5 +1,6 @@
 # metadata.py
 from difflib import get_close_matches
+from sys import stderr
 from imgcat import imgcat
 from mediafile import MediaFile
 from typing import Optional
@@ -16,13 +17,15 @@ class BaseModel:
         self.file = file_path
         try:
             self.metadata = MediaFile(file_path)
+
         except Exception as e:
-            print(f"Error loading metadata from {file_path}: {str(e)}")
+            print(f"Error: {e}", file=stderr)
+            exit(1)
 
     def as_dict(self) -> dict:
         """Return a dictionary representation of the metadata."""
         try:
-            return dict(self.metadata.as_dict())
+            return self.metadata.as_dict()
         except Exception as e:
             print(f"Error converting metadata to dictionary: {str(e)}")
             return {}
@@ -30,6 +33,7 @@ class BaseModel:
     # Metadata Display Methods
     def show_all_metadata(self) -> None:
         """Print all metadata for {self.metadata.filename}."""
+        print(f"All metadata of {self.metadata.filename}:\n")
         metadata = self.as_dict()
         self._display_metadata(metadata)
 
@@ -41,13 +45,16 @@ class BaseModel:
 
     def show_missing_metadata(self):
         """Print missing metadata for {self.metadata.filename}."""
-        print(f"Missing Metadata of {self.metadata.filename}:\n")
+        try:
+            print(f"Missing Metadata of {self.metadata.filename}:\n")
+        except Exception as e:
+            print(e)
+            return
         metadata = self._filter_missing_metadata()
         self._display_metadata(metadata)
 
     def _display_metadata(self, metadata):
         """Display metadata in a consistent format."""
-        print(f"All metadata of {self.metadata.filename}:\n")
         for key, value in metadata.items():
             if key == self.ART_METADATA:
                 self._display_art(key, value)
@@ -93,14 +100,14 @@ class BaseModel:
         """Filter non-empty."""
         return {
             key: value
-            for key, value in self.as_dict().items() if value is not None
+            for key, value in self.as_dict().items() if value
         }
 
     def _filter_missing_metadata(self):
         """Filter missing metadata."""
         return {
             key: None
-            for key, value in self.as_dict().items() if value is None
+            for key, value in self.as_dict().items() if not value
         }
 
     # Metadata Modification Methods

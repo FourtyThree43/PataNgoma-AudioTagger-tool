@@ -3,7 +3,7 @@ from data_store import DataStore
 from query import Query
 
 # Create an instance of TrackInfo
-track_info = TrackInfo("../audio.mp3")
+track_info = TrackInfo("../music/track")
 
 # Create an instance of DataStore
 data_store = DataStore()

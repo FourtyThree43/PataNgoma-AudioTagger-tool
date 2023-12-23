@@ -95,6 +95,8 @@ def update_media_file(media_file: MediaFile, result: list,
     update["length"] = raw["duration_ms"] / 1000
     update["date"] = datetime.fromisoformat(raw["album"]["release_date"])
     media_file.update(update)
+    for k, v in update.items():
+        print(k, v)
     media_file.save()
     print("Updated file:", media_file.path)
 

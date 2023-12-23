@@ -3,132 +3,187 @@ from difflib import get_close_matches
 from imgcat import imgcat
 from mediafile import MediaFile
 from typing import Optional
-import PIL
 
 
 class BaseModel:
+    """ A class that represents a base model for the application. """
+    ART_METADATA = "art"
+    IMAGES_METADATA = "images"
+    LYRICS_METADATA = "lyrics"
 
     def __init__(self, file_path):
-        """Initialize a new instance of the BaseModel class."""
         self.file = file_path
-        self.metadata = MediaFile(file_path)
+        try:
+            self.metadata = MediaFile(file_path)
+        except Exception as e:
+            print(f"Error loading metadata from {file_path}: {str(e)}")
+            exit(1)
 
     def as_dict(self):
-        """Return a dictionary representation of the metadata."""
-        return dict(self.metadata.as_dict())
+        """Return metadata as a dictionary."""
+        try:
+            return dict(self.metadata.as_dict())
+        except Exception as e:
+            print(f"Error converting metadata to dictionary: {str(e)}")
+            return {}
 
+    # Metadata Display Methods
     def show_all_metadata(self):
         """Print all metadata for {self.metadata.filename}."""
-        print(f"All metadata of {self.metadata.filename}:\n")
-        for key, value in self.as_dict().items():
-            if key not in ("art", "images", "lyrics"):
-                print(f"{key}: {value}")
-            elif key == "art":
-                print(key + ": ")
-                imgcat(value)
-            elif key == "images":
-                print(key + ": ")
-                for image in value:
-                    imgcat(image.data)
-            elif key == "lyrics":
-                print(f"{key}: <LYRICS>")
+        metadata = self.as_dict()
+        self._display_metadata(metadata)
 
     def show_existing_metadata(self):
         """Print non-empty non-binary metadata for {self.metadata.filename}."""
         print(f"Existing Metadata of {self.metadata.filename}:\n")
-        for key, value in self.as_dict().items():
-            if value:
-                if key not in ("art", "images", "lyrics"):
-                    print(f"{key}: {value}")
-                elif key == "art":
-                    print(key + ": ")
-                    imgcat(value)
-                elif key == "images":
-                    print(key + ": ")
-                    for image in value:
-                        imgcat(image.data)
-                elif key == "lyrics":
-                    print(f"{key}: <LYRICS>")
+        metadata = self._filter_existing_metadata()
+        self._display_metadata(metadata)
 
     def show_missing_metadata(self):
         """Print missing metadata for {self.metadata.filename}."""
         print(f"Missing Metadata of {self.metadata.filename}:\n")
-        for key, value in self.as_dict().items():
-            if not value:
-                print(f"{key}")
+        metadata = self._filter_missing_metadata()
+        self._display_metadata(metadata)
 
-    def has_changes(self, track: 'dict', md_pre_update) -> bool:
+    def _display_metadata(self, metadata):
+        """Display metadata in a consistent format."""
+        print(f"All metadata of {self.metadata.filename}:\n")
+        for key, value in metadata.items():
+            if key == self.ART_METADATA:
+                self._display_art(key, value)
+            elif key == self.IMAGES_METADATA:
+                self._display_images(key, value)
+            elif key == self.LYRICS_METADATA:
+                self._display_lyrics(key)
+            elif value is None:
+                print(f"{key}: <MISSING>")
+            else:
+                print(f"{key}: {value}")
+
+    def _display_art(self, key, value):
+        try:
+            print(key + ": ")
+            imgcat(value, width=24, height=24)
+        except Exception as e:
+            print(f"An error occurred while displaying art: {str(e)}")
+
+    def _display_images(self, key, images):
+        try:
+            print(key + ": ")
+            for image in images:
+                imgcat(image.data, width=24, height=24)
+                print()
+        except Exception as e:
+            print(f"An error occurred while displaying images: {str(e)}")
+
+    def _display_lyrics(self, key):
+        print(f"{key}: <LYRICS>")
+
+    # Metadata Filtering Methods
+    def _filter_existing_metadata(self):
+        """Filter non-empty."""
+        return {
+            key: value
+            for key, value in self.as_dict().items() if value is not None
+        }
+
+    def _filter_missing_metadata(self):
+        """Filter missing metadata."""
+        return {
+            key: None
+            for key, value in self.as_dict().items() if value is None
+        }
+
+    # Metadata Modification Methods
+    def has_changed(self, new_meta, old_meta) -> bool:
         """Return True if there are changes to the metadata ignoring 'images'
         """
-        # excluding "images" as obj address always changes on update
-        return any(key != "images" 
-                          and md_pre_update[key] != value
-                          for key, value in track.items())
+        # Excluding "images" as obj address always changes on update
+        changed = any(
+            key != "images" and key in old_meta and old_meta[key] != value
+            for key, value in new_meta.items())
+        return changed
 
     def batch_update_metadata(self, updates):
-        for update in updates:
-            key, value = update.split("=")
-            if hasattr(self.metadata, key):
-                setattr(self.metadata, key, value)
+        """Updates """
+        if isinstance(updates, dict):
+            self.metadata.update(updates)
+        else:
+            for update in updates:
+                key, value = update.split("=")
+                try:
+                    if hasattr(self.metadata, key):
+                        setattr(self.metadata, key, value)
+                    else:
+                        possible_matches = get_close_matches(key,
+                                                             dir(self.metadata),
+                                                             n=5,
+                                                             cutoff=0.6)
+                        if possible_matches:
+                            print(f"Invalid metadata field: {key}")
+                            print(f"Did you mean? {', '.join(possible_matches)}")
+                        else:
+                            print(f"Invalid metadata field: {key}")
+                except Exception as e:
+                    print(f"An error occurred while updating metadata: {str(e)}")
+
+    def single_update_metadata(self, field, value):
+        try:
+            if hasattr(self.metadata, field):
+                setattr(self.metadata, field, value)
             else:
-                possible_matches = get_close_matches(key,
+                possible_matches = get_close_matches(field,
                                                      dir(self.metadata),
                                                      n=5,
                                                      cutoff=0.6)
                 if possible_matches:
-                    print(f"Invalid metadata field: {key}")
-                    print(
-                        f"Did you mean one of these? {', '.join(possible_matches)}"
-                    )
+                    print(f"Invalid metadata field: {field}")
+                    print(f"Did you mean? {', '.join(possible_matches)}")
                 else:
-                    print(f"Invalid metadata field: {key}")
-
-    def single_update_metadata(self, field, value):
-        if hasattr(self.metadata, field):
-            setattr(self.metadata, field, value)
-        else:
-            possible_matches = get_close_matches(field,
-                                                 dir(self.metadata),
-                                                 n=5,
-                                                 cutoff=0.6)
-            if possible_matches:
-                print(f"Invalid metadata field: {field}")
-                print(
-                    f"Did you mean one of these? {', '.join(possible_matches)}"
-                )
-            else:
-                print(f"Invalid metadata field: {field}")
+                    print(f"Invalid metadata field: {field}")
+        except Exception as e:
+            print(f"An error occurred while updating metadata: {str(e)}")
 
     def delete(self):
         """Delete metadata for {self.metadata.filename}."""
-        self.metadata.delete()
+        try:
+            self.metadata.delete()
+        except Exception as e:
+            print(f"An error occurred while deleting metadata: {str(e)}")
 
     def save(self):
-        self.metadata.save()
+        try:
+            self.metadata.save()
+        except Exception as e:
+            print(f"An error occurred while saving metadata: {str(e)}")
 
 
 class TrackInfo(BaseModel):
+    """ TrackInfo class for track metadata """
 
     def __init__(self, file_path):
         super().__init__(file_path)
-        self.load_metadata()
-
-    def load_metadata(self):
         self.title: Optional[str] = None
         self.artist: Optional[str] = None
         self.album: Optional[str] = None
         self.genre: Optional[str] = None
-        self.year: Optional[str] = None
 
         if self.metadata:
-            self.title = self.metadata.title # type: ignore
-            self.artist = self.metadata.artist # type: ignore
-            self.album = self.metadata.album # type: ignore
-            self.genre = self.metadata.genre # type: ignore
-            self.year = self.metadata.year # type: ignore
+            self.load_metadata()
+
+    def load_metadata(self):
+        if self.metadata:
+            self.title = self.metadata.title
+            self.artist = self.metadata.artist
+            self.albumartist = self.metadata.albumartist
+            self.album = self.metadata.album
+            self.genre = self.metadata.genre
+            self.year = self.metadata.year
+            self.track = self.metadata.track
+            self.tracktotal = self.metadata.tracktotal
+            self.albumtype = self.metadata.albumtype
 
     def get_params(self):
-        # returns a dict of all non-empty metadata excluding "art", "title", "artist"
         metadata: dict = self.as_dict()
 
         params = {}
