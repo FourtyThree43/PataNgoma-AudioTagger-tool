@@ -6,7 +6,7 @@ imgcat==0.5.0
 inquirerpy==0.3.4
 mediafile==0.12.0
 musicbrainzngs==0.7.1
-pillow==10.1.0
+pillow==10.2.0
 pytest==7.4.0
 python-dotenv==1.0.0
 python3-discogs-client==2.7
