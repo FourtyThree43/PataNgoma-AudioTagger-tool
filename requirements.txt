@@ -13,7 +13,7 @@ python3-discogs-client==2.7
 pyyaml==6.0.1
 requests==2.31.0
 spotipy==2.23.0
-sqlalchemy==2.0.23
+sqlalchemy==2.0.26
 rich==13.7.0
 rgbprint==4.0.2
 pyfiglet==1.0.0
