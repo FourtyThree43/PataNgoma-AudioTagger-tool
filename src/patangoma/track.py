@@ -1,16 +1,15 @@
-from typing import Optional
 from patangoma.base import BaseModel
 
 
 class TrackInfo(BaseModel):
-    """ TrackInfo class for track metadata """
+    """TrackInfo class for track metadata"""
 
     def __init__(self, file_path):
         super().__init__(file_path)
-        self.title: Optional[str] = None
-        self.artist: Optional[str] = None
-        self.album: Optional[str] = None
-        self.genre: Optional[str] = None
+        self.title: str | None = None
+        self.artist: str | None = None
+        self.album: str | None = None
+        self.genre: str | None = None
 
         if self.metadata:
             self.load_metadata()
@@ -32,7 +31,12 @@ class TrackInfo(BaseModel):
 
         params = {}
         for key, value in metadata.items():
-            if value is not None and key not in ("art", "title", "artist",
-                                                 "lyrics", "images"):
+            if value is not None and key not in (
+                "art",
+                "title",
+                "artist",
+                "lyrics",
+                "images",
+            ):
                 params[key] = value
         return params

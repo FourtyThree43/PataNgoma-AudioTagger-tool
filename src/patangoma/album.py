@@ -1,4 +1,3 @@
-from typing import Optional, List
 from patangoma.base import BaseModel
 from patangoma.track import TrackInfo
 
@@ -6,18 +5,18 @@ from patangoma.track import TrackInfo
 class AlbumInfo(BaseModel):
     """Class to hold information about an album."""
 
-    def __init__(self, file_path, tracks: List[TrackInfo]):
+    def __init__(self, file_path, tracks: list[TrackInfo]):
         super().__init__(file_path)
         self.tracks = tracks
         self.load_metadata()
 
     def load_metadata(self):
-        self.album: Optional[str] = None
-        self.album_id: Optional[str] = None
-        self.artist: Optional[str] = None
-        self.artist_id: Optional[str] = None
-        self.albumtype: Optional[str] = None
-        self.year: Optional[int] = None
+        self.album: str | None = None
+        self.album_id: str | None = None
+        self.artist: str | None = None
+        self.artist_id: str | None = None
+        self.albumtype: str | None = None
+        self.year: int | None = None
         # Add more attributes as needed
 
         if self.metadata:
@@ -43,7 +42,12 @@ class AlbumInfo(BaseModel):
 
         params = {}
         for key, value in metadata.items():
-            if value is not None and key not in ("art", "title", "artist",
-                                                 "lyrics", "images"):
+            if value is not None and key not in (
+                "art",
+                "title",
+                "artist",
+                "lyrics",
+                "images",
+            ):
                 params[key] = value
         return params

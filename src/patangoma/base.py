@@ -1,10 +1,12 @@
 from difflib import get_close_matches
+
 from imgcat import imgcat
 from mediafile import MediaFile
 
 
 class BaseModel:
-    """ A class that represents a base model for the application. """
+    """A class that represents a base model for the application."""
+
     ART_METADATA = "art"
     IMAGES_METADATA = "images"
     LYRICS_METADATA = "lyrics"
@@ -14,7 +16,7 @@ class BaseModel:
         try:
             self.metadata = MediaFile(file_path)
         except Exception as e:
-            print(f"Error loading metadata from {file_path}: {str(e)}")
+            print(f"Error loading metadata from {file_path}: {e!s}")
             exit(1)
 
     def as_dict(self):
@@ -22,7 +24,7 @@ class BaseModel:
         try:
             return dict(self.metadata.as_dict())
         except Exception as e:
-            print(f"Error converting metadata to dictionary: {str(e)}")
+            print(f"Error converting metadata to dictionary: {e!s}")
             return {}
 
     # Metadata Display Methods
@@ -60,7 +62,7 @@ class BaseModel:
             print(key + ": ")
             imgcat(value, width=24, height=24)
         except Exception as e:
-            print(f"An error occurred while displaying art: {str(e)}")
+            print(f"An error occurred while displaying art: {e!s}")
 
     def _display_images(self, key, images):
         try:
@@ -69,7 +71,7 @@ class BaseModel:
                 imgcat(image.data, width=24, height=24)
                 print()
         except Exception as e:
-            print(f"An error occurred while displaying images: {str(e)}")
+            print(f"An error occurred while displaying images: {e!s}")
 
     def _display_lyrics(self, key):
         print(f"{key}: <LYRICS>")
@@ -77,30 +79,24 @@ class BaseModel:
     # Metadata Filtering Methods
     def _filter_existing_metadata(self):
         """Filter non-empty."""
-        return {
-            key: value
-            for key, value in self.as_dict().items() if value
-        }
+        return {key: value for key, value in self.as_dict().items() if value}
 
     def _filter_missing_metadata(self):
         """Filter missing metadata."""
-        return {
-            key: None
-            for key, value in self.as_dict().items() if not value
-        }
+        return {key: None for key, value in self.as_dict().items() if not value}
 
     # Metadata Modification Methods
     def has_changed(self, new_meta, old_meta) -> bool:
-        """Return True if there are changes to the metadata ignoring 'images'
-        """
+        """Return True if there are changes to the metadata ignoring 'images'"""
         # Excluding "images" as obj address always changes on update
         changed = any(
             key != "images" and key in old_meta and old_meta[key] != value
-            for key, value in new_meta.items())
+            for key, value in new_meta.items()
+        )
         return changed
 
     def batch_update_metadata(self, updates):
-        """Updates """
+        """Updates"""
         if isinstance(updates, dict):
             self.metadata.update(updates)
         else:
@@ -110,47 +106,45 @@ class BaseModel:
                     if hasattr(self.metadata, key):
                         setattr(self.metadata, key, value)
                     else:
-                        possible_matches = get_close_matches(key,
-                                                             dir(self.metadata),
-                                                             n=5,
-                                                             cutoff=0.6)
+                        possible_matches = get_close_matches(
+                            key, dir(self.metadata), n=5, cutoff=0.6
+                        )
                         if possible_matches:
                             print(f"Invalid metadata field: {key}")
                             print(f"Did you mean? {', '.join(possible_matches)}")
                         else:
                             print(f"Invalid metadata field: {key}")
                 except Exception as e:
-                    print(f"An error occurred while updating metadata: {str(e)}")
+                    print(f"An error occurred while updating metadata: {e!s}")
 
     def single_update_metadata(self, field, value):
         try:
             if hasattr(self.metadata, field):
                 setattr(self.metadata, field, value)
             else:
-                possible_matches = get_close_matches(field,
-                                                     dir(self.metadata),
-                                                     n=5,
-                                                     cutoff=0.6)
+                possible_matches = get_close_matches(
+                    field, dir(self.metadata), n=5, cutoff=0.6
+                )
                 if possible_matches:
                     print(f"Invalid metadata field: {field}")
                     print(f"Did you mean? {', '.join(possible_matches)}")
                 else:
                     print(f"Invalid metadata field: {field}")
         except Exception as e:
-            print(f"An error occurred while updating metadata: {str(e)}")
+            print(f"An error occurred while updating metadata: {e!s}")
 
     def delete(self):
         """Delete metadata for {self.metadata.filename}."""
         try:
             self.metadata.delete()
         except Exception as e:
-            print(f"An error occurred while deleting metadata: {str(e)}")
+            print(f"An error occurred while deleting metadata: {e!s}")
 
     def save(self):
         try:
             self.metadata.save()
         except Exception as e:
-            print(f"An error occurred while saving metadata: {str(e)}")
+            print(f"An error occurred while saving metadata: {e!s}")
 
     # Album Artwork Methods
     def resize_album_art(self, width, height):
