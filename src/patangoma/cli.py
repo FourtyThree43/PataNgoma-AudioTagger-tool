@@ -1,170 +1,535 @@
 #!/usr/bin/env python3
+"""Modern CLI interface for PataNgoma AudioTagger."""
 
+from __future__ import annotations
+
+import json
+import os
+import sys
+from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
+
+import click
 from dotenv import load_dotenv
-from imgcat import imgcat
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
-from patangoma.data_store import DataStore
-from patangoma.query import Query
-from patangoma.sp import spotify_search, get_updates
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+from patangoma.domain.exceptions import AudioFileError, PataNgomaError, ProviderError
+from patangoma.domain.models import (
+    ConfidenceLevel,
+    FieldDiffStatus,
+    QueryParameters,
+)
+from patangoma.matching.matcher import MatchingEngine
+from patangoma.providers.registry import get_provider
+from patangoma.services.audio_backend import AudioBackend
+from patangoma.services.audit import AuditJournal
+from patangoma.services.doctor import run_diagnostics
+from patangoma.services.planner import PlanEngine
+from patangoma.services.scanner import LibraryScanner
 from patangoma.track import TrackInfo
-from rgbprint import gradient_print, gradient_scroll, Color
-from typing import Any, Dict, List, Optional, Union
-import click
-import os
-import toml
 
-sep = os.sep
-PROJECT_SPECS = os.path.normpath(
-    f"{os.path.expanduser('~')}/PataNgoma-AudioTagger-tool/pyproject.toml")
+console = Console()
+backend = AudioBackend()
+planner = PlanEngine()
+audit_journal = AuditJournal()
+matching_engine = MatchingEngine()
 
 
-def get_app_info():
-    """Get application name and version from pyproject.toml."""
+def get_app_info() -> tuple[str, str]:
+    """Get application name and version."""
+    app_name = "PataNgoma"
     try:
-        data = toml.load(PROJECT_SPECS)
-
-        app_name = data.get('project', {}).get('name')
-        app_version = data.get('project', {}).get('version')
-
-        return app_name, app_version
-    except FileNotFoundError:
-        print(f"Error: pyproject.toml not found in {PROJECT_SPECS}")
-        return None, None
-    except toml.TomlDecodeError as e:
-        print(f"Error decoding pyproject.toml: {e}")
-        return None, None
+        app_version = version("patangoma")
+    except PackageNotFoundError:
+        app_version = "1.0.0"
+    return app_name, app_version
 
 
-def app_info():
-    """Print a welcome message."""
+def app_info() -> None:
+    """Print welcome header."""
     app_name, app_version = get_app_info()
-
-    gradient_print(f"            ♥  {app_name} - {app_version} ♥",
-                   start_color='red',
-                   end_color='gold',
-                   end='\n')
-    gradient_print(' ──────────────────────────────────────────────────',
-                   start_color='orange',
-                   end_color='red',
-                   end='\n')
-    gradient_print('  │ GitHub  : https://github.com/FourtyThree43/  │ ',
-                   start_color='red',
-                   end_color='orange',
-                   end='\n')
-    gradient_print('  │           PataNgoma-AudioTagger-tool         │ ',
-                   start_color='red',
-                   end_color='orange',
-                   end='\n')
-    gradient_print('  │ Authors : @FourtyThree43                     │ ',
-                   start_color='red',
-                   end_color='orange',
-                   end='\n')
-    gradient_print('  │           @Kemboiray                         │ ',
-                   start_color='red',
-                   end_color='orange',
-                   end='\n')
-    gradient_print('  │           @Patrick-052                       │ ',
-                   start_color='red',
-                   end_color='orange',
-                   end='\n')
-    gradient_print(' ──────────────────────────────────────────────────',
-                   start_color='red',
-                   end_color='orange')
+    console.print(
+        Panel.fit(
+            f"[bold red]♥[/bold red] [bold yellow]{app_name}[/bold yellow] - [bold white]v{app_version}[/bold white] [bold red]♥[/bold red]\n"
+            "[cyan]Deterministic Music Metadata Intelligence Platform[/cyan]",
+            border_style="red",
+        )
+    )
 
 
-def set_default_path():
-    """Set default path to music directory."""
-    load_dotenv()
-    tail = os.getenv("MUSIC_PATH")
-
-    if tail:
-        tail = os.path.normpath(tail)  # Normalize path separator
-        music_path = os.path.join(os.path.expanduser('~'), tail)
-        if not os.path.exists(music_path):
-            click.secho(
-                "\nWARNING: Default path to music directory does not exist,\n         defaulting to current directory\n",
-                fg="yellow")
-            return os.getcwd()
-    else:
-        click.secho(
-            "\nWARNING: Path to music directory not set, defaulting to current directory\n",
-            fg="yellow")
-        music_path = os.getcwd()
-    return music_path
+# -------------------------------------------------------------------------
+# Modern Commands: scan, inspect, match, plan, apply, rollback, history, doctor, verify
+# -------------------------------------------------------------------------
 
 
-def is_valid(file):
-    """Check if file is valid."""
-    if not isinstance(file, str):
-        file = file[0]
+@click.group(invoke_without_command=True)
+@click.pass_context
+@click.option(
+    "--path",
+    "-p",
+    type=click.Path(exists=True, dir_okay=True, resolve_path=True),
+    help="Path to the audio file or its parent directory",
+)
+def cli(ctx: click.Context, path: str | None) -> None:
+    """PataNgoma AudioTagger CLI."""
+    if ctx.invoked_subcommand is None:
+        app_info()
+        target_path = path or _interactive_select_path()
+        ctx.obj = target_path
+        if _is_valid_audio(target_path):
+            _main_menu(ctx)
+        else:
+            sys.exit(1)
+
+
+@cli.command()
+@click.argument(
+    "path", type=click.Path(exists=True, file_okay=False, resolve_path=True)
+)
+@click.option(
+    "--recursive/--no-recursive",
+    "-r/-R",
+    default=True,
+    help="Scan subdirectories recursively",
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output results in JSON format"
+)
+def scan(path: str, recursive: bool, json_out: bool) -> None:
+    """Scan directory and report library metadata health and duplicates."""
+    scanner = LibraryScanner(backend)
+    _tracks, summary = scanner.scan_directory(path, recursive=recursive)
+
+    if json_out:
+        click.echo(summary.model_dump_json(indent=2))
+        return
+
+    table = Table(title=f"Library Scan Summary: {path}")
+    table.add_column("Metric", style="cyan")
+    table.add_column("Value", style="magenta")
+
+    table.add_row("Total Files Scanned", str(summary.total_files_scanned))
+    table.add_row("Valid Audio Files", str(summary.valid_audio_files))
+    table.add_row("Corrupt / Unreadable", f"[red]{summary.corrupt_or_unreadable}[/red]")
+    table.add_row("Missing Titles", str(summary.missing_title_count))
+    table.add_row("Missing Artists", str(summary.missing_artist_count))
+    table.add_row("Missing Albums", str(summary.missing_album_count))
+    table.add_row("Missing Years", str(summary.missing_year_count))
+    table.add_row("Missing Artwork", str(summary.missing_artwork_count))
+    table.add_row("Duplicate Sets Found", str(len(summary.duplicate_groups)))
+
+    console.print(table)
+
+    if summary.duplicate_groups:
+        dup_table = Table(title="Detected Duplicate Sets", border_style="yellow")
+        dup_table.add_column("#", style="dim")
+        dup_table.add_column("Duplicate File Paths")
+        for i, group in enumerate(summary.duplicate_groups, start=1):
+            dup_table.add_row(str(i), "\n".join(group))
+        console.print(dup_table)
+
+
+@cli.command()
+@click.argument(
+    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output metadata in JSON format"
+)
+def inspect(file_path: str, json_out: bool) -> None:
+    """Inspect metadata and technical properties of an audio file."""
     try:
-        MediaFile(file)
+        meta = backend.read_metadata(file_path)
+    except AudioFileError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        sys.exit(2)
+
+    if json_out:
+        click.echo(meta.model_dump_json(indent=2))
+        return
+
+    table = Table(title=f"Track Inspection: {Path(file_path).name}")
+    table.add_column("Field", style="cyan")
+    table.add_column("Value", style="green")
+
+    for k, v in meta.model_dump().items():
+        if k not in ("file_path", "artists", "genres") and v is not None:
+            table.add_row(k, str(v))
+
+    console.print(table)
+
+
+@cli.command()
+@click.argument(
+    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--provider",
+    "-p",
+    default="musicbrainz",
+    help="Provider (musicbrainz, deezer, spotify)",
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output match results in JSON format"
+)
+def match(file_path: str, provider: str, json_out: bool) -> None:
+    """Search provider and compute explainable match confidence scores."""
+    try:
+        track = backend.read_metadata(file_path)
+    except AudioFileError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        sys.exit(2)
+
+    try:
+        prov = get_provider(provider)
+        candidates = prov.search_tracks(
+            QueryParameters(title=track.title, artist=track.artist, album=track.album)
+        )
+    except ProviderError as e:
+        console.print(f"[bold red]Provider Error:[/bold red] {e}")
+        sys.exit(3)
+
+    if not candidates:
+        console.print(
+            f"[yellow]No candidates found on {provider} for {track.title} by {track.artist}.[/yellow]"
+        )
+        return
+
+    results = matching_engine.rank_candidates(track, candidates)
+
+    if json_out:
+        click.echo(json.dumps([r.model_dump() for r in results], indent=2, default=str))
+        return
+
+    table = Table(title=f"Metadata Matches for '{track.title}' (via {provider})")
+    table.add_column("Rank", style="dim")
+    table.add_column("Candidate Title", style="cyan")
+    table.add_column("Artist", style="green")
+    table.add_column("Album", style="magenta")
+    table.add_column("Score", style="bold yellow")
+    table.add_column("Confidence", style="bold")
+
+    for i, res in enumerate(results, start=1):
+        color = (
+            "green"
+            if res.confidence in (ConfidenceLevel.EXACT, ConfidenceLevel.HIGH)
+            else "yellow"
+        )
+        table.add_row(
+            str(i),
+            res.candidate.title,
+            res.candidate.primary_artist,
+            res.candidate.album or "—",
+            f"{res.score.total_score * 100:.1f}%",
+            f"[{color}]{res.confidence.value}[/{color}]",
+        )
+
+    console.print(table)
+
+
+@cli.command()
+@click.argument(
+    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--provider",
+    "-p",
+    default="musicbrainz",
+    help="Provider (musicbrainz, deezer, spotify)",
+)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(dir_okay=False),
+    help="Path to write the plan JSON file",
+)
+@click.option("--json-out", "--json", is_flag=True, help="Print plan JSON to stdout")
+def plan(file_path: str, provider: str, output: str | None, json_out: bool) -> None:
+    """Generate a deterministic mutation plan for an audio file."""
+    try:
+        track = backend.read_metadata(file_path)
+    except AudioFileError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        sys.exit(2)
+
+    try:
+        prov = get_provider(provider)
+        candidates = prov.search_tracks(
+            QueryParameters(title=track.title, artist=track.artist, album=track.album)
+        )
+    except ProviderError as e:
+        console.print(f"[bold red]Provider Error:[/bold red] {e}")
+        sys.exit(3)
+
+    if not candidates:
+        console.print(f"[yellow]No match candidates found on {provider}.[/yellow]")
+        sys.exit(1)
+
+    best_match = matching_engine.rank_candidates(track, candidates)[0]
+    tag_plan = planner.create_plan(
+        track=track,
+        candidate=best_match.candidate,
+        confidence=best_match.confidence,
+        total_score=best_match.score.total_score,
+    )
+
+    if output:
+        out_path = planner.save_plan_file(tag_plan, output)
+        console.print(f"[bold green]✓ Plan saved to:[/bold green] {out_path}")
+
+    if json_out or not output:
+        click.echo(planner.export_plan_to_json(tag_plan))
+
+
+@cli.command()
+@click.argument(
+    "plan_or_file", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--dry-run", is_flag=True, help="Simulate mutation without writing to disk"
+)
+@click.option(
+    "--provider",
+    "-p",
+    default="musicbrainz",
+    help="Provider if passing an audio file directly",
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output apply result in JSON format"
+)
+def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> None:
+    """Apply a plan or best candidate match to an audio file."""
+    path = Path(plan_or_file)
+
+    if path.suffix.lower() == ".json":
+        # Load from saved plan file
+        tag_plan = planner.load_plan_from_json(path.read_text(encoding="utf-8"))
+        audio_path = tag_plan.file_path
+    else:
+        # Match and create plan on the fly
+        audio_path = str(path)
+        track = backend.read_metadata(audio_path)
+        prov = get_provider(provider)
+        candidates = prov.search_tracks(
+            QueryParameters(title=track.title, artist=track.artist, album=track.album)
+        )
+        if not candidates:
+            console.print("[yellow]No candidates found to apply.[/yellow]")
+            sys.exit(1)
+        best = matching_engine.rank_candidates(track, candidates)[0]
+        tag_plan = planner.create_plan(
+            track, best.candidate, best.confidence, best.score.total_score
+        )
+
+    track_before = backend.read_metadata(audio_path)
+
+    # Collect tags to apply
+    updates = {}
+    for diff in tag_plan.diffs:
+        if diff.status in (FieldDiffStatus.ADDED, FieldDiffStatus.MODIFIED):
+            updates[diff.field_name] = diff.new_value
+
+    if dry_run:
+        updated = backend.write_tags(audio_path, updates, dry_run=True)
+        console.print(
+            f"[bold yellow]DRY-RUN:[/bold yellow] Simulated tags on {Path(audio_path).name}"
+        )
+        if json_out:
+            click.echo(updated.model_dump_json(indent=2))
+        return
+
+    # Apply mutation and log in audit history
+    updated = backend.write_tags(audio_path, updates, dry_run=False)
+    audit_rec = audit_journal.record_apply(tag_plan, track_before, updated)
+
+    if json_out:
+        click.echo(audit_rec.model_dump_json(indent=2))
+        return
+
+    console.print(
+        f"[bold green]✓ Successfully applied plan to {Path(audio_path).name}[/bold green]"
+    )
+    console.print(f"[dim]Operation ID: {audit_rec.operation_id}[/dim]")
+
+
+@cli.command()
+@click.argument("operation_id")
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output rollback outcome in JSON"
+)
+def rollback(operation_id: str, json_out: bool) -> None:
+    """Roll back an audio mutation using its Operation ID."""
+    try:
+        restored = audit_journal.rollback_operation(operation_id, backend)
+        if json_out:
+            click.echo(restored.model_dump_json(indent=2))
+            return
+        console.print(
+            f"[bold green]✓ Restored tags for {restored.path.name} from operation {operation_id}[/bold green]"
+        )
+    except PataNgomaError as e:
+        console.print(f"[bold red]Rollback failed:[/bold red] {e}")
+        sys.exit(1)
+
+
+@cli.command()
+@click.option("--limit", "-n", default=20, help="Maximum history records to display")
+@click.option("--json-out", "--json", is_flag=True, help="Output history in JSON")
+def history(limit: int, json_out: bool) -> None:
+    """List recent metadata mutations from the audit journal."""
+    records = audit_journal.list_history(limit=limit)
+
+    if json_out:
+        click.echo(json.dumps([r.model_dump() for r in records], indent=2, default=str))
+        return
+
+    if not records:
+        console.print("[dim]No audit history records found.[/dim]")
+        return
+
+    table = Table(title="Audit Log & Mutation History")
+    table.add_column("Timestamp", style="cyan")
+    table.add_column("Operation ID", style="dim")
+    table.add_column("File Name", style="green")
+    table.add_column("Modified Fields", style="yellow")
+
+    for rec in records:
+        table.add_row(
+            rec.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            rec.operation_id[:8] + "...",
+            Path(rec.file_path).name,
+            ", ".join(rec.applied_tags.keys()) if rec.applied_tags else "None",
+        )
+
+    console.print(table)
+
+
+@cli.command()
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output diagnostics in JSON format"
+)
+def doctor(json_out: bool) -> None:
+    """Diagnose system environment, audio backend, and provider configurations."""
+    report = run_diagnostics()
+
+    if json_out:
+        click.echo(report.model_dump_json(indent=2))
+        return
+
+    table = Table(title="PataNgoma Environment Diagnostics")
+    table.add_column("Check", style="cyan")
+    table.add_column("Status")
+    table.add_column("Details")
+
+    for chk in report.checks:
+        if chk.status == "OK":
+            status_text = "[bold green]✓ OK[/bold green]"
+        elif chk.status == "WARNING":
+            status_text = "[bold yellow]⚠ WARNING[/bold yellow]"
+        else:
+            status_text = "[bold red]✗ ERROR[/bold red]"
+
+        table.add_row(chk.name, status_text, chk.message)
+
+    console.print(table)
+
+
+@cli.command()
+@click.argument("path", type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output verification report in JSON"
+)
+def verify(path: str, json_out: bool) -> None:
+    """Verify integrity and readability of audio files in a directory or file."""
+    scanner = LibraryScanner(backend)
+    target = Path(path)
+
+    files = [target] if target.is_file() else scanner.discover_files(target)
+
+    readable = 0
+    corrupt = 0
+    errors = []
+
+    for f in files:
+        try:
+            backend.read_metadata(f)
+            readable += 1
+        except AudioFileError as e:
+            corrupt += 1
+            errors.append({"file": str(f), "error": str(e)})
+
+    res = {
+        "total_files": len(files),
+        "verified_readable": readable,
+        "corrupt_or_invalid": corrupt,
+        "errors": errors,
+    }
+
+    if json_out:
+        click.echo(json.dumps(res, indent=2))
+        return
+
+    if corrupt == 0:
+        console.print(
+            f"[bold green]✓ All {readable} files verified successfully![/bold green]"
+        )
+    else:
+        console.print(
+            f"[bold yellow]Verification completed with issues: {readable} valid, [red]{corrupt} corrupt[/red].[/bold yellow]"
+        )
+
+
+# -------------------------------------------------------------------------
+# Legacy Interactive UI Helpers
+# -------------------------------------------------------------------------
+
+
+def _is_valid_audio(file_path: str) -> bool:
+    """Check if file is valid audio."""
+    try:
+        MediaFile(file_path)
         return True
     except Exception:
-        click.secho("\nERROR: Invalid or unsupported file format, exiting\n",
-                    fg="red")
+        click.secho("\nERROR: Invalid or unsupported file format\n", fg="red")
         return False
 
 
-def interactive_selection(music_path):
-    """Interactive selection of file from list."""
-    if music_path[-1] != sep:
-        music_path += sep
+def _interactive_select_path() -> str:
+    """Prompt user for file path."""
+    load_dotenv()
+    music_dir = os.getenv("MUSIC_PATH") or os.getcwd()
     filename = inquirer.filepath(
         message="Please enter a path or select file from list:\n",
         amark="✔️ ",
         qmark="\n> ",
         validate=PathValidator(is_file=True, message="Input is not a file"),
-        default=f"{music_path}",
-        transformer=lambda x: f"\nFile: {os.path.basename(x)}",
+        default=f"{music_dir}",
         instruction="Press <tab> to list directory contents",
-        long_instruction=
-        "Use: <enter> to select/deselect, <up>/<down> to navigate").execute()
+    ).execute()
     return os.path.expanduser(filename)
 
 
-@click.group(invoke_without_command=True)
-@click.pass_context
-@click.option('--path',
-              '-p',
-              type=click.Path(exists=True, dir_okay=True, resolve_path=True),
-              help="Path to the audio file or its parent directory")
-def cli(ctx, path):
-    """ Main entry point for the CLI."""
-    app_info()
-
-    if ctx.invoked_subcommand is None:
-        if path:
-            if os.path.isdir(path):
-                click.echo(
-                    "\nPath provided is a directory, please select a file")
-                path = interactive_selection(path)
-            ctx.obj = path
-        else:
-            ctx.obj = interactive_selection(set_default_path())
-        if is_valid(ctx.obj):
-            _main_menu(ctx)
-        else:
-            exit(1)
-
-
-def _main_menu(ctx):
-    """Display the Main menu of available actions."""
-
-    action = inquirer.select(message="Select an action:",
-                             choices=[
-                                 "Show-Tags",
-                                 "Update-Tags",
-                                 "Delete-Tags",
-                                 "Search",
-                                 Choice(value=None, name="Exit"),
-                             ],
-                             default=None,
-                             qmark="\n> ",
-                             amark="✔️ ").execute()
+def _main_menu(ctx: click.Context) -> None:
+    """Main interactive menu."""
+    action = inquirer.select(
+        message="Select an action:",
+        choices=[
+            "Show-Tags",
+            "Update-Tags",
+            "Delete-Tags",
+            "Search",
+            Choice(value=None, name="Exit"),
+        ],
+        default=None,
+        qmark="\n> ",
+        amark="✔️ ",
+    ).execute()
     fp = ctx.obj
 
     if action == "Show-Tags":
@@ -174,111 +539,72 @@ def _main_menu(ctx):
     elif action == "Search":
         _submenu_search(ctx)
     elif action == "Delete-Tags":
-        delete([fp])
+        ctx.invoke(delete, file_path=fp)
 
 
-def _submenu_show(ctx):
-    """Display a submenu for 'Show-Tags' options."""
+def _submenu_show(ctx: click.Context) -> None:
     fp = ctx.obj
-
-    show_tags_choices = [
-        Choice(name="Show all metadata", value="all"),
-        Choice(name="Show existing metadata", value="existing"),
-        Choice(name="Show missing metadata", value="missing"),
-        Choice(name="Go back", value="Back"),
-    ]
-
-    show_tags_action = inquirer.select(
+    choice = inquirer.select(
         message="Select a 'Show-Tags' option:",
-        choices=show_tags_choices,
+        choices=[
+            Choice(name="Show all metadata", value="all"),
+            Choice(name="Show existing metadata", value="existing"),
+            Choice(name="Show missing metadata", value="missing"),
+            Choice(name="Go back", value="Back"),
+        ],
         default="Back",
-        amark="✔️ ",
-        qmark="\n> ",
-        instruction="Use: <enter> to select/deselect, <up>/<down> to navigate"
     ).execute()
 
-    if show_tags_action == "all":
+    if choice == "all":
         ctx.invoke(show, file_path=fp, all_t=True)
-    elif show_tags_action == "existing":
+    elif choice == "existing":
         ctx.invoke(show, file_path=fp, existing=True)
-    elif show_tags_action == "missing":
+    elif choice == "missing":
         ctx.invoke(show, file_path=fp, missing=True)
-    elif show_tags_action == "Back":
+    elif choice == "Back":
         _main_menu(ctx)
 
 
-def _submenu_update(ctx):
-    """Display a submenu for 'Update-tags' options."""
+def _submenu_update(ctx: click.Context) -> None:
     fp = ctx.obj
-    valid_fields = {
-        "artist": None,
-        "album": None,
-        "title": None,
-        "track": None,
-        "genre": None,
-        "year": None,
-        "comment": None
-    }
-    selected_fields = inquirer.fuzzy(
+    valid_fields = ["artist", "album", "title", "track", "genre", "year", "comment"]
+    selected = inquirer.fuzzy(
         message="Select fields:",
-        choices=list(valid_fields.keys()),
+        choices=valid_fields,
         multiselect=True,
-        validate=lambda result: len(result) >= 1,
-        invalid_message="minimum 1 selection",
-        max_height="70%",
-        qmark="\n> ",
-        amark="✔️ ",
-        instruction=
-        "Use: <Tab> to select/deselect, <up>/<down> to navigate or type keyword to search the list"
     ).execute()
+
     updates = []
-    click.echo("\nEnter new values as prompted:")
-    for key in selected_fields:
-        updates.append(
-            inquirer.text(message=f"{key}:", qmark="> ", amark="✔️ ").execute())
-    ctx.invoke(update,
-               file_path=fp,
-               updates=tuple([
-                   f"{key}={value}"
-                   for key, value in zip(selected_fields, updates)
-               ]))
+    for key in selected:
+        val = inquirer.text(message=f"{key}:").execute()
+        updates.append(f"{key}={val}")
+
+    ctx.invoke(update, file_path=fp, updates=tuple(updates))
 
 
-def _submenu_search(ctx):
-    source = inquirer.select(message="Select a service to use:",
-                             choices=["spotify", "musicbrainz", "deezer"],
-                             qmark="\n> ",
-                             amark="✔️ ").execute()
+def _submenu_search(ctx: click.Context) -> None:
+    source = inquirer.select(
+        message="Select a service to use:",
+        choices=["spotify", "musicbrainz", "deezer"],
+    ).execute()
     ctx.invoke(search, file_path=ctx.obj, source=source)
 
 
-@click.command()
-@click.option('--all_t',
-              '-a',
-              is_flag=True,
-              show_default=True,
-              default=False,
-              help='Show all metadata.')
-@click.option('--existing',
-              '-e',
-              is_flag=True,
-              show_default=True,
-              default=True,
-              help='Show only existing metadata.')
-@click.option('--missing',
-              '-m',
-              is_flag=True,
-              show_default=True,
-              default=False,
-              help='Show missing metadata.')
-@click.argument('file_path',
-                type=click.Path(exists=True, resolve_path=True,
-                                dir_okay=False))
-def show(file_path, all_t: bool, existing: bool, missing: bool):
-    """Show metadata for a media file <file_path>"""
-    if is_valid(file_path):
+@cli.command()
+@click.option("--all_t", "-a", is_flag=True, default=False, help="Show all metadata.")
+@click.option(
+    "--existing", "-e", is_flag=True, default=True, help="Show only existing metadata."
+)
+@click.option(
+    "--missing", "-m", is_flag=True, default=False, help="Show missing metadata."
+)
+@click.argument(
+    "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+def show(file_path: str, all_t: bool, existing: bool, missing: bool) -> None:
+    """Show metadata for a media file <file_path>."""
+    if _is_valid_audio(file_path):
         track = TrackInfo(file_path)
-
         if all_t:
             track.show_all_metadata()
         elif missing:
@@ -286,37 +612,26 @@ def show(file_path, all_t: bool, existing: bool, missing: bool):
         else:
             track.show_existing_metadata()
     else:
-        exit(1)
+        sys.exit(1)
 
 
-@click.command()
-@click.argument('file_path',
-                type=click.Path(exists=True, resolve_path=True,
-                                dir_okay=False))
-@click.argument('updates', nargs=-1)
-def update(file_path, updates):
-    """Update metadata for a media file <file_path>"""
-    if is_valid(file_path):
+@cli.command()
+@click.argument(
+    "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+@click.argument("updates", nargs=-1)
+def update(file_path: str, updates: tuple[str, ...]) -> None:
+    """Update metadata for a media file <file_path>."""
+    if _is_valid_audio(file_path):
         track = TrackInfo(file_path)
         md_pre_update = track.as_dict()
-
         track.batch_update_metadata(updates)
 
         if track.has_changed(track.as_dict(), md_pre_update):
             click.echo(f"\nMetadata changes for {track.metadata.filename}:\n")
             for key, value in track.as_dict().items():
-                if key != "images" and md_pre_update[key] != value:
-                    if key not in ("art", "lyrics"):
-                        click.echo(f"{key}: {md_pre_update[key]} -> {value}")
-                    elif key == "art":
-                        click.echo(f"{'-' * 10} Original {'-' * 10}\n")
-                        imgcat(md_pre_update[key], width=24, height=24)
-
-                        click.echo(f"{'-' * 10} Updated {'-' * 10}\n")
-                        imgcat(value, width=24, height=24)
-                    else:
-                        click.echo(
-                            f"{key}: changed (diff too large to display)")
+                if key != "images" and md_pre_update.get(key) != value:
+                    click.echo(f"{key}: {md_pre_update.get(key)} -> {value}")
 
             if click.confirm("\nDo you want to save these changes?"):
                 track.save()
@@ -326,212 +641,35 @@ def update(file_path, updates):
         else:
             click.echo("No changes to save.")
     else:
-        exit(1)
+        sys.exit(1)
 
 
-@click.command()
-@click.argument('file_path', type=click.Path(exists=True))
-def delete(file_path):
-    """Delete all metadata from the media file <file_path>"""
-    if is_valid(file_path):
+@cli.command()
+@click.argument("file_path", type=click.Path(exists=True))
+def delete(file_path: str) -> None:
+    """Delete all metadata from the media file <file_path>."""
+    if _is_valid_audio(file_path):
         track = TrackInfo(file_path)
-
         proceed = inquirer.confirm(
-            message="Are you sure you want to delete all tags?",
-            qmark="\n> ",
-            amark="✔️ ",
-            default=False).execute()
-        if proceed:
-            end_color = Color.random
-            print()
-            gradient_scroll(f"Deleting tags for {file_path}",
-                            start_color=Color.gold,
-                            end_color=end_color,
-                            delay=0.01)
-            track.delete()
-        else:
-            print()
-            gradient_scroll("Aborting...",
-                            start_color=Color.red,
-                            end_color=Color.blue)
-    else:
-        exit(1)
-
-
-@click.command()
-@click.pass_context
-@click.argument('file_path',
-                type=click.Path(exists=True, resolve_path=True,
-                                dir_okay=False))
-@click.option('--source', '-s', help='Source service to use for search')
-def search(ctx, file_path, source):
-    """
-    Search for music information using the provided audio file.
-
-    The path to the file is provided as an argument.
-    The function searches using `artist` and `title` tags obtained from the music file.
-    If either tag is missing, the user is prompted to provide them.
-    """
-    if is_valid(file_path):
-        track = TrackInfo(file_path)
-        source_choices = ["spotify", "musicbrainz", "deezer"]
-        source_select = inquirer.select(message="Specify a service to use:",
-                                        choices=source_choices,
-                                        qmark="\n> ",
-                                        amark="✔️ ")
-        if not source:
-            click.secho("\nSource missing", fg="yellow")
-            source = source_select.execute()
-        elif source not in source_choices:
-            click.secho("\nInvalid source provided", fg="yellow")
-            source = source_select.execute()
-
-        if track.title and track.artist:
-            title, artist = track.title, track.artist
-        elif track.title:
-            title = track.title
-            click.secho("\nWARNING: Music file is missing an artist tag...",
-                        fg="yellow")
-            artist = inquirer.text(message="Provide an artist name:",
-                                   qmark="\n> ",
-                                   amark="✔️ ").execute()
-        elif track.artist:
-            artist = track.artist
-            click.secho("\nMusic file is missing a title tag...", fg="yellow")
-            title = inquirer.text(message="Provide a title:",
-                                  qmark="\n> ",
-                                  amark="✔️ ").execute()
-        else:
-            click.secho("\nMusic file is missing artist and title tags...",
-                        fg="yellow")
-            artist = inquirer.text(message="Provide an artist name:",
-                                   qmark="\n> ",
-                                   amark="✔️ ").execute()
-            title = inquirer.text(message="Provide a title:",
-                                  qmark="\n> ",
-                                  amark="✔️ ").execute()
-        if source == "spotify":
-            up_fields = spotify_subsearch(title, artist)
-        elif source == "musicbrainz":
-            up_fields = mb_subsearch(track, title, artist)
-        elif source == "deezer":
-            up_fields = dz_subsearch(track, title, artist, album="")
-        else:
-            up_fields = None
-        if up_fields:
-            proceed = inquirer.confirm(
-                message=
-                "Potential updates found. Would you like to preview them?",
-                default=False,
-                qmark="\n> ",
-                amark="✔️ ").execute()
-            if proceed:
-                ctx.invoke(update, file_path=file_path, updates=up_fields)
-        else:
-            click.secho("No results found", fg="yellow")
-
-    else:
-        exit(1)
-
-
-def spotify_subsearch(title: str, artist: str) -> Dict[str, Any]:
-    result, parsed_result = spotify_search(title, artist)
-    if result and parsed_result:
-        return get_updates(result, parsed_result)
-    else:
-        return {}
-
-
-def mb_subsearch(track: TrackInfo, title: str, artist: str) -> List[str]:
-    ds = DataStore()
-    query = Query(track, ds)
-    musicbrainz_data = query.fetch_musicbrainz_data(title, artist)
-
-    if musicbrainz_data:
-        choices = []
-
-        for idx, rec in enumerate(musicbrainz_data, start=1):
-            choice_item = {
-                "name":
-                f"{idx}. Title: {rec.get('title')} - {rec.get('artist')}\n" +
-                f"       Album: {rec.get('album')} - {rec.get('year')} - {rec.get('albumtype')}\n"
-                +
-                f"       Track: {rec.get('tracknumber')} - Duration: {rec.get('length')}",
-                "value":
-                idx
-            }
-            choices.append(choice_item)
-
-        selection = inquirer.select(message="Select a track:",
-                                    choices=choices,
-                                    amark="✔️ ",
-                                    qmark="\n> ",
-                                    max_height="70%").execute()
-
-        selected = int(selection)
-        se_res: dict = musicbrainz_data[selected - 1]
-
-        up_fields = [
-            f"{key}={value}"
-            for key, value in zip(se_res.keys(), se_res.values())
-        ]
-
-        return up_fields
-    else:
-        return []
-
-
-def dz_subsearch(track: TrackInfo, title: str, artist: str,
-                 album: Optional[str]) -> Union[Dict[str, Any], List[str]]:
-    ds = DataStore()
-    query = Query(track, ds)
-    deezer_data = query.fetch_deezer_data(title, artist, album)
-
-    gradient_scroll("Fetching ...",
-                    start_color=Color.dark_sea_green,
-                    end_color=Color.antique_white)
-    if deezer_data:
-        choices = []
-
-        for idx, rec in enumerate(deezer_data, start=1):
-            choice_item = {
-                "name":
-                f"{idx}. Title: {rec['title']} - {rec['artist']['name']}\n" +
-                f"       Album: {rec['album']['title']} - {rec['album']['type']}\n",
-                "value":
-                idx,
-            }
-            choices.append(choice_item)
-
-        selection = inquirer.select(
-            message="Select a track:",
-            choices=choices,
-            qmark="\n> ",
-            amark="✔ ",
-            default=1,
-            instruction="Use arrow keys to navigate, press Enter to select",
-            max_height="70%",
+            message="Are you sure you want to delete all tags?", default=False
         ).execute()
-
-        if selection:
-            selected_track = deezer_data[selection - 1]
-
-            track_data = query.dz_api.get_track_by_id(selected_track["id"])
-            album_data = query.dz_api.get_album_by_id(
-                selected_track["album"]["id"])
-            metadata_mapping = query.dz_api.mapData(track_data, album_data)
-
-            return metadata_mapping
-        else:
-            return {}
+        if proceed:
+            track.delete()
+            console.print(f"[green]Deleted tags for {file_path}[/green]")
     else:
-        return []
+        sys.exit(1)
 
 
-cli.add_command(delete)
-cli.add_command(search)
-cli.add_command(show)
-cli.add_command(update)
+@cli.command()
+@click.pass_context
+@click.argument(
+    "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+@click.option("--source", "-s", help="Source service to use for search")
+def search(ctx: click.Context, file_path: str, source: str | None) -> None:
+    """Search for music information using the provided audio file."""
+    ctx.invoke(match, file_path=file_path, provider=source or "musicbrainz")
+
 
 if __name__ == "__main__":
     cli()
