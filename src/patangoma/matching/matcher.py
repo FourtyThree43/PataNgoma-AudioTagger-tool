@@ -61,7 +61,8 @@ def compute_string_similarity(a: str | None, b: str | None) -> float:
     if norm_a == norm_b:
         return 1.0
 
-    return difflib.SequenceMatcher(None, norm_a, norm_b).ratio()
+    s1, s2 = (norm_a, norm_b) if norm_a <= norm_b else (norm_b, norm_a)
+    return difflib.SequenceMatcher(None, s1, s2).ratio()
 
 
 def compute_artist_similarity(
