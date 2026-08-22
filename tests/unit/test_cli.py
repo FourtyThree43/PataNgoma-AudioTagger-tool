@@ -108,3 +108,52 @@ def test_cli_plan_and_apply_mocked(mp3_missing_artist: Path, tmp_path: Path):
         hist_res = runner.invoke(cli, ["history"])
         assert hist_res.exit_code == 0
         assert "Audit Log & Mutation History" in hist_res.output
+
+
+def test_cli_plan_dir_and_apply_dir_mocked(mp3_complete: Path, tmp_path: Path):
+    runner = CliRunner()
+    mock_candidate = MetadataCandidate(
+        provider_name="musicbrainz",
+        provider_id="rec-99",
+        title="Sauti ya Simba",
+        artists=["Burna Boy"],
+        album="Love, Damini (Deluxe)",
+        year=2022,
+    )
+
+    with patch(
+        "patangoma.providers.musicbrainz.MusicBrainzProvider.search_tracks",
+        return_value=[mock_candidate],
+    ):
+        batch_file = tmp_path / "batch.json"
+
+        # 1. Generate batch plan
+        plan_res = runner.invoke(
+            cli, ["plan-dir", str(mp3_complete.parent), "-o", str(batch_file)]
+        )
+        assert plan_res.exit_code == 0
+        assert batch_file.exists()
+
+        # 2. Dry run apply batch
+        dry_res = runner.invoke(cli, ["apply-dir", str(batch_file), "--dry-run"])
+        assert dry_res.exit_code == 0
+        assert "DRY-RUN" in dry_res.output
+
+        # 3. Real apply batch
+        apply_res = runner.invoke(cli, ["apply-dir", str(batch_file)])
+        assert apply_res.exit_code == 0
+        assert "Successfully applied batch plan" in apply_res.output
+
+
+def test_cli_reason(mp3_complete: Path):
+    runner = CliRunner()
+    result = runner.invoke(cli, ["reason", str(mp3_complete)])
+    assert result.exit_code == 0
+    assert "Filename & Tag Reasoning" in result.output
+
+    # JSON test
+    json_res = runner.invoke(cli, ["reason", str(mp3_complete), "--json"])
+    assert json_res.exit_code == 0
+    parsed = json.loads(json_res.output)
+    assert "inference" in parsed
+    assert "suggestions" in parsed

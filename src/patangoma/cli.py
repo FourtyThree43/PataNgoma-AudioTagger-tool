@@ -27,8 +27,10 @@ from patangoma.domain.models import (
 )
 from patangoma.matching.matcher import MatchingEngine
 from patangoma.providers.registry import get_provider
+from patangoma.services.ai_reasoner import MetadataReasoner
 from patangoma.services.audio_backend import AudioBackend
 from patangoma.services.audit import AuditJournal
+from patangoma.services.batch import BatchService
 from patangoma.services.doctor import run_diagnostics
 from patangoma.services.planner import PlanEngine
 from patangoma.services.scanner import LibraryScanner
@@ -39,6 +41,8 @@ backend = AudioBackend()
 planner = PlanEngine()
 audit_journal = AuditJournal()
 matching_engine = MatchingEngine()
+batch_service = BatchService(backend, planner, matching_engine, audit_journal)
+reasoner = MetadataReasoner()
 
 
 def get_app_info() -> tuple[str, str]:
@@ -356,6 +360,113 @@ def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> No
         f"[bold green]✓ Successfully applied plan to {Path(audio_path).name}[/bold green]"
     )
     console.print(f"[dim]Operation ID: {audit_rec.operation_id}[/dim]")
+
+
+@cli.command("plan-dir")
+@click.argument(
+    "directory", type=click.Path(exists=True, file_okay=False, resolve_path=True)
+)
+@click.option(
+    "--provider",
+    "-p",
+    default="musicbrainz",
+    help="Provider (musicbrainz, deezer, spotify)",
+)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(dir_okay=False),
+    help="Path to save batch plan JSON file",
+)
+@click.option("--json-out", "--json", is_flag=True, help="Output batch plan in JSON")
+def plan_dir(directory: str, provider: str, output: str | None, json_out: bool) -> None:
+    """Generate a batch mutation plan across an entire directory."""
+    batch_plan = batch_service.generate_batch_plan(directory, provider_name=provider)
+
+    if output:
+        out_path = batch_service.export_batch_plan(batch_plan, output)
+        console.print(f"[bold green]✓ Batch plan saved to:[/bold green] {out_path}")
+
+    if json_out or not output:
+        click.echo(batch_plan.model_dump_json(indent=2))
+
+
+@cli.command("apply-dir")
+@click.argument(
+    "plan_file", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--dry-run", is_flag=True, help="Simulate batch mutation without writing to disk"
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output applied batch records in JSON"
+)
+def apply_dir(plan_file: str, dry_run: bool, json_out: bool) -> None:
+    """Apply a batch plan across an entire music library."""
+    batch_plan = batch_service.load_batch_plan(plan_file)
+    records = batch_service.apply_batch_plan(batch_plan, dry_run=dry_run)
+
+    if json_out:
+        click.echo(json.dumps([r.model_dump() for r in records], indent=2, default=str))
+        return
+
+    if dry_run:
+        console.print(
+            f"[bold yellow]DRY-RUN:[/bold yellow] Simulated batch tagging for {len(batch_plan.matched_plans)} tracks."
+        )
+    else:
+        console.print(
+            f"[bold green]✓ Successfully applied batch plan to {len(records)} tracks.[/bold green]"
+        )
+
+
+@cli.command("reason")
+@click.argument(
+    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+)
+@click.option(
+    "--json-out", "--json", is_flag=True, help="Output reasoning in JSON format"
+)
+def reason_cmd(file_path: str, json_out: bool) -> None:
+    """Analyze filename patterns and suggest tag improvements using reasoning heuristics."""
+    try:
+        track = backend.read_metadata(file_path)
+    except AudioFileError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        sys.exit(2)
+
+    inference = reasoner.parse_filename(Path(file_path).name)
+    suggestions = reasoner.suggest_tag_improvements(track)
+
+    if json_out:
+        click.echo(
+            json.dumps(
+                {"inference": inference.model_dump(), "suggestions": suggestions},
+                indent=2,
+            )
+        )
+        return
+
+    table = Table(title=f"Filename & Tag Reasoning: {Path(file_path).name}")
+    table.add_column("Property", style="cyan")
+    table.add_column("Inferred Value", style="green")
+
+    table.add_row("Suggested Title", inference.suggested_title or "—")
+    table.add_row("Suggested Artist", inference.suggested_artist or "—")
+    table.add_row(
+        "Suggested Track #",
+        str(inference.suggested_track_number)
+        if inference.suggested_track_number
+        else "—",
+    )
+    table.add_row("Heuristic Confidence", inference.confidence)
+
+    console.print(table)
+
+    if suggestions:
+        console.print("\n[bold yellow]Suggestions & Potential Fixes:[/bold yellow]")
+        for s in suggestions:
+            console.print(f" • {s}")
 
 
 @cli.command()

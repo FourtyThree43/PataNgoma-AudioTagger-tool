@@ -7,7 +7,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field
 
 
 class ConfidenceLevel(str, Enum):
@@ -202,12 +202,19 @@ class MetadataCandidate(BaseModel):
 class ScoreBreakdown(BaseModel):
     """Detailed explainable score components for a match."""
 
-    title_score: float = Field(ge=0.0, le=1.0)
-    artist_score: float = Field(ge=0.0, le=1.0)
-    album_score: float = Field(ge=0.0, le=1.0)
-    duration_score: float = Field(ge=0.0, le=1.0)
-    total_score: float = Field(ge=0.0, le=1.0)
-    reasons: list[str] = Field(default_factory=list)
+    title_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    artist_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    album_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    duration_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    total_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    reasons: list[str] = Field(
+        default_factory=list,
+        validation_alias=AliasChoices("reasons", "breakdown_reasons"),
+    )
+
+    @property
+    def breakdown_reasons(self) -> list[str]:
+        return self.reasons
 
     model_config = ConfigDict(frozen=True)
 
@@ -215,7 +222,7 @@ class ScoreBreakdown(BaseModel):
 class MatchResult(BaseModel):
     """Evaluated match between local track and external candidate."""
 
-    track_path: str
+    track_path: str = ""
     candidate: MetadataCandidate
     score: ScoreBreakdown
     confidence: ConfidenceLevel
