@@ -1,225 +1,134 @@
-# Project: PataNgoma-AudioTagger-tool
+# PataNgoma AudioTagger
 
-[![GitHub license](https://img.shields.io/github/license/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub stars](https://img.shields.io/github/stars/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub issues](https://img.shields.io/github/issues/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub forks](https://img.shields.io/github/forks/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub contributors](https://img.shields.io/github/contributors/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub last commit](https://img.shields.io/github/last-commit/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub language count](https://img.shields.io/github/languages/count/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub top language](https://img.shields.io/github/languages/top/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub repo size](https://img.shields.io/github/repo-size/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/FourtyThree43/PataNgoma-AudioTagger-tool)]()
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/FourtyThree43/PataNgoma-AudioTagger-tool)]()
+[![CI](https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool/actions)
+[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
+[![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
+**PataNgoma** is a provider-agnostic audio metadata intelligence platform built for deterministic music library scanning, multi-provider aggregation (MusicBrainz, Deezer, Spotify), explainable matching, and safe transactional tagging with atomic rollbacks.
 
+---
 
-# PataNgoma
+## ⚡ Core Philosophy: Determinism Before Intelligence
 
-## Table of Contents
-- [Project Folder Structure](#project-folder-structure)
-- [Project Overview](#project-overview)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-- [Maintainers](#maintainers)
-- [Security](#security)
-- [Troubleshooting](#troubleshooting)
-
-## Project Folder Structure
-
-This project is organized with the following directory structure:
-
-```
-PataNgoma-AudioTagger-tool
-├── app
-│   ├── api
-│   │   ├── controllers
-│   │   │   ├── __init__.py
-│   │   │   ├── album_controller.py
-│   │   │   ├── search_controller.py
-│   │   │   └── tagging_controller.py
-│   │   ├── __init__.py
-│   │   ├── dz.py
-│   │   ├── mb.py
-│   │   └── sp.py
-│   ├── db
-│   │   ├── __init__.py
-│   │   └── database.py
-│   ├── models
-│   │   ├── __init__.py
-│   │   ├── album.py
-│   │   ├── album_artwork.py
-│   │   ├── data_store.py
-│   │   ├── id_extractor.py
-│   │   ├── query.py
-│   │   ├── tags.py
-│   │   └── track.py
-│   ├── __init__.py
-│   └── console.py
-├── config
-│   ├── __init__.py
-│   └── config.py
-├── docs
-│   ├── api_docs
-│   │   └── swagger.yaml
-│   ├── assets
-│   │   ├── css
-│   │   │   ├── images
-│   │   │   ├── fontawesome-all.min.css
-│   │   │   ├── main.css
-│   │   │   └── noscript.css
-│   │   ├── js
-│   │   ├── sass
-│   │   └── webfonts
-│   ├── images
-│   └── user_manual
-│       └── user_guide.md
-├── test
-├── LICENSE
-├── main.py
-├── README.md
-├── requirements.txt
-└── SECURITY.md
+```text
+Deterministic Metadata > Provider Metadata > Fuzzy Matching > AI Reasoning
 ```
 
-## Project Overview
+PataNgoma treats audio libraries with a **Recovery-First** mindset:
+1. **Plan / Apply Lifecycle**: Preview and validate proposed metadata diffs in structured JSON before committing changes.
+2. **Reversible Mutations**: Automatic pre-mutation snapshots saved in an SQLite audit journal enable one-command `rollback`.
+3. **Provable Integrity**: Post-mutation verification and SHA-256 checksum tracking ensure tags write accurately without file corruption.
 
-- **app**: This directory contains the main application code, including API controllers, database access, and models.
+---
 
-- **config**: Configuration files for the application are stored here.
+## 🚀 Quickstart
 
-- **docs**: Documentation for the project, including API documentation, assets, and user manuals, is kept here.
-
-- **test**: This directory is for project tests.
-
-- **LICENSE**: Contains the project's license information.
-
-- **main.py**: The entry point of the application.
-
-- **README.md**: Project documentation with detailed information about the project structure and usage.
-
-- **requirements.txt**: Lists the project dependencies necessary for running the application.
-
-- **SECURITY.md**: Contains security-related information and guidelines.
-
-## Installation
-
-To set up this project, follow these steps:
-
-1. Clone the repository to your local machine.
+### Prerequisites
+PataNgoma requires **Python >= 3.10** and Astral **`uv`**.
 
 ```bash
+# Clone repository
 git clone https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git
+cd PataNgoma-AudioTagger-tool
+
+# Install dependencies and sync virtual environment
+uv sync
+
+# Run the CLI
+uv run patangoma --help
 ```
 
-2. Create a virtual environment (optional but recommended).
+---
 
-#### pip: `venv` or `virtualenv`
+## 🛠️ CLI Command Reference
 
-If you use pip as your Python package manager, you can create a virtual 
-environment using either the built-in `venv` or the (better) `virtualenv`
-packages. With `venv`, run
+### 1. Library Health & Scanning
+```bash
+# Scan a directory recursively and report health summary, missing tags & duplicates
+uv run patangoma scan ~/Music
 
-    python -m venv <venv_path>
+# Output library statistics in machine-readable JSON
+uv run patangoma scan ~/Music --json
+```
 
-to initialize the new virtual environment, where `<venv_path>` is the 
-path to the directory to be created, and one of the following commands 
-to activate the environment, depending on your operating system (OS) and 
-shell:
+### 2. File Inspection
+```bash
+# Inspect audio tags and technical audio properties
+uv run patangoma inspect song.mp3
+```
 
-* POSIX: bash/zsh
+### 3. Explainable Matching & Search
+```bash
+# Query metadata providers (MusicBrainz, Deezer, Spotify) with explainable confidence scoring
+uv run patangoma match song.mp3 --provider musicbrainz
+```
 
-      source <venv_path>/bin/activate
+### 4. Safe Plan & Apply Workflow
+```bash
+# 1. Generate a deterministic change plan
+uv run patangoma plan song.mp3 --provider musicbrainz -o plan.json
 
-* POSIX/Windows: PowerShell
+# 2. Simulate changes in dry-run mode
+uv run patangoma apply plan.json --dry-run
 
-      <venv_path>\Scripts\Activate.ps1
+# 3. Apply changes with automatic backup
+uv run patangoma apply plan.json
+```
 
-* Windows: cmd.exe
+### 5. Instant Rollback & Audit History
+```bash
+# List past metadata mutations
+uv run patangoma history
 
-      <venv_path>\Scripts\activate.bat
+# Rollback any previous operation by its Operation ID
+uv run patangoma rollback <OPERATION_ID>
+```
 
-With `virtualenv`, you can create a virtual environment using
+### 6. Diagnostics & Verification
+```bash
+# Run system and provider environment diagnostics
+uv run patangoma doctor
 
-    virtualenv <venv_name>
+# Verify audio files for tag integrity and corruption
+uv run patangoma verify ~/Music
+```
 
-where `<venv_name>` is the name of the new environment, and activate it 
-using
+---
 
-* Linux or macOS:
+## 🏗️ Repository Architecture
 
-      source <venv_name>/bin/activate
+```text
+src/patangoma/
+├── cli.py                  # CLI / TUI presentation layer (Click + Rich + InquirerPy)
+├── domain/                 # Pure domain models (TrackMetadata, Candidate, TagPlan) & typed exceptions
+├── matching/               # Explainable matching engine & similarity scorers
+├── providers/              # Provider adapters (MusicBrainz, Deezer, Spotify) & registry
+├── services/               # Application services (Scanner, Planner, AudioBackend, AuditJournal, Doctor)
+└── legacy/                 # Backward-compatible utilities
+```
 
-* Windows: 
+For detailed architectural specifications and development guides:
+- 📖 [ARCHITECTURE.md](ARCHITECTURE.md) — System boundaries, data flow, and invariants
+- 🤖 [AGENTS.md](AGENTS.md) — AI agent guidance, rules, and commands
+- 💻 [DEVELOPMENT.md](DEVELOPMENT.md) — Local setup, testing with synthetic audio fixtures
+- 🤝 [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution workflow and conventions
 
-      .\<venv_name>\Scripts\activate
+---
 
-
-3. Install the project dependencies by running:
-
-Option 1:
+## 🧪 Testing & Code Quality
 
 ```bash
-python -m pip install -e .
+# Run 50+ unit, contract, and property-based tests
+uv run pytest --cov=patangoma
+
+# Run linter and formatter checks
+uv run ruff check .
+uv run ruff format --check .
 ```
 
-Option 2:
+---
 
-```bash
-pip install -r requirements.txt
-```
+## 📜 License
 
-4. Run the application using the following command:
-
-```bash
-python main.py
-```
-
-## Usage
-
-To use this application, [TODO].
-
-## Contributing
-
-We welcome contributions to this project. To contribute, follow these steps:
-
-1. Fork the repository on GitHub.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and submit a pull request.
-
-Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our contribution guidelines.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-We would like to thank the open-source community for their invaluable contributions that made this project possible.
-
-## Maintainers
-
-- [@Meshack](https://github.com/FourtyThree43/) - [Email](mailto:FourtyThree43@example.com)
-
-- [@Raymond](https://github.com/Kemboiray/) - [Email](mailto:Kemboiray@example.com)
-
-- [@Patrick](https://github.com/Patrick-052/) - [Email](mailto:Patrick-052@example.com)
-
-## Security
-
-Security is a top priority for our project. We take the following measures to ensure the security of our application:
-
-- Regularly updating dependencies to their latest secure versions.
-- Conducting security audits and code reviews.
-- Implementing proper authentication and authorization mechanisms.
-- Following best practices for handling sensitive data.
-
-## Troubleshooting
-
-If you encounter any issues while setting up or using the project, please refer to our [troubleshooting guide](docs/troubleshooting.md) for solutions to common problems.
+This project is licensed under the terms of the GNU General Public License v3.0.
