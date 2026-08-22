@@ -1,8 +1,9 @@
 # mb.py
-import musicbrainzngs as mb
 import logging
-from functools import lru_cache
-from datetime import datetime
+from datetime import date, datetime
+from functools import cache
+
+import musicbrainzngs as mb
 
 
 class MusicBrainzAPI:
@@ -24,10 +25,9 @@ class MusicBrainzAPI:
         self.set_user_agent()
         self.set_format(response_format)
 
-    def set_user_agent(self,
-                       app="PataNgoma",
-                       version="1.0",
-                       contact="pata@example.com"):
+    def set_user_agent(
+        self, app="PataNgoma", version="1.0", contact="pata@example.com"
+    ):
         """Set the user agent for API requests.
 
         Args:
@@ -45,7 +45,7 @@ class MusicBrainzAPI:
         """
         mb.set_format(fmt=fmt)
 
-    @lru_cache(maxsize=None)
+    @cache
     def search_track(self, track_title: str, artist_name: str, query=None):
         """Search for a track on MusicBrainz.
 
@@ -68,8 +68,7 @@ class MusicBrainzAPI:
             if "recording-list" in result:
                 return result["recording-list"]
         except mb.WebServiceError as e:
-            self.logger.error(
-                f"Error searching track on MusicBrainz: {str(e)}")
+            self.logger.error(f"Error searching track on MusicBrainz: {e!s}")
         return []
 
     def translate_mb_result(self, flattened_data):
@@ -121,7 +120,7 @@ class MusicBrainzAPI:
             "release-list[0].medium-track-count": "tracktotal",
             "release-list[0].medium-count": "disc",
             # "release-list[0].artist-credit-phrase": "Karun",
-            "artist-credit-phrase": "artist_credit"
+            "artist-credit-phrase": "artist_credit",
         }
 
         translated_data = {}
@@ -129,17 +128,17 @@ class MusicBrainzAPI:
         for flattened_key, value in flattened_data.items():
             if flattened_key in reverse_mapping:
                 mediafile_key = reverse_mapping[flattened_key]
-                if mediafile_key == "date" and not isinstance(value, datetime):
-                    try:
-                        value = datetime.strptime(value, "%Y-%m-%d").date()
-                    except ValueError:
+                if mediafile_key == "date" and not isinstance(value, (date, datetime)):
+                    parsed_date = None
+                    for fmt in ("%Y-%m-%d", "%Y-%m", "%Y"):
                         try:
-                            value = datetime.strptime(value, "%Y").date()
+                            parsed_date = datetime.strptime(str(value), fmt).date()
+                            break
                         except ValueError:
-                            if value:
-                                print(f"Cannot convert {value} to datetime.date")
-                            else:
-                                pass
+                            continue
+                    if parsed_date is not None:
+                        value = parsed_date
+                    else:
                         continue
 
                 translated_data[mediafile_key] = value

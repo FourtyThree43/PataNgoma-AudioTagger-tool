@@ -1,8 +1,8 @@
-from functools import lru_cache
-from typing import Optional, List, Dict, Any
-import deezer
-import imgcat
 import logging
+from functools import lru_cache
+from typing import Any
+
+import deezer
 import requests
 
 
@@ -32,8 +32,9 @@ class DeezerAPI:
         self.logger.setLevel(logging.INFO)
 
     @lru_cache(maxsize=128)
-    def search_track(self, track_title: str, artist_name: str,
-                     album_title: Optional[str]) -> List[Dict[str, Any]]:
+    def search_track(
+        self, track_title: str, artist_name: str, album_title: str | None
+    ) -> list[dict[str, Any]]:
         """
         Searches for tracks in Deezer's database based on the given parameters &
         returns a list of Track instances.
@@ -55,21 +56,19 @@ class DeezerAPI:
         """
         try:
             if album_title:
-                query_params = 'track:"{}" artist:"{}" album:"{}"'.format(
-                    track_title, artist_name, album_title)
+                query_params = f'track:"{track_title}" artist:"{artist_name}" album:"{album_title}"'
             else:
-                query_params = 'track:"{}" artist:"{}"'.format(
-                    track_title, artist_name)
+                query_params = f'track:"{track_title}" artist:"{artist_name}"'
 
             results = self.client.search(query_params)
 
             return [result.as_dict() for result in results]
 
         except Exception as e:
-            self.logger.error(f"Error searching track on Deezer: {str(e)}")
+            self.logger.error(f"Error searching track on Deezer: {e!s}")
             return []
 
-    def get_track_by_id(self, track_id: int) -> Dict[str, Any]:
+    def get_track_by_id(self, track_id: int) -> dict[str, Any]:
         """
         Retrieves a track from Deezer's database using its unique track_id.
 
@@ -90,11 +89,11 @@ class DeezerAPI:
             return results.as_dict()
 
         except Exception as e:
-            self.logger.error(f"Error searching track on Deezer: {str(e)}")
+            self.logger.error(f"Error searching track on Deezer: {e!s}")
 
             return {}
 
-    def get_album_by_id(self, album_id: int) -> Dict[str, Any]:
+    def get_album_by_id(self, album_id: int) -> dict[str, Any]:
         """
         Retrieves an album from Deezer's database using its unique album_id.
 
@@ -115,11 +114,11 @@ class DeezerAPI:
             return results.as_dict()
 
         except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
+            self.logger.error(f"Error searching album on Deezer: {e!s}")
 
             return {}
 
-    def get_artist_by_id(self, album_id: int) -> Dict[str, Any]:
+    def get_artist_by_id(self, album_id: int) -> dict[str, Any]:
         """
         Retrieves an artist from Deezer's database using its unique album_id.
 
@@ -140,11 +139,11 @@ class DeezerAPI:
             return results.as_dict()
 
         except Exception as e:
-            self.logger.error(f"Error searching album on Deezer: {str(e)}")
+            self.logger.error(f"Error searching album on Deezer: {e!s}")
 
             return {}
 
-    def deezTrack(self, track_data: Dict[str, Any]) -> deezer.Track:
+    def deezTrack(self, track_data: dict[str, Any]) -> deezer.Track:
         """
         Create a deezer.Track object from the given track_data.
 
@@ -160,7 +159,7 @@ class DeezerAPI:
         """
         return deezer.Track(self.client, track_data)
 
-    def deezAlbum(self, album_data: Dict[str, Any]) -> deezer.Album:
+    def deezAlbum(self, album_data: dict[str, Any]) -> deezer.Album:
         """
         Create a deezer.Album object from the given album_data.
 
@@ -176,7 +175,7 @@ class DeezerAPI:
         """
         return deezer.Album(self.client, album_data)
 
-    def deezArtist(self, artist_data: Dict[str, Any]) -> deezer.Artist:
+    def deezArtist(self, artist_data: dict[str, Any]) -> deezer.Artist:
         """
         Create a deezer.Artist object from the given artist_data.
 
@@ -192,8 +191,9 @@ class DeezerAPI:
         """
         return deezer.Artist(self.client, artist_data)
 
-    def mapData(self, track_data: Dict[str, Any],
-                album_data: Dict[str, Any]) -> Dict[str, Any]:
+    def mapData(
+        self, track_data: dict[str, Any], album_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Map the given track's data to a dict with the required fields.
 
@@ -236,7 +236,7 @@ class DeezerAPI:
 
         return mapped_data
 
-    def _fetch_art(self, art_url: str) -> Optional[bytes]:
+    def _fetch_art(self, art_url: str) -> bytes | None:
         """
         Fetch the album art for the given album.
 

@@ -1,22 +1,16 @@
+import logging
+from typing import Any
+
 from cachetools import TTLCache
+
 from patangoma.data_store import DataStore
 from patangoma.dz import DeezerAPI
 from patangoma.mb import MusicBrainzAPI
 from patangoma.track import TrackInfo
-from typing import Optional, List, Dict, Any
-import logging
-import re
-
-from patangoma.id_extractor import (
-    spotify_id_regex,
-    deezer_id_regex,
-    beatport_id_regex,
-    extract_discogs_id_regex,
-)
 
 
 class Query:
-    """ Class that handles the query to the MusicBrainzAPI """
+    """Class that handles the query to the MusicBrainzAPI"""
 
     def __init__(self, track_info: TrackInfo, data_store: DataStore):
 
@@ -29,8 +23,9 @@ class Query:
         self.cache = TTLCache(maxsize=100, ttl=3600)  # Cache for 1 hour
         self.fetched_data = None
 
-    def fetch_musicbrainz_data(self, title: Optional[str],
-                               artist: Optional[str]) -> List[Dict[str, Any]]:
+    def fetch_musicbrainz_data(
+        self, title: str | None, artist: str | None
+    ) -> list[dict[str, Any]]:
         # Extract title and artist from TrackInfo
         if not (self.track_info.title and self.track_info.artist):
             title = self.track_info.title
@@ -60,39 +55,39 @@ class Query:
                 translated_data_list = []
                 self.cache[cache_key] = result
 
-                for idx, res in enumerate(result, start=1):
+                for res in result:
                     flat_result = self.flatten_dict(res)
-                    translated_data = self.mb_api.translate_mb_result(
-                        flat_result)
+                    translated_data = self.mb_api.translate_mb_result(flat_result)
                     translated_data_list.append(translated_data)
                     self.store_metadata("musicbrainz", translated_data)
 
                 return translated_data_list
                 # return self.mb_api.translate_mb_result(result[0])
         except Exception as e:
-            print(f"Error searching track on MusicBrainz: {str(e)}")
+            print(f"Error searching track on MusicBrainz: {e!s}")
 
         return []
 
-    def fetch_deezer_data(self, title: Optional[str], artist: Optional[str],
-                          album: Optional[str]) -> List[Dict[str, Any]]:
-        """ Searches for tracks in Deezer's database based on the given
-            parameters & returns a list of Track instances.
+    def fetch_deezer_data(
+        self, title: str | None, artist: str | None, album: str | None
+    ) -> list[dict[str, Any]]:
+        """Searches for tracks in Deezer's database based on the given
+        parameters & returns a list of Track instances.
 
-            Parameters
-            ----------
-            title : str, optional
-                The title of the track to search for, if applicable.
-            artist : str, optional
-                The name of the artist to search for, if applicable.
-            album : str, optional
-                The title of the album to search for, if applicable.
+        Parameters
+        ----------
+        title : str, optional
+            The title of the track to search for, if applicable.
+        artist : str, optional
+            The name of the artist to search for, if applicable.
+        album : str, optional
+            The title of the album to search for, if applicable.
 
-            Returns
-            -------
-            List[Track]
-                A list of Track instances matching the search criteria.
-                An empty list if an error occurs or no matches are found.
+        Returns
+        -------
+        List[Track]
+            A list of Track instances matching the search criteria.
+            An empty list if an error occurs or no matches are found.
         """
         try:
             if not (title and artist):
@@ -102,26 +97,25 @@ class Query:
             results = self.dz_api.search_track(title, artist, album)
 
             if results:
-                data_list: List[Dict[str, Any]] = []
+                data_list: list[dict[str, Any]] = []
 
-                for idx, res in enumerate(results, start=1):
+                for res in results:
                     data_list.append(res)
                     self.store_metadata("deezer", res)
 
                 return data_list
 
         except Exception as e:
-            print(f"Error searching track on Deezer: {str(e)}")
+            print(f"Error searching track on Deezer: {e!s}")
 
         return []
 
     def fetch_spotify_data(self):
         pass
 
-    def flatten_dict(self,
-                     input_dict: Dict[str, Any],
-                     parent_key='',
-                     separator='.') -> Dict[str, Any]:
+    def flatten_dict(
+        self, input_dict: dict[str, Any], parent_key="", separator="."
+    ) -> dict[str, Any]:
         """
         Recursively flatten a nested dict and convert keys to dot notation.
         """
@@ -136,8 +130,8 @@ class Query:
                 for i, item in enumerate(value):
                     if isinstance(item, dict):
                         flat_dict.update(
-                            self.flatten_dict(item, f"{new_key}[{i}]",
-                                              separator))
+                            self.flatten_dict(item, f"{new_key}[{i}]", separator)
+                        )
                     else:
                         flat_dict[f"{new_key}[{i}]"] = item
             else:
@@ -145,8 +139,7 @@ class Query:
 
         return flat_dict
 
-    def translate_query_params(self,
-                               query_params: Dict[str, Any]) -> Dict[str, Any]:
+    def translate_query_params(self, query_params: dict[str, Any]) -> dict[str, Any]:
         """
         Translate query parameters to match MusicBrainz fields.
 
@@ -173,7 +166,7 @@ class Query:
 
         return mb_query_params
 
-    def fetch_DataStore_data(self, source: Optional[str]):
+    def fetch_DataStore_data(self, source: str | None):
         """
         Retrieve metadata from the DataStore based on the source or
         return all the metadata if no source is specified

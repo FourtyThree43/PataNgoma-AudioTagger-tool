@@ -1,13 +1,8 @@
-import click
 import spotipy
 import yaml
-from InquirerPy import inquirer
-from InquirerPy.validator import PathValidator
 from dotenv import load_dotenv
-from functools import lru_cache
-from spotipy.oauth2 import SpotifyClientCredentials
 from mediafile import MediaFile
-from datetime import datetime
+from spotipy.oauth2 import SpotifyClientCredentials
 
 
 class SpotifyAPI:
@@ -34,20 +29,18 @@ class SpotifyAPI:
                 print("Search failed, exiting")
                 exit(1)
             self.store({q: result})
-        return result["tracks"]["items"], [{
-        "name":
-        result["tracks"]["items"][i]["name"],
-        "artists":
-        [j["name"] for j in result["tracks"]["items"][i]["artists"]],
-        "popularity":
-        result["tracks"]["items"][i]["popularity"],
-    } for i in range(10)]
+        return result["tracks"]["items"], [
+            {
+                "name": result["tracks"]["items"][i]["name"],
+                "artists": [j["name"] for j in result["tracks"]["items"][i]["artists"]],
+                "popularity": result["tracks"]["items"][i]["popularity"],
+            }
+            for i in range(10)
+        ]
 
-
-    
     def cache(self):
         try:
-            with open("store.yaml", "r") as f:
+            with open("store.yaml") as f:
                 cached: dict = yaml.safe_load(f)
         except FileNotFoundError:
             cached = {}
@@ -55,7 +48,7 @@ class SpotifyAPI:
 
     def store(self, dump: dict):
         try:
-            with open("store.yaml", "r") as f:
+            with open("store.yaml") as f:
                 loaded = yaml.safe_load(f)
                 loaded.update(dump)
             with open("store.yaml", "w") as f:

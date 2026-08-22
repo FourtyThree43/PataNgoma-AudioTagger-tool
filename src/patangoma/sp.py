@@ -1,15 +1,16 @@
-import click
 import os
+from datetime import datetime
+from functools import lru_cache
+
+import click
 import spotipy
 import yaml
+from dotenv import load_dotenv
 from InquirerPy import inquirer
 from InquirerPy.validator import PathValidator
-from dotenv import load_dotenv
-from functools import lru_cache
-from spotipy.oauth2 import SpotifyClientCredentials
 from mediafile import MediaFile
-from datetime import datetime
-from rgbprint import gradient_print, gradient_scroll, Color
+from rgbprint import Color, gradient_scroll
+from spotipy.oauth2 import SpotifyClientCredentials
 
 
 def storage():
@@ -19,13 +20,14 @@ def storage():
         os.makedirs(storage_path)
     return storage_path
 
+
 storage_file = os.path.join(storage(), "sp_storage.yaml")
 
 
 def store(dump: dict):
     """Save queries for future reference"""
     try:
-        with open(storage_file, "r") as f:
+        with open(storage_file) as f:
             loaded = yaml.safe_load(f)
             loaded.update(dump)
         with open(storage_file, "w") as f:
@@ -38,7 +40,7 @@ def store(dump: dict):
 def cached():
     """Retrieve cached queries from the store"""
     try:
-        with open(storage_file, "r") as f:
+        with open(storage_file) as f:
             cache: dict = yaml.safe_load(f)
     except FileNotFoundError:
         cache = {}
@@ -47,11 +49,13 @@ def cached():
 
 def get_search_params() -> tuple:
     """Obtain query parameters (`artist` and `track title`) from file or user"""
-    path = inquirer.filepath(message="Enter file name:",
-                             only_files=True,
-                             validate=PathValidator(is_file=True,
-                                                    message="Invalid path"),
-                             qmark="\n> ", amark="✔ ").execute()
+    path = inquirer.filepath(
+        message="Enter file name:",
+        only_files=True,
+        validate=PathValidator(is_file=True, message="Invalid path"),
+        qmark="\n> ",
+        amark="✔ ",
+    ).execute()
     try:
         media_file = MediaFile(path)
     except Exception as e:
@@ -72,9 +76,11 @@ def spotify_search(title: str, artist: str) -> tuple:
     """Search for matching tracks in the Spotify database using track title and artist name"""
     # end_color = Color.random
     print()
-    gradient_scroll(f"Searching for {title} by {artist}...",
-                    start_color=Color.gold,
-                    end_color=0xFF00FF)
+    gradient_scroll(
+        f"Searching for {title} by {artist}...",
+        start_color=Color.gold,
+        end_color=0xFF00FF,
+    )
     print()
     load_dotenv()
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
@@ -89,16 +95,19 @@ def spotify_search(title: str, artist: str) -> tuple:
             return [], []
         else:
             store({q: result})
-    return result.get("tracks", {}).get("items", []), [{
-        "name":
-        result.get("tracks", {}).get("items", [])[i].get("name", ""),
-        "artists": [
-            j.get("name", "") for j in result.get("tracks", {}).get(
-                "items", [])[i].get("artists", [])
-        ],
-        "popularity":
-        result.get("tracks", {}).get("items", [])[i].get("popularity", 0),
-    } for i in range(10)]
+    return result.get("tracks", {}).get("items", []), [
+        {
+            "name": result.get("tracks", {}).get("items", [])[i].get("name", ""),
+            "artists": [
+                j.get("name", "")
+                for j in result.get("tracks", {}).get("items", [])[i].get("artists", [])
+            ],
+            "popularity": result.get("tracks", {})
+            .get("items", [])[i]
+            .get("popularity", 0),
+        }
+        for i in range(10)
+    ]
 
 
 def get_updates(result: list, parsed_result: list):
@@ -108,13 +117,14 @@ def get_updates(result: list, parsed_result: list):
     selection: str = inquirer.select(
         message="Found matches, please select a track:",
         choices=[
-            f"{i+1}. {parsed_result[i]['name']}" +
-            f" by {', '.join(parsed_result[i]['artists'])}" +
-            f" (popularity: {parsed_result[i]['popularity']})"
+            f"{i + 1}. {parsed_result[i]['name']}"
+            + f" by {', '.join(parsed_result[i]['artists'])}"
+            + f" (popularity: {parsed_result[i]['popularity']})"
             for i in range(len(parsed_result))
         ],
         qmark="\n> ",
-        amark="✔️ ").execute()
+        amark="✔️ ",
+    ).execute()
     selected = int(selection.split(".")[0])
     raw: dict = result[selected - 1]
     update = {}
