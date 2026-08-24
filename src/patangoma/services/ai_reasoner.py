@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import contextlib
 import re
+from pathlib import Path
 from typing import ClassVar
 
 from pydantic import BaseModel
@@ -28,12 +29,14 @@ class MetadataReasoner:
     _PATTERNS: ClassVar[list[re.Pattern[str]]] = [
         # 01 - Artist - Title
         re.compile(
-            r"^(?P<track>\d{1,3})[\s._-]+(?P<artist>[^-]+)[\s._-]+(?P<title>.+)$"
+            r"^(?P<track>\d{1,3})[\s._-]+(?P<artist>[^\d-][^-]*)[\s._-]+(?P<title>.+)$"
         ),
-        # Artist - Title
-        re.compile(r"^(?P<artist>[^-]+)[\s._-]+(?P<title>.+)$"),
-        # 01. Title
+        # 01 - Title or 01. Title
         re.compile(r"^(?P<track>\d{1,3})[\s._-]+(?P<title>.+)$"),
+        # Artist - Title (artist cannot be purely numeric)
+        re.compile(r"^(?P<artist>[^\d-][^-]*)[\s._-]+(?P<title>.+)$"),
+        # Fallback Artist - Title
+        re.compile(r"^(?P<artist>[^-]+)[\s._-]+(?P<title>.+)$"),
     ]
 
     _CLEANUP_PATTERNS: ClassVar[list[re.Pattern[str]]] = [
@@ -51,7 +54,9 @@ class MetadataReasoner:
 
     def parse_filename(self, filename: str) -> FilenameInference:
         """Infer title, artist, and track number from unstructured filename stem."""
-        stem = re.sub(r"\.[a-zA-Z0-9]+$", "", filename)  # Remove extension
+        stem = Path(
+            filename
+        ).stem  # Extract filename stem without parent path or extension
         cleaned = stem
 
         # Strip quality/video junk tags

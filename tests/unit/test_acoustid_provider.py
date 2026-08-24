@@ -52,3 +52,33 @@ def test_acoustid_lookup_fingerprint():
     assert cand.year == 2022
     assert cand.mb_trackid == "mb-recording-uuid-456"
     assert cand.mb_artistid == "mb-artist-uuid-789"
+
+
+def test_find_fpcalc_binary(monkeypatch):
+    from patangoma.providers.acoustid import find_fpcalc_binary
+
+    monkeypatch.setenv("FPCALC_PATH", "/custom/bin/fpcalc")
+    monkeypatch.setattr("pathlib.Path.is_file", lambda self: True)
+    assert find_fpcalc_binary() == "/custom/bin/fpcalc"
+
+
+def test_acoustid_search_tracks_text_fallback(monkeypatch):
+    from patangoma.domain.models import MetadataCandidate, QueryParameters
+
+    mock_cand = MetadataCandidate(
+        provider_name="musicbrainz",
+        provider_id="mb-123",
+        title="LUMINOUS",
+        artists=["Artist"],
+    )
+    mock_mb_instance = MagicMock()
+    mock_mb_instance.search_tracks.return_value = [mock_cand]
+    monkeypatch.setattr(
+        "patangoma.providers.musicbrainz.MusicBrainzProvider",
+        lambda *args, **kwargs: mock_mb_instance,
+    )
+
+    prov = AcoustIDProvider()
+    res = prov.search_tracks(QueryParameters(title="LUMINOUS"))
+    assert len(res) == 1
+    assert res[0].title == "LUMINOUS"

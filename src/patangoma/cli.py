@@ -8,6 +8,7 @@ import os
 import sys
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
+from typing import Any
 
 import click
 from dotenv import load_dotenv
@@ -23,7 +24,9 @@ from patangoma.domain.exceptions import AudioFileError, PataNgomaError, Provider
 from patangoma.domain.models import (
     ConfidenceLevel,
     FieldDiffStatus,
+    MetadataCandidate,
     QueryParameters,
+    TrackMetadata,
 )
 from patangoma.matching.matcher import MatchingEngine
 from patangoma.providers.registry import get_provider
@@ -34,7 +37,6 @@ from patangoma.services.batch import BatchService
 from patangoma.services.doctor import run_diagnostics
 from patangoma.services.planner import PlanEngine
 from patangoma.services.scanner import LibraryScanner
-from patangoma.track import TrackInfo
 
 console = Console()
 backend = AudioBackend()
@@ -169,18 +171,94 @@ def inspect(file_path: str, json_out: bool) -> None:
     console.print(table)
 
 
+def _query_candidates(
+    track: TrackMetadata, file_path: str, provider_name: str
+) -> tuple[list[MetadataCandidate], str]:
+    """Query metadata candidates with automatic filename heuristic fallback and multi-provider support."""
+    q_title = track.title
+    q_artist = track.artist
+    q_album = track.album
+    display_title = track.title or Path(file_path).name
+
+    # Automatic fallback if title is missing from tags
+    if not q_title:
+        inf = reasoner.parse_filename(file_path)
+        if inf.suggested_title:
+            q_title = inf.suggested_title
+            display_title = inf.suggested_title
+            if not q_artist:
+                q_artist = inf.suggested_artist
+            console.print(
+                f"[cyan]* Inferred title '[bold]{q_title}[/bold]'"
+                + (f" by '{q_artist}'" if q_artist else "")
+                + " from filename for lookup.[/cyan]"
+            )
+
+    norm_prov = provider_name.lower().strip()
+
+    if norm_prov in ("multi", "all"):
+        from patangoma.services.aggregator import MetadataAggregator
+
+        agg = MetadataAggregator()
+        cands = agg.search_all_providers(
+            QueryParameters(
+                title=q_title,
+                artist=q_artist,
+                album=q_album,
+                isrc=track.isrc,
+            )
+        )
+        return cands, display_title
+
+    if norm_prov == "acoustid":
+        from patangoma.providers.acoustid import (
+            find_fpcalc_binary,
+            generate_chromaprint,
+        )
+
+        fpcalc_bin = find_fpcalc_binary()
+        if fpcalc_bin:
+            fp_info = generate_chromaprint(file_path)
+            if fp_info:
+                dur, fp = fp_info
+                prov = get_provider("acoustid")
+                return (
+                    prov.lookup_fingerprint(dur, fp),
+                    display_title,
+                )
+
+        console.print(
+            "[yellow]⚠ fpcalc (Chromaprint) not found on system path. Using metadata text search...[/yellow]"
+        )
+
+    prov = get_provider(norm_prov)
+    cands = prov.search_tracks(
+        QueryParameters(
+            title=q_title,
+            artist=q_artist,
+            album=q_album,
+            isrc=track.isrc,
+        )
+    )
+    return cands, display_title
+
+
 @cli.command()
 @click.argument(
-    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+    "file_path",
+    type=click.Path(exists=True, dir_okay=False, resolve_path=True),
 )
 @click.option(
     "--provider",
     "-p",
     default="musicbrainz",
-    help="Provider (musicbrainz, deezer, spotify)",
+    help="Provider (musicbrainz, itunes, deezer, spotify, discogs, acoustid, multi)",
 )
 @click.option(
-    "--json-out", "--json", is_flag=True, help="Output match results in JSON format"
+    "--json-out",
+    "--json",
+    is_flag=True,
+    help="Output match results in JSON format",
 )
 def match(file_path: str, provider: str, json_out: bool) -> None:
     """Search provider and compute explainable match confidence scores."""
@@ -191,17 +269,14 @@ def match(file_path: str, provider: str, json_out: bool) -> None:
         sys.exit(2)
 
     try:
-        prov = get_provider(provider)
-        candidates = prov.search_tracks(
-            QueryParameters(title=track.title, artist=track.artist, album=track.album)
-        )
+        candidates, display_title = _query_candidates(track, file_path, provider)
     except ProviderError as e:
         console.print(f"[bold red]Provider Error:[/bold red] {e}")
         sys.exit(3)
 
     if not candidates:
         console.print(
-            f"[yellow]No candidates found on {provider} for {track.title} by {track.artist}.[/yellow]"
+            f"[yellow]No candidates found on {provider} for '{display_title}'.[/yellow]"
         )
         return
 
@@ -211,7 +286,7 @@ def match(file_path: str, provider: str, json_out: bool) -> None:
         click.echo(json.dumps([r.model_dump() for r in results], indent=2, default=str))
         return
 
-    table = Table(title=f"Metadata Matches for '{track.title}' (via {provider})")
+    table = Table(title=f"Metadata Matches for '{display_title}' (via {provider})")
     table.add_column("Rank", style="dim")
     table.add_column("Candidate Title", style="cyan")
     table.add_column("Artist", style="green")
@@ -239,13 +314,14 @@ def match(file_path: str, provider: str, json_out: bool) -> None:
 
 @cli.command()
 @click.argument(
-    "file_path", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+    "file_path",
+    type=click.Path(exists=True, dir_okay=False, resolve_path=True),
 )
 @click.option(
     "--provider",
     "-p",
     default="musicbrainz",
-    help="Provider (musicbrainz, deezer, spotify)",
+    help="Provider (musicbrainz, itunes, deezer, spotify, discogs, acoustid, multi)",
 )
 @click.option(
     "--output",
@@ -263,16 +339,15 @@ def plan(file_path: str, provider: str, output: str | None, json_out: bool) -> N
         sys.exit(2)
 
     try:
-        prov = get_provider(provider)
-        candidates = prov.search_tracks(
-            QueryParameters(title=track.title, artist=track.artist, album=track.album)
-        )
+        candidates, display_title = _query_candidates(track, file_path, provider)
     except ProviderError as e:
         console.print(f"[bold red]Provider Error:[/bold red] {e}")
         sys.exit(3)
 
     if not candidates:
-        console.print(f"[yellow]No match candidates found on {provider}.[/yellow]")
+        console.print(
+            f"[yellow]No match candidates found on {provider} for '{display_title}'.[/yellow]"
+        )
         sys.exit(1)
 
     best_match = matching_engine.rank_candidates(track, candidates)[0]
@@ -293,7 +368,8 @@ def plan(file_path: str, provider: str, output: str | None, json_out: bool) -> N
 
 @cli.command()
 @click.argument(
-    "plan_or_file", type=click.Path(exists=True, dir_okay=False, resolve_path=True)
+    "plan_or_file",
+    type=click.Path(exists=True, dir_okay=False, resolve_path=True),
 )
 @click.option(
     "--dry-run", is_flag=True, help="Simulate mutation without writing to disk"
@@ -305,7 +381,10 @@ def plan(file_path: str, provider: str, output: str | None, json_out: bool) -> N
     help="Provider if passing an audio file directly",
 )
 @click.option(
-    "--json-out", "--json", is_flag=True, help="Output apply result in JSON format"
+    "--json-out",
+    "--json",
+    is_flag=True,
+    help="Output apply result in JSON format",
 )
 def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> None:
     """Apply a plan or best candidate match to an audio file."""
@@ -319,10 +398,7 @@ def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> No
         # Match and create plan on the fly
         audio_path = str(path)
         track = backend.read_metadata(audio_path)
-        prov = get_provider(provider)
-        candidates = prov.search_tracks(
-            QueryParameters(title=track.title, artist=track.artist, album=track.album)
-        )
+        candidates, _ = _query_candidates(track, audio_path, provider)
         if not candidates:
             console.print("[yellow]No candidates found to apply.[/yellow]")
             sys.exit(1)
@@ -961,18 +1037,16 @@ def _submenu_search(ctx: click.Context) -> None:
 @click.argument(
     "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
 )
-def show(file_path: str, all_t: bool, existing: bool, missing: bool) -> None:
+@click.pass_context
+def show(
+    ctx: click.Context,
+    file_path: str,
+    all_t: bool,
+    existing: bool,
+    missing: bool,
+) -> None:
     """Show metadata for a media file <file_path>."""
-    if _is_valid_audio(file_path):
-        track = TrackInfo(file_path)
-        if all_t:
-            track.show_all_metadata()
-        elif missing:
-            track.show_missing_metadata()
-        else:
-            track.show_existing_metadata()
-    else:
-        sys.exit(1)
+    ctx.invoke(inspect, file_path=file_path, json_out=False)
 
 
 @cli.command()
@@ -982,25 +1056,23 @@ def show(file_path: str, all_t: bool, existing: bool, missing: bool) -> None:
 @click.argument("updates", nargs=-1)
 def update(file_path: str, updates: tuple[str, ...]) -> None:
     """Update metadata for a media file <file_path>."""
-    if _is_valid_audio(file_path):
-        track = TrackInfo(file_path)
-        md_pre_update = track.as_dict()
-        track.batch_update_metadata(updates)
+    tag_dict: dict[str, Any] = {}
+    for item in updates:
+        if "=" in item:
+            k, v = item.split("=", 1)
+            tag_dict[k.strip()] = v.strip()
 
-        if track.has_changed(track.as_dict(), md_pre_update):
-            click.echo(f"\nMetadata changes for {track.metadata.filename}:\n")
-            for key, value in track.as_dict().items():
-                if key != "images" and md_pre_update.get(key) != value:
-                    click.echo(f"{key}: {md_pre_update.get(key)} -> {value}")
+    if not tag_dict:
+        console.print("[yellow]No key=value update arguments provided.[/yellow]")
+        return
 
-            if click.confirm("\nDo you want to save these changes?"):
-                track.save()
-                click.echo("Changes saved.")
-            else:
-                click.echo("Changes not saved.")
-        else:
-            click.echo("No changes to save.")
-    else:
+    try:
+        backend.write_tags(file_path, tag_dict, dry_run=False)
+        console.print(
+            f"[bold green]✓ Updated tags for {Path(file_path).name}:[/bold green] {list(tag_dict.keys())}"
+        )
+    except Exception as e:
+        console.print(f"[bold red]Failed to update tags:[/bold red] {e}")
         sys.exit(1)
 
 
@@ -1008,16 +1080,25 @@ def update(file_path: str, updates: tuple[str, ...]) -> None:
 @click.argument("file_path", type=click.Path(exists=True))
 def delete(file_path: str) -> None:
     """Delete all metadata from the media file <file_path>."""
-    if _is_valid_audio(file_path):
-        track = TrackInfo(file_path)
-        proceed = inquirer.confirm(
-            message="Are you sure you want to delete all tags?", default=False
-        ).execute()
-        if proceed:
-            track.delete()
+    proceed = inquirer.confirm(
+        message="Are you sure you want to delete all tags?", default=False
+    ).execute()
+    if proceed:
+        try:
+            # Clear standard tags
+            empty_tags = {
+                "title": None,
+                "artist": None,
+                "album": None,
+                "year": None,
+                "genre": None,
+                "track_number": None,
+            }
+            backend.write_tags(file_path, empty_tags, dry_run=False)
             console.print(f"[green]Deleted tags for {file_path}[/green]")
-    else:
-        sys.exit(1)
+        except Exception as e:
+            console.print(f"[bold red]Failed to delete tags:[/bold red] {e}")
+            sys.exit(1)
 
 
 @cli.command()
