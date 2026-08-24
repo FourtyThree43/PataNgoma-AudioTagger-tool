@@ -118,22 +118,40 @@ class AuditJournal:
 
         return record
 
-    def list_history(self, limit: int = 50) -> list[AuditRecord]:
-        """List past audit records in reverse chronological order."""
+    def list_history(
+        self,
+        file_path: str | Path | None = None,
+        limit: int = 50,
+    ) -> list[AuditRecord]:
+        """List past audit records in reverse chronological order with optional path filtering."""
         records: list[AuditRecord] = []
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute(
-                """
-                SELECT operation_id, timestamp, file_path, checksum_before,
-                       checksum_after, backup_tags, applied_tags
-                FROM audit_log
-                ORDER BY timestamp DESC
-                LIMIT ?
-                """,
-                (limit,),
-            )
+            if file_path:
+                norm_prefix = str(file_path)
+                cursor.execute(
+                    """
+                    SELECT operation_id, timestamp, file_path, checksum_before,
+                           checksum_after, backup_tags, applied_tags
+                    FROM audit_log
+                    WHERE file_path = ? OR file_path LIKE ?
+                    ORDER BY timestamp DESC
+                    LIMIT ?
+                    """,
+                    (norm_prefix, f"{norm_prefix}%", limit),
+                )
+            else:
+                cursor.execute(
+                    """
+                    SELECT operation_id, timestamp, file_path, checksum_before,
+                           checksum_after, backup_tags, applied_tags
+                    FROM audit_log
+                    ORDER BY timestamp DESC
+                    LIMIT ?
+                    """,
+                    (limit,),
+                )
             for row in cursor.fetchall():
                 records.append(
                     AuditRecord(
@@ -149,6 +167,33 @@ class AuditJournal:
         finally:
             conn.close()
         return records
+
+    def rollback_latest(self, backend: AudioBackend) -> TrackMetadata:
+        """Rollback the single most recent operation in the audit log."""
+        records = self.list_history(limit=1)
+        if not records:
+            raise RollbackError("No operations found in audit log to rollback.")
+        return self.rollback_operation(records[0].operation_id, backend)
+
+    def rollback_path(
+        self,
+        file_path: str | Path,
+        backend: AudioBackend,
+    ) -> list[TrackMetadata]:
+        """Rollback all recorded operations targeting the given file or directory."""
+        records = self.list_history(file_path=file_path, limit=100)
+        if not records:
+            raise RollbackError(f"No audit records found for path '{file_path}'.")
+
+        restored_tracks: list[TrackMetadata] = []
+        # Roll back in reverse chronological order
+        for rec in records:
+            target = Path(rec.file_path)
+            if target.exists():
+                restored = backend.write_tags(target, rec.backup_tags, dry_run=False)
+                restored_tracks.append(restored)
+
+        return restored_tracks
 
     def get_record(self, operation_id: str) -> AuditRecord | None:
         """Fetch audit record by operation ID."""

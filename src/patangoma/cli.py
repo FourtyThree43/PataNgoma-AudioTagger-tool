@@ -470,23 +470,105 @@ def reason_cmd(file_path: str, json_out: bool) -> None:
 
 
 @cli.command()
-@click.argument("operation_id")
+@click.argument("operation_id", required=False)
+@click.option("--latest", is_flag=True, help="Roll back the most recent operation")
+@click.option(
+    "--path",
+    "-p",
+    help="Roll back all operations on a specific file or directory",
+)
 @click.option(
     "--json-out", "--json", is_flag=True, help="Output rollback outcome in JSON"
 )
-def rollback(operation_id: str, json_out: bool) -> None:
-    """Roll back an audio mutation using its Operation ID."""
+def rollback(
+    operation_id: str | None, latest: bool, path: str | None, json_out: bool
+) -> None:
+    """Roll back audio mutations using Operation ID, --latest, or --path."""
     try:
-        restored = audit_journal.rollback_operation(operation_id, backend)
-        if json_out:
-            click.echo(restored.model_dump_json(indent=2))
-            return
-        console.print(
-            f"[bold green]✓ Restored tags for {restored.path.name} from operation {operation_id}[/bold green]"
-        )
+        if latest:
+            restored = audit_journal.rollback_latest(backend)
+            if json_out:
+                click.echo(restored.model_dump_json(indent=2))
+                return
+            console.print(
+                f"[bold green]✓ Restored tags for {restored.path.name} (latest)[/bold green]"
+            )
+        elif path:
+            restored_list = audit_journal.rollback_path(path, backend)
+            if json_out:
+                click.echo(
+                    json.dumps(
+                        [t.model_dump() for t in restored_list],
+                        indent=2,
+                        default=str,
+                    )
+                )
+                return
+            console.print(
+                f"[bold green]✓ Restored {len(restored_list)} tracks matching {path}[/bold green]"
+            )
+        elif operation_id:
+            restored = audit_journal.rollback_operation(operation_id, backend)
+            if json_out:
+                click.echo(restored.model_dump_json(indent=2))
+                return
+            console.print(
+                f"[bold green]✓ Restored tags for {restored.path.name} from operation {operation_id}[/bold green]"
+            )
+        else:
+            console.print(
+                "[bold red]Please specify an OPERATION_ID, --latest, or --path.[/bold red]"
+            )
+            sys.exit(1)
     except PataNgomaError as e:
         console.print(f"[bold red]Rollback failed:[/bold red] {e}")
         sys.exit(1)
+
+
+@cli.command("demo-library")
+@click.argument("directory", type=click.Path())
+def demo_library(directory: str) -> None:
+    """Generate a sample test music library with valid, missing, and corrupt audio files."""
+    from patangoma.services.sample_generator import generate_sample_library
+
+    created = generate_sample_library(directory)
+    total = sum(len(files) for files in created.values())
+    console.print(
+        Panel(
+            f"[bold green]✓ Created sample library with {total} test audio files at '{directory}'[/bold green]\n\n"
+            f" • Complete: {len(created['complete'])}\n"
+            f" • Missing Metadata: {len(created['missing_metadata'])}\n"
+            f" • Unicode/Multilingual: {len(created['unicode'])}\n"
+            f" • Corrupt Header: {len(created['corrupt'])}",
+            title="Sample Library Generator",
+        )
+    )
+
+
+@cli.command("check-file")
+@click.argument("file_path", type=click.Path(exists=True))
+@click.option("--json-out", "--json", is_flag=True, help="Output report in JSON")
+def check_file(file_path: str, json_out: bool) -> None:
+    """Pre-flight file header integrity and corruption inspection."""
+    from patangoma.services.validator import FileValidator
+
+    report = FileValidator.validate_file(file_path)
+    if json_out:
+        click.echo(report.model_dump_json(indent=2))
+        return
+
+    table = Table(title=f"File Integrity: {Path(file_path).name}")
+    table.add_column("Property", style="cyan")
+    table.add_column("Value", style="green" if report.is_readable else "red")
+
+    table.add_row("Format", report.detected_format.upper())
+    table.add_row("Size", f"{report.file_size_bytes} bytes")
+    table.add_row("Header Valid", "✓ Yes" if report.header_valid else "✗ No")
+    table.add_row("Audio Readable", "✓ Yes" if report.is_readable else "✗ No")
+    if report.error_message:
+        table.add_row("Error", f"[red]{report.error_message}[/red]")
+
+    console.print(table)
 
 
 @cli.command()

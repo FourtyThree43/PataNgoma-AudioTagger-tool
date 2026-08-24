@@ -7,6 +7,8 @@ from collections.abc import Callable, Sequence
 from patangoma.domain.exceptions import ProviderError
 from patangoma.providers.base import MetadataProvider
 from patangoma.providers.deezer import DeezerProvider
+from patangoma.providers.discogs import DiscogsProvider
+from patangoma.providers.itunes import ITunesProvider
 from patangoma.providers.musicbrainz import MusicBrainzProvider
 from patangoma.providers.spotify import SpotifyProvider
 
@@ -14,6 +16,8 @@ _PROVIDER_FACTORIES: dict[str, Callable[[], MetadataProvider]] = {
     "musicbrainz": lambda: MusicBrainzProvider(),
     "deezer": lambda: DeezerProvider(),
     "spotify": lambda: SpotifyProvider(),
+    "itunes": lambda: ITunesProvider(),
+    "discogs": lambda: DiscogsProvider(),
 }
 
 
