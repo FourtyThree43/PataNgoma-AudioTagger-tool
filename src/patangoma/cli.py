@@ -603,6 +603,173 @@ def history(limit: int, json_out: bool) -> None:
     console.print(table)
 
 
+@cli.command("export-audit")
+@click.argument("output_file", type=click.Path())
+@click.option(
+    "--format",
+    "-f",
+    type=click.Choice(["html", "csv"], case_sensitive=False),
+    default="html",
+    help="Export format (html or csv)",
+)
+@click.option("--limit", "-n", default=500, help="Maximum records to export")
+def export_audit(output_file: str, format: str, limit: int) -> None:
+    """Export audit log history to HTML or CSV report."""
+    if format.lower() == "csv":
+        out = audit_journal.export_history_csv(output_file, limit=limit)
+    else:
+        out = audit_journal.export_history_html(output_file, limit=limit)
+    console.print(
+        f"[bold green]✓ Exported {format.upper()} audit report to '{out.resolve()}'[/bold green]"
+    )
+
+
+@cli.command("duplicates")
+@click.argument(
+    "directory", type=click.Path(exists=True, file_okay=False, resolve_path=True)
+)
+@click.option("--json-out", "--json", is_flag=True, help="Output duplicates in JSON")
+def duplicates(directory: str, json_out: bool) -> None:
+    """Detect duplicate audio files across formats, bitrates, and subdirectories."""
+    from patangoma.services.duplicates import DuplicateDetector
+
+    scanner = LibraryScanner(backend)
+    tracks, _ = scanner.scan_directory(directory)
+    dup_groups = DuplicateDetector.find_duplicates(tracks)
+
+    if json_out:
+        click.echo(
+            json.dumps([g.model_dump() for g in dup_groups], indent=2, default=str)
+        )
+        return
+
+    if not dup_groups:
+        console.print(
+            f"[bold green]✓ No duplicate audio files detected in {directory}[/bold green]"
+        )
+        return
+
+    console.print(
+        f"[bold yellow]Found {len(dup_groups)} duplicate clusters in {directory}:[/bold yellow]\n"
+    )
+    for i, g in enumerate(dup_groups, 1):
+        table = Table(title=f"Cluster #{i}: {g.reason}")
+        table.add_column("Role", style="cyan")
+        table.add_column("File Path", style="dim")
+        table.add_column("Format", style="green")
+        table.add_column("Bitrate", style="yellow")
+
+        table.add_row(
+            "[bold green]Primary (Keeper)[/bold green]",
+            Path(g.primary_track.file_path).name,
+            (g.primary_track.file_format or "").upper(),
+            f"{g.primary_track.bitrate or 0} bps",
+        )
+        for dup in g.duplicate_tracks:
+            table.add_row(
+                "[bold red]Duplicate[/bold red]",
+                Path(dup.file_path).name,
+                (dup.file_format or "").upper(),
+                f"{dup.bitrate or 0} bps",
+            )
+        console.print(table)
+        console.print()
+
+
+@cli.command("rename")
+@click.argument("target", type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    "--pattern",
+    "-p",
+    default="{track_number:02d} - {artist} - {title}.{file_format}",
+    help="Naming template format string",
+)
+@click.option(
+    "--dry-run", is_flag=True, default=False, help="Preview renames without moving"
+)
+def rename(target: str, pattern: str, dry_run: bool) -> None:
+    """Rename audio file or directory according to structured metadata pattern."""
+    from patangoma.services.renamer import RenamerService
+
+    renamer = RenamerService()
+    p = Path(target)
+
+    if p.is_file():
+        track = backend.read_metadata(p)
+        old_p, new_p = renamer.rename_track(track, pattern=pattern, dry_run=dry_run)
+        if dry_run:
+            console.print(
+                f"[dim]Dry-run rename:[/dim] {old_p.name} -> [bold green]{new_p.name}[/bold green]"
+            )
+        else:
+            console.print(
+                f"[bold green]✓ Renamed:[/bold green] {old_p.name} -> [bold green]{new_p.name}[/bold green]"
+            )
+    else:
+        scanner = LibraryScanner(backend)
+        tracks, _ = scanner.scan_directory(p)
+        table = Table(title=f"Renaming Plan ({'Dry-Run' if dry_run else 'Applying'})")
+        table.add_column("Original Filename", style="dim")
+        table.add_column("Target Filename", style="green")
+
+        for track in tracks:
+            old_p, new_p = renamer.rename_track(track, pattern=pattern, dry_run=dry_run)
+            table.add_row(old_p.name, new_p.name)
+
+        console.print(table)
+        if dry_run:
+            console.print(
+                f"[yellow]Previewed {len(tracks)} files. Run without --dry-run to apply.[/yellow]"
+            )
+        else:
+            console.print(
+                f"[bold green]✓ Renamed {len(tracks)} files successfully.[/bold green]"
+            )
+
+
+@cli.command("lyrics")
+@click.argument("file_path", type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    "--embed", is_flag=True, default=False, help="Embed fetched lyrics into file"
+)
+def get_lyrics(file_path: str, embed: bool) -> None:
+    """Fetch plain and synchronized lyrics for an audio track."""
+    from patangoma.providers.lyrics import LyricsProvider
+
+    track = backend.read_metadata(file_path)
+    if not track.title:
+        console.print("[bold red]Track missing title tag.[/bold red]")
+        sys.exit(1)
+
+    prov = LyricsProvider()
+    plain, synced = prov.fetch_lyrics(
+        title=track.title,
+        artist=track.artist or "",
+        album=track.album,
+    )
+
+    if not plain and not synced:
+        console.print(
+            f"[dim]No lyrics found online for '{track.title}' by '{track.artist}'.[/dim]"
+        )
+        return
+
+    lyrics_text = plain or synced or ""
+    console.print(
+        Panel(
+            lyrics_text,
+            title=f"Lyrics: {track.title} - {track.artist}",
+            subtitle="Synced LRC" if synced else "Plain Text",
+        )
+    )
+
+    if embed and plain:
+        backend.write_tags(file_path, {"lyrics": plain}, dry_run=False)
+        console.print(
+            f"[bold green]✓ Embedded lyrics into {Path(file_path).name}[/bold green]"
+        )
+
+
 @cli.command()
 @click.option(
     "--json-out", "--json", is_flag=True, help="Output diagnostics in JSON format"

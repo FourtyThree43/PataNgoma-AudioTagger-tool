@@ -92,6 +92,39 @@ class MetadataReasoner:
             confidence=conf,
         )
 
+    def parse_with_custom_template(
+        self, filename: str, template: str
+    ) -> FilenameInference:
+        """Parse filename using a user-specified template (e.g. '%track% - %artist% - %title%')."""
+        stem = re.sub(r"\.[a-zA-Z0-9]+$", "", filename)
+        pattern_str = re.escape(template)
+        pattern_str = re.sub(r"\\?%track\\?%", r"(?P<track>\\d{1,3})", pattern_str)
+        pattern_str = re.sub(r"\\?%artist\\?%", r"(?P<artist>.+?)", pattern_str)
+        pattern_str = re.sub(r"\\?%album\\?%", r"(?P<album>.+?)", pattern_str)
+        pattern_str = re.sub(r"\\?%title\\?%", r"(?P<title>.+?)", pattern_str)
+        pattern_str = re.sub(r"\\?%year\\?%", r"(?P<year>\\d{4})", pattern_str)
+        pattern_str = f"^{pattern_str}$"
+
+        m = re.match(pattern_str, stem.strip())
+        if not m:
+            return self.parse_filename(filename)
+
+        groups = m.groupdict()
+        track_num = None
+        if groups.get("track"):
+            with contextlib.suppress(ValueError):
+                track_num = int(groups["track"])
+
+        return FilenameInference(
+            raw_stem=stem,
+            suggested_title=groups.get("title", "").strip() or None,
+            suggested_artist=groups.get("artist", "").strip() or None,
+            suggested_track_number=track_num,
+            confidence="EXACT"
+            if groups.get("title") and groups.get("artist")
+            else "HIGH",
+        )
+
     def explain_match(self, match: MatchResult) -> str:
         """Produce an explainable textual rationale for the candidate match score."""
         cand = match.candidate
