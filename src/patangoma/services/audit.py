@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import sqlite3
@@ -17,9 +18,18 @@ from patangoma.services.audio_backend import AudioBackend, compute_file_checksum
 
 def default_audit_db_path() -> Path:
     """Return default path to user audit database."""
-    base = Path(os.getenv("PATANGOMA_HOME", Path.home() / ".patangoma"))
-    base.mkdir(parents=True, exist_ok=True)
-    return base / "audit.db"
+    if env_home := os.getenv("PATANGOMA_HOME"):
+        return Path(env_home) / "audit.db"
+    home = Path.home() / ".patangoma"
+    try:
+        home.mkdir(parents=True, exist_ok=True)
+        return home / "audit.db"
+    except OSError:
+        import tempfile
+
+        tmp = Path(tempfile.gettempdir()) / ".patangoma"
+        tmp.mkdir(parents=True, exist_ok=True)
+        return tmp / "audit.db"
 
 
 class AuditJournal:
@@ -27,31 +37,34 @@ class AuditJournal:
 
     def __init__(self, db_path: str | Path | None = None) -> None:
         self.db_path = Path(db_path) if db_path else default_audit_db_path()
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._init_db()
+        self._initialized = False
 
     def _get_connection(self) -> sqlite3.Connection:
-        return sqlite3.connect(str(self.db_path))
-
-    def _init_db(self) -> None:
-        conn = self._get_connection()
-        try:
-            with conn:
-                conn.execute(
-                    """
-                    CREATE TABLE IF NOT EXISTS audit_log (
-                        operation_id TEXT PRIMARY KEY,
-                        timestamp TEXT NOT NULL,
-                        file_path TEXT NOT NULL,
-                        checksum_before TEXT NOT NULL,
-                        checksum_after TEXT NOT NULL,
-                        backup_tags TEXT NOT NULL,
-                        applied_tags TEXT NOT NULL
+        if not self._initialized:
+            with contextlib.suppress(OSError):
+                self.db_path.parent.mkdir(parents=True, exist_ok=True)
+            conn = sqlite3.connect(str(self.db_path))
+            try:
+                with conn:
+                    conn.execute(
+                        """
+                        CREATE TABLE IF NOT EXISTS audit_log (
+                            operation_id TEXT PRIMARY KEY,
+                            timestamp TEXT NOT NULL,
+                            file_path TEXT NOT NULL,
+                            checksum_before TEXT NOT NULL,
+                            checksum_after TEXT NOT NULL,
+                            backup_tags TEXT NOT NULL,
+                            applied_tags TEXT NOT NULL
+                        )
+                        """
                     )
-                    """
-                )
-        finally:
-            conn.close()
+                self._initialized = True
+            except sqlite3.OperationalError:
+                # In read-only or restricted environments
+                pass
+            return conn
+        return sqlite3.connect(str(self.db_path))
 
     def record_apply(
         self,
@@ -105,22 +118,40 @@ class AuditJournal:
 
         return record
 
-    def list_history(self, limit: int = 50) -> list[AuditRecord]:
-        """List past audit records in reverse chronological order."""
+    def list_history(
+        self,
+        file_path: str | Path | None = None,
+        limit: int = 50,
+    ) -> list[AuditRecord]:
+        """List past audit records in reverse chronological order with optional path filtering."""
         records: list[AuditRecord] = []
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute(
-                """
-                SELECT operation_id, timestamp, file_path, checksum_before,
-                       checksum_after, backup_tags, applied_tags
-                FROM audit_log
-                ORDER BY timestamp DESC
-                LIMIT ?
-                """,
-                (limit,),
-            )
+            if file_path:
+                norm_prefix = str(file_path)
+                cursor.execute(
+                    """
+                    SELECT operation_id, timestamp, file_path, checksum_before,
+                           checksum_after, backup_tags, applied_tags
+                    FROM audit_log
+                    WHERE file_path = ? OR file_path LIKE ?
+                    ORDER BY timestamp DESC
+                    LIMIT ?
+                    """,
+                    (norm_prefix, f"{norm_prefix}%", limit),
+                )
+            else:
+                cursor.execute(
+                    """
+                    SELECT operation_id, timestamp, file_path, checksum_before,
+                           checksum_after, backup_tags, applied_tags
+                    FROM audit_log
+                    ORDER BY timestamp DESC
+                    LIMIT ?
+                    """,
+                    (limit,),
+                )
             for row in cursor.fetchall():
                 records.append(
                     AuditRecord(
@@ -136,6 +167,33 @@ class AuditJournal:
         finally:
             conn.close()
         return records
+
+    def rollback_latest(self, backend: AudioBackend) -> TrackMetadata:
+        """Rollback the single most recent operation in the audit log."""
+        records = self.list_history(limit=1)
+        if not records:
+            raise RollbackError("No operations found in audit log to rollback.")
+        return self.rollback_operation(records[0].operation_id, backend)
+
+    def rollback_path(
+        self,
+        file_path: str | Path,
+        backend: AudioBackend,
+    ) -> list[TrackMetadata]:
+        """Rollback all recorded operations targeting the given file or directory."""
+        records = self.list_history(file_path=file_path, limit=100)
+        if not records:
+            raise RollbackError(f"No audit records found for path '{file_path}'.")
+
+        restored_tracks: list[TrackMetadata] = []
+        # Roll back in reverse chronological order
+        for rec in records:
+            target = Path(rec.file_path)
+            if target.exists():
+                restored = backend.write_tags(target, rec.backup_tags, dry_run=False)
+                restored_tracks.append(restored)
+
+        return restored_tracks
 
     def get_record(self, operation_id: str) -> AuditRecord | None:
         """Fetch audit record by operation ID."""

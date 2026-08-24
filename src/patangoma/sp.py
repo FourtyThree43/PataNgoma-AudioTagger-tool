@@ -1,3 +1,4 @@
+import contextlib
 import os
 from datetime import datetime
 from functools import lru_cache
@@ -14,11 +15,18 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 
 def storage():
-    home = os.path.expanduser("~")
-    storage_path = os.path.normpath(f"{home}/.patangoma_store/")
-    if not os.path.exists(storage_path):
-        os.makedirs(storage_path)
-    return storage_path
+    if env_store := os.getenv("PATANGOMA_STORE"):
+        return os.path.normpath(env_store)
+    home = os.path.expanduser("~/.patangoma_store")
+    try:
+        os.makedirs(home, exist_ok=True)
+        return os.path.normpath(home)
+    except OSError:
+        import tempfile
+
+        tmp = os.path.join(tempfile.gettempdir(), ".patangoma_store")
+        os.makedirs(tmp, exist_ok=True)
+        return os.path.normpath(tmp)
 
 
 storage_file = os.path.join(storage(), "sp_storage.yaml")
@@ -26,9 +34,13 @@ storage_file = os.path.join(storage(), "sp_storage.yaml")
 
 def store(dump: dict):
     """Save queries for future reference"""
+    s_path = storage()
+    if not os.path.exists(s_path):
+        with contextlib.suppress(OSError):
+            os.makedirs(s_path, exist_ok=True)
     try:
         with open(storage_file) as f:
-            loaded = yaml.safe_load(f)
+            loaded = yaml.safe_load(f) or {}
             loaded.update(dump)
         with open(storage_file, "w") as f:
             yaml.safe_dump(loaded, f)

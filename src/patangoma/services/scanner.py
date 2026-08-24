@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from pydantic import BaseModel, Field
@@ -69,17 +70,34 @@ class LibraryScanner:
         self,
         root_dir: str | Path,
         recursive: bool = True,
+        max_workers: int = 8,
     ) -> tuple[list[TrackMetadata], ScanSummary]:
         """Scan directory and return list of valid TrackMetadata and ScanSummary report."""
         files = self.discover_files(root_dir, recursive=recursive)
         summary = ScanSummary(total_files_scanned=len(files))
         tracks: list[TrackMetadata] = []
 
+        if not files:
+            return tracks, summary
+
         signature_map: dict[tuple[str, str], list[str]] = defaultdict(list)
 
-        for file_path in files:
+        def _read_file(p: Path) -> tuple[TrackMetadata | None, str | None, Path]:
             try:
-                meta = self.backend.read_metadata(file_path)
+                return self.backend.read_metadata(p), None, p
+            except AudioFileError as e:
+                return None, str(e), p
+
+        if max_workers > 1 and len(files) > 1:
+            with ThreadPoolExecutor(
+                max_workers=min(max_workers, len(files))
+            ) as executor:
+                results = list(executor.map(_read_file, files))
+        else:
+            results = [_read_file(p) for p in files]
+
+        for meta, error, file_path in results:
+            if meta is not None:
                 tracks.append(meta)
                 summary.valid_audio_files += 1
 
@@ -99,10 +117,11 @@ class LibraryScanner:
                 if meta.title and meta.artist:
                     key = (meta.title.strip().lower(), meta.artist.strip().lower())
                     signature_map[key].append(str(file_path))
-
-            except AudioFileError as e:
+            else:
                 summary.corrupt_or_unreadable += 1
-                summary.errors.append({"file": str(file_path), "error": str(e)})
+                summary.errors.append(
+                    {"file": str(file_path), "error": error or "Unknown error"}
+                )
 
         # Populate duplicate groups
         for paths in signature_map.values():

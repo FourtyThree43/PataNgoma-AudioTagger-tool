@@ -49,8 +49,33 @@ def normalize_text(text: str | None) -> str:
     return clean
 
 
+def compute_token_sort_similarity(a: str | None, b: str | None) -> float:
+    """Compute token-sorted similarity to handle reordered words (e.g. 'Beatles, The' vs 'The Beatles')."""
+    norm_a = normalize_text(a)
+    norm_b = normalize_text(b)
+
+    if not norm_a and not norm_b:
+        return 1.0
+    if not norm_a or not norm_b:
+        return 0.0
+    if norm_a == norm_b:
+        return 1.0
+
+    tokens_a = " ".join(sorted(norm_a.split()))
+    tokens_b = " ".join(sorted(norm_b.split()))
+
+    if tokens_a == tokens_b:
+        return 1.0
+
+    s1, s2 = (tokens_a, tokens_b) if tokens_a <= tokens_b else (tokens_b, tokens_a)
+    return difflib.SequenceMatcher(None, s1, s2).ratio()
+
+
 def compute_string_similarity(a: str | None, b: str | None) -> float:
-    """Compute normalized sequence similarity ratio between two strings (0.0 to 1.0)."""
+    """Compute normalized sequence similarity ratio between two strings (0.0 to 1.0).
+
+    Takes the maximum of standard sequence ratio and token-sort ratio for word-reordering tolerance.
+    """
     norm_a = normalize_text(a)
     norm_b = normalize_text(b)
 
@@ -62,7 +87,9 @@ def compute_string_similarity(a: str | None, b: str | None) -> float:
         return 1.0
 
     s1, s2 = (norm_a, norm_b) if norm_a <= norm_b else (norm_b, norm_a)
-    return difflib.SequenceMatcher(None, s1, s2).ratio()
+    seq_ratio = difflib.SequenceMatcher(None, s1, s2).ratio()
+    token_ratio = compute_token_sort_similarity(a, b)
+    return max(seq_ratio, token_ratio)
 
 
 def compute_artist_similarity(

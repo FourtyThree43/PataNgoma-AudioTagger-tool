@@ -11,6 +11,7 @@ from patangoma.matching.matcher import (
     MatchingEngine,
     compute_duration_score,
     compute_string_similarity,
+    compute_token_sort_similarity,
     normalize_text,
 )
 
@@ -28,6 +29,16 @@ def test_compute_string_similarity():
     )
     assert compute_string_similarity("Hello", "World") < 0.3
     assert compute_string_similarity("", "") == 1.0
+    # Token-sort reordering tolerance
+    assert compute_string_similarity("Beatles, The", "The Beatles") == 1.0
+    assert compute_string_similarity("Burn The Stage", "Stage The Burn") == 1.0
+
+
+def test_compute_token_sort_similarity():
+    assert (
+        compute_token_sort_similarity("Starboy The Weeknd", "The Weeknd Starboy") == 1.0
+    )
+    assert compute_token_sort_similarity("Artist A", "Artist B") < 1.0
 
 
 def test_compute_duration_score():

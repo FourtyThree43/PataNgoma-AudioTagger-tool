@@ -18,6 +18,7 @@ from patangoma.domain.exceptions import (
 )
 from patangoma.domain.models import MetadataCandidate, QueryParameters
 from patangoma.providers.base import MetadataProvider
+from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +66,7 @@ class SpotifyProvider(MetadataProvider):
                 "Failed to authenticate with Spotify", str(e)
             ) from e
 
+    @cached_search()
     def search_tracks(self, query: QueryParameters) -> list[MetadataCandidate]:
         """Search Spotify API and normalize tracks into candidates."""
         parts = []
@@ -101,6 +103,7 @@ class SpotifyProvider(MetadataProvider):
             logger.error("Unexpected error querying Spotify: %s", e)
             raise ProviderError("Failed to query Spotify", str(e)) from e
 
+    @cached_get_track()
     def get_track_by_id(self, track_id: str) -> MetadataCandidate | None:
         """Fetch Spotify track by track ID."""
         client = self._get_client()

@@ -1,3 +1,4 @@
+import contextlib
 import json
 import logging
 import os
@@ -67,6 +68,11 @@ class DataStore:
 
     def _save_metadata(self):
         """Save metadata to the file."""
+        if self.file_path:
+            parent = os.path.dirname(self.file_path)
+            if parent and not os.path.exists(parent):
+                with contextlib.suppress(OSError):
+                    os.makedirs(parent, exist_ok=True)
         with open(self.file_path, "w") as f:
             if self.fmt == "json":
                 json.dump(self.metadata, f, indent=4)

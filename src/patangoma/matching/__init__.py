@@ -5,6 +5,7 @@ from patangoma.matching.matcher import (
     compute_artist_similarity,
     compute_duration_score,
     compute_string_similarity,
+    compute_token_sort_similarity,
     normalize_text,
 )
 
@@ -13,5 +14,6 @@ __all__ = [
     "compute_artist_similarity",
     "compute_duration_score",
     "compute_string_similarity",
+    "compute_token_sort_similarity",
     "normalize_text",
 ]
