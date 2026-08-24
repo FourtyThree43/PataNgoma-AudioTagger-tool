@@ -79,6 +79,12 @@ class TrackMetadata(BaseModel):
     sample_rate: int | None = None
     channels: int | None = None
 
+    # ReplayGain & Loudness metadata
+    replaygain_track_gain: float | None = None
+    replaygain_track_peak: float | None = None
+    replaygain_album_gain: float | None = None
+    replaygain_album_peak: float | None = None
+
     # Artwork metadata
     has_artwork: bool = False
     artwork_mime: str | None = None

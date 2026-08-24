@@ -86,6 +86,10 @@ class AudioBackend:
                 bitrate=getattr(mf, "bitrate", None),
                 sample_rate=getattr(mf, "samplerate", None),
                 channels=getattr(mf, "channels", None),
+                replaygain_track_gain=getattr(mf, "rg_track_gain", None),
+                replaygain_track_peak=getattr(mf, "rg_track_peak", None),
+                replaygain_album_gain=getattr(mf, "rg_album_gain", None),
+                replaygain_album_peak=getattr(mf, "rg_album_peak", None),
                 has_artwork=has_art,
             )
         except Exception as e:

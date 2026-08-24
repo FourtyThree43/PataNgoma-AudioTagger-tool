@@ -1,15 +1,103 @@
-"""Sample audio library generator for testing, demonstrations, and development."""
+"""Sample audio library and synthetic audio file generator."""
 
 from __future__ import annotations
 
+import struct
+import wave
 from pathlib import Path
+from typing import Any
 
-from tests.helpers.audio_factory import (
-    create_corrupt_file,
-    create_minimal_flac,
-    create_minimal_mp3,
-    create_minimal_wav,
-)
+from mediafile import MediaFile
+
+
+def create_minimal_wav(path: str | Path, tags: dict[str, Any] | None = None) -> Path:
+    """Create a minimal valid silent WAV file and optionally apply tags."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+
+    with wave.open(str(p), "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(44100)
+        w.writeframes(b"\x00" * 4410)  # 0.1s silence
+
+    if tags:
+        mf = MediaFile(str(p))
+        for key, val in tags.items():
+            if hasattr(mf, key):
+                setattr(mf, key, val)
+        mf.save()
+
+    return p
+
+
+def create_minimal_mp3(path: str | Path, tags: dict[str, Any] | None = None) -> Path:
+    """Create a minimal valid silent MP3 file and optionally apply tags."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+
+    # 10 frames of MPEG-1 Layer 3, 128kbps, 44.1kHz stereo silence
+    mp3_frame = b"\xff\xfb\x90\x64" + (b"\x00" * 413)
+    p.write_bytes(mp3_frame * 10)
+
+    if tags:
+        mf = MediaFile(str(p))
+        for key, val in tags.items():
+            if hasattr(mf, key):
+                setattr(mf, key, val)
+        mf.save()
+
+    return p
+
+
+def create_minimal_flac(path: str | Path, tags: dict[str, Any] | None = None) -> Path:
+    """Create a minimal valid silent FLAC file and optionally apply tags."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+
+    min_block = 4096
+    max_block = 4096
+    min_frame = 0
+    max_frame = 0
+    sample_rate = 44100
+    channels = 2
+    bps = 16
+    total_samples = 44100
+    md5 = b"\x00" * 16
+
+    sr_chan_bps_samples = (
+        (sample_rate << 44) | ((channels - 1) << 41) | ((bps - 1) << 36) | total_samples
+    )
+
+    streaminfo = struct.pack(
+        ">HH3s3s8s16s",
+        min_block,
+        max_block,
+        min_frame.to_bytes(3, "big"),
+        max_frame.to_bytes(3, "big"),
+        sr_chan_bps_samples.to_bytes(8, "big"),
+        md5,
+    )
+
+    flac_bytes = b"fLaC\x80\x00\x00\x22" + streaminfo
+    p.write_bytes(flac_bytes)
+
+    if tags:
+        mf = MediaFile(str(p))
+        for key, val in tags.items():
+            if hasattr(mf, key):
+                setattr(mf, key, val)
+        mf.save()
+
+    return p
+
+
+def create_corrupt_file(path: str | Path) -> Path:
+    """Create a corrupt file with non-audio garbage bytes."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(b"\xde\xad\xbe\xef\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99")
+    return p
 
 
 def generate_sample_library(output_dir: str | Path) -> dict[str, list[str]]:

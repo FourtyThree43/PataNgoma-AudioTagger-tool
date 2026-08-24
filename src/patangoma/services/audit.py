@@ -252,3 +252,105 @@ class AuditJournal:
             raise RollbackError(
                 f"Failed to rollback operation {operation_id}", str(e)
             ) from e
+
+    def export_history_csv(
+        self,
+        output_path: str | Path,
+        limit: int = 500,
+    ) -> Path:
+        """Export audit history records to a CSV file."""
+        import csv
+
+        records = self.list_history(limit=limit)
+        out = Path(output_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+
+        with out.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(
+                [
+                    "Operation ID",
+                    "Timestamp",
+                    "File Path",
+                    "Checksum Before",
+                    "Checksum After",
+                    "Modified Tags",
+                ]
+            )
+            for rec in records:
+                mod_keys = (
+                    ", ".join(rec.applied_tags.keys()) if rec.applied_tags else ""
+                )
+                writer.writerow(
+                    [
+                        rec.operation_id,
+                        rec.timestamp.isoformat(),
+                        rec.file_path,
+                        rec.checksum_before,
+                        rec.checksum_after,
+                        mod_keys,
+                    ]
+                )
+        return out
+
+    def export_history_html(
+        self,
+        output_path: str | Path,
+        limit: int = 500,
+    ) -> Path:
+        """Export audit history records to a formatted HTML report."""
+        records = self.list_history(limit=limit)
+        out = Path(output_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+
+        rows = []
+        for rec in records:
+            mod_keys = (
+                ", ".join(rec.applied_tags.keys()) if rec.applied_tags else "None"
+            )
+            rows.append(
+                f"<tr>"
+                f"<td><code>{rec.operation_id[:8]}...</code></td>"
+                f"<td>{rec.timestamp.strftime('%Y-%m-%d %H:%M:%S')}</td>"
+                f"<td>{Path(rec.file_path).name}</td>"
+                f"<td>{mod_keys}</td>"
+                f"<td><code>{rec.checksum_after[:12]}...</code></td>"
+                f"</tr>"
+            )
+
+        html = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PataNgoma Audit Report</title>
+    <style>
+        body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background: #0f172a; color: #e2e8f0; }}
+        h1 {{ color: #38bdf8; }}
+        table {{ border-collapse: collapse; width: 100%; margin-top: 20px; background: #1e293b; border-radius: 8px; overflow: hidden; }}
+        th, td {{ padding: 12px 16px; text-align: left; border-bottom: 1px solid #334155; }}
+        th {{ background: #0284c7; color: white; }}
+        tr:hover {{ background: #334155; }}
+        code {{ background: #0f172a; padding: 2px 6px; border-radius: 4px; color: #a5f3fc; }}
+    </style>
+</head>
+<body>
+    <h1>PataNgoma Audit Trail Report</h1>
+    <p>Total Records: {len(records)}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Operation ID</th>
+                <th>Timestamp</th>
+                <th>File Name</th>
+                <th>Modified Fields</th>
+                <th>Checksum Post-Mutation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {"".join(rows) if rows else "<tr><td colspan='5'>No records found</td></tr>"}
+        </tbody>
+    </table>
+</body>
+</html>"""
+        out.write_text(html, encoding="utf-8")
+        return out
