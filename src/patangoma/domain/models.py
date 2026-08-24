@@ -39,6 +39,7 @@ class QueryParameters(BaseModel):
     isrc: str | None = None
     year: int | None = None
     limit: int = Field(default=10, ge=1, le=50)
+    raw_payload: dict[str, Any] = Field(default_factory=dict)
 
     model_config = ConfigDict(frozen=True)
 

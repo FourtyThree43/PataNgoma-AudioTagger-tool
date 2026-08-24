@@ -157,3 +157,53 @@ def test_cli_reason(mp3_complete: Path):
     parsed = json.loads(json_res.output)
     assert "inference" in parsed
     assert "suggestions" in parsed
+
+
+def test_cli_match_untagged_file_heuristic(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    # Generate untagged file "09 - LUMINOUS.mp3"
+    untagged_file = tmp_path / "09 - LUMINOUS.mp3"
+    create_minimal_mp3(untagged_file, tags={})
+
+    runner = CliRunner()
+    mock_candidate = MetadataCandidate(
+        provider_name="itunes",
+        provider_id="itunes-123",
+        title="LUMINOUS",
+        artists=["Aina The End"],
+        album="Luminous - Single",
+    )
+
+    with patch(
+        "patangoma.providers.itunes.ITunesProvider.search_tracks",
+        return_value=[mock_candidate],
+    ):
+        res = runner.invoke(cli, ["match", str(untagged_file), "--provider", "itunes"])
+        assert res.exit_code == 0
+        assert "Inferred title 'LUMINOUS'" in res.output
+        assert "LUMINOUS" in res.output
+
+
+def test_cli_match_multi_provider(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Test Song", "artist": "Test Artist"})
+
+    runner = CliRunner()
+    mock_candidate = MetadataCandidate(
+        provider_name="itunes",
+        provider_id="itunes-456",
+        title="Test Song",
+        artists=["Test Artist"],
+        album="Test Album",
+    )
+
+    with patch(
+        "patangoma.services.aggregator.MetadataAggregator.search_all_providers",
+        return_value=[mock_candidate],
+    ):
+        res = runner.invoke(cli, ["match", str(track_file), "--provider", "multi"])
+        assert res.exit_code == 0
+        assert "Test Song" in res.output

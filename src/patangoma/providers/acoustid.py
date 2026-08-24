@@ -1,12 +1,14 @@
-"""AcoustID audio fingerprinting metadata provider adapter."""
+"""AcoustID audio fingerprinting metadata provider adapter with cross-platform binary discovery."""
 
 from __future__ import annotations
 
 import contextlib
 import logging
 import os
+import platform
 import shutil
 import subprocess
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -24,9 +26,74 @@ _ACOUSTID_LOOKUP_URL = "https://api.acoustid.org/v2/lookup"
 _DEFAULT_CLIENT_KEY = "8XaBELgH"
 
 
+def find_fpcalc_binary() -> str | None:
+    """Find the fpcalc (Chromaprint) executable across Linux, macOS, and Windows."""
+    # 1. Check custom environment variable
+    custom_path = os.getenv("FPCALC_PATH")
+    if custom_path and Path(custom_path).is_file():
+        return custom_path
+
+    # 2. Check system PATH (respects PATHEXT on Windows)
+    bin_on_path = shutil.which("fpcalc")
+    if bin_on_path:
+        return bin_on_path
+
+    # 3. Check platform-specific installation paths
+    system = platform.system()
+    candidates: list[Path] = []
+
+    if system == "Windows":
+        local_app = os.getenv("LOCALAPPDATA")
+        user_prof = os.getenv("USERPROFILE")
+        prog_files = os.getenv("PROGRAMFILES", "C:\\Program Files")
+        prog_files_x86 = os.getenv("PROGRAMFILES(X86)", "C:\\Program Files (x86)")
+
+        if user_prof:
+            candidates.append(Path(user_prof) / "scoop/shims/fpcalc.exe")
+            candidates.append(
+                Path(user_prof) / "scoop/apps/chromaprint/current/fpcalc.exe"
+            )
+        if local_app:
+            candidates.append(Path(local_app) / "Programs/Chromaprint/fpcalc.exe")
+        candidates.extend(
+            [
+                Path(prog_files) / "Chromaprint/fpcalc.exe",
+                Path(prog_files_x86) / "Chromaprint/fpcalc.exe",
+                Path("C:/tools/chromaprint/fpcalc.exe"),
+                Path("C:/ProgramData/chocolatey/bin/fpcalc.exe"),
+            ]
+        )
+    elif system == "Darwin":
+        candidates.extend(
+            [
+                Path("/opt/homebrew/bin/fpcalc"),
+                Path("/usr/local/bin/fpcalc"),
+                Path("/opt/local/bin/fpcalc"),
+            ]
+        )
+    else:  # Linux / BSD / POSIX
+        with contextlib.suppress(Exception):
+            home = Path.home()
+            candidates.extend(
+                [
+                    Path("/usr/bin/fpcalc"),
+                    Path("/usr/local/bin/fpcalc"),
+                    Path("/snap/bin/fpcalc"),
+                    home / ".local/bin/fpcalc",
+                    home / "bin/fpcalc",
+                ]
+            )
+
+    for p in candidates:
+        if p.exists() and p.is_file():
+            return str(p)
+
+    return None
+
+
 def generate_chromaprint(file_path: str) -> tuple[int, str] | None:
     """Generate (duration_seconds, fingerprint_str) using fpcalc CLI if available."""
-    fpcalc_bin = shutil.which("fpcalc")
+    fpcalc_bin = find_fpcalc_binary()
     if not fpcalc_bin:
         return None
 
@@ -38,9 +105,6 @@ def generate_chromaprint(file_path: str) -> tuple[int, str] | None:
             check=True,
             timeout=15.0,
         )
-        # fpcalc output with -plain:
-        # DURATION=234
-        # FINGERPRINT=AQADtHKUaUkSRd...
         lines = proc.stdout.strip().splitlines()
         dur = 0
         fp = ""
@@ -50,7 +114,6 @@ def generate_chromaprint(file_path: str) -> tuple[int, str] | None:
             elif line.startswith("FINGERPRINT="):
                 fp = line.split("=", 1)[1]
             elif not dur and not fp and line:
-                # Raw plain fingerprint
                 fp = line.strip()
         if fp:
             return dur, fp
@@ -80,8 +143,23 @@ class AcoustIDProvider(MetadataProvider):
 
     @cached_search()
     def search_tracks(self, query: QueryParameters) -> list[MetadataCandidate]:
-        """Search AcoustID by fingerprint or query."""
-        # AcoustID search primarily requires duration + fingerprint from raw_payload or query
+        """Search AcoustID by fingerprint or query fallback."""
+        # Check if a file_path or fingerprint was passed in raw_payload
+        if query.raw_payload and "fingerprint" in query.raw_payload:
+            dur = int(query.raw_payload.get("duration", 0))
+            fp = str(query.raw_payload.get("fingerprint", ""))
+            return self.lookup_fingerprint(dur, fp)
+
+        # Fallback to MusicBrainz lookup if title was inferred from filename
+        if query.title:
+            try:
+                from patangoma.providers.musicbrainz import MusicBrainzProvider
+
+                mb = MusicBrainzProvider(session=self._session)
+                return mb.search_tracks(query)
+            except Exception as e:
+                logger.debug("AcoustID text fallback failed: %s", e)
+
         return []
 
     def lookup_fingerprint(
@@ -128,7 +206,6 @@ class AcoustIDProvider(MetadataProvider):
     @cached_get_track()
     def get_track_by_id(self, track_id: str) -> MetadataCandidate | None:
         """Fetch candidate by AcoustID result ID or MusicBrainz ID."""
-        # AcoustID lookup by MBID is handled via MusicBrainz provider
         return None
 
     def _normalize_recording(

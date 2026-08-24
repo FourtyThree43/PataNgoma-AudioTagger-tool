@@ -115,7 +115,40 @@ def run_diagnostics() -> DoctorReport:
             DiagnosticCheck(
                 name="Audit Storage",
                 status="ERROR",
-                message=f"Audit storage directory error: {e}",
+                message=f"Audit journal path inaccessible: {e}",
+            )
+        )
+
+    # 6. Chromaprint (fpcalc) Check
+    import platform
+
+    from patangoma.providers.acoustid import find_fpcalc_binary
+
+    fpcalc_path = find_fpcalc_binary()
+    if fpcalc_path:
+        checks.append(
+            DiagnosticCheck(
+                name="Acoustic Fingerprinting (fpcalc)",
+                status="OK",
+                message=f"fpcalc executable found at {fpcalc_path}",
+            )
+        )
+    else:
+        system = platform.system()
+        install_hint = (
+            "Install via 'scoop install chromaprint' or 'choco install chromaprint'"
+            if system == "Windows"
+            else (
+                "Install via 'brew install chromaprint'"
+                if system == "Darwin"
+                else "Install via 'sudo apt install libchromaprint-tools'"
+            )
+        )
+        checks.append(
+            DiagnosticCheck(
+                name="Acoustic Fingerprinting (fpcalc)",
+                status="WARNING",
+                message=f"fpcalc binary not found. {install_hint}",
             )
         )
 
