@@ -11,7 +11,7 @@ pytest==8.1.1
 python-dotenv==1.0.0
 python3-discogs-client==2.7
 pyyaml==6.0.1
-requests==2.31.0
+requests==2.34.2
 spotipy==2.23.0
 sqlalchemy==2.0.28
 rich==13.7.0
