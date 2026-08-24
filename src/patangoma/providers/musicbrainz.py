@@ -11,6 +11,7 @@ import musicbrainzngs as mb
 from patangoma.domain.exceptions import ProviderError, ProviderUnavailableError
 from patangoma.domain.models import MetadataCandidate, QueryParameters
 from patangoma.providers.base import MetadataProvider
+from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,7 @@ class MusicBrainzProvider(MetadataProvider):
     def name(self) -> str:
         return self._name
 
+    @cached_search()
     def search_tracks(self, query: QueryParameters) -> list[MetadataCandidate]:
         """Search recordings on MusicBrainz and normalize into MetadataCandidate objects."""
         query_params: dict[str, Any] = {}
@@ -67,6 +69,7 @@ class MusicBrainzProvider(MetadataProvider):
 
         return candidates
 
+    @cached_get_track()
     def get_track_by_id(self, track_id: str) -> MetadataCandidate | None:
         """Fetch recording by MusicBrainz recording ID (mb_trackid)."""
         try:

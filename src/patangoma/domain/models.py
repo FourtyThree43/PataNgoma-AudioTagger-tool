@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import datetime as dt
+import os
 from enum import Enum
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field
@@ -86,6 +87,8 @@ class TrackMetadata(BaseModel):
 
     @property
     def path(self) -> Path:
+        if "\\" in self.file_path and os.sep == "/":
+            return Path(PureWindowsPath(self.file_path).as_posix())
         return Path(self.file_path)
 
     def to_tag_dict(self) -> dict[str, Any]:

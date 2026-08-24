@@ -11,6 +11,7 @@ import deezer
 from patangoma.domain.exceptions import ProviderError, ProviderUnavailableError
 from patangoma.domain.models import MetadataCandidate, QueryParameters
 from patangoma.providers.base import MetadataProvider
+from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,7 @@ class DeezerProvider(MetadataProvider):
     def name(self) -> str:
         return self._name
 
+    @cached_search()
     def search_tracks(self, query: QueryParameters) -> list[MetadataCandidate]:
         """Search tracks on Deezer and return normalized candidates."""
         parts = []
@@ -56,6 +58,7 @@ class DeezerProvider(MetadataProvider):
                 "Deezer search request failed", str(e)
             ) from e
 
+    @cached_get_track()
     def get_track_by_id(self, track_id: str) -> MetadataCandidate | None:
         """Fetch Deezer track by its integer track ID."""
         try:

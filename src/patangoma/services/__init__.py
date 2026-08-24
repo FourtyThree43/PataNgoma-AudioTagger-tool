@@ -5,6 +5,12 @@ from patangoma.services.artwork import ArtworkService
 from patangoma.services.audio_backend import AudioBackend, compute_file_checksum
 from patangoma.services.audit import AuditJournal, default_audit_db_path
 from patangoma.services.batch import BatchPlan, BatchService
+from patangoma.services.cache import (
+    ProviderCache,
+    cached_get_track,
+    cached_search,
+    default_provider_cache,
+)
 from patangoma.services.doctor import DoctorReport, run_diagnostics
 from patangoma.services.planner import PlanEngine
 from patangoma.services.scanner import (
@@ -25,8 +31,12 @@ __all__ = [
     "LibraryScanner",
     "MetadataReasoner",
     "PlanEngine",
+    "ProviderCache",
     "ScanSummary",
+    "cached_get_track",
+    "cached_search",
     "compute_file_checksum",
     "default_audit_db_path",
+    "default_provider_cache",
     "run_diagnostics",
 ]

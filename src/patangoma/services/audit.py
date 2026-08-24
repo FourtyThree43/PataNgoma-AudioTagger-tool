@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import sqlite3
@@ -17,9 +18,18 @@ from patangoma.services.audio_backend import AudioBackend, compute_file_checksum
 
 def default_audit_db_path() -> Path:
     """Return default path to user audit database."""
-    base = Path(os.getenv("PATANGOMA_HOME", Path.home() / ".patangoma"))
-    base.mkdir(parents=True, exist_ok=True)
-    return base / "audit.db"
+    if env_home := os.getenv("PATANGOMA_HOME"):
+        return Path(env_home) / "audit.db"
+    home = Path.home() / ".patangoma"
+    try:
+        home.mkdir(parents=True, exist_ok=True)
+        return home / "audit.db"
+    except OSError:
+        import tempfile
+
+        tmp = Path(tempfile.gettempdir()) / ".patangoma"
+        tmp.mkdir(parents=True, exist_ok=True)
+        return tmp / "audit.db"
 
 
 class AuditJournal:
@@ -27,31 +37,34 @@ class AuditJournal:
 
     def __init__(self, db_path: str | Path | None = None) -> None:
         self.db_path = Path(db_path) if db_path else default_audit_db_path()
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._init_db()
+        self._initialized = False
 
     def _get_connection(self) -> sqlite3.Connection:
-        return sqlite3.connect(str(self.db_path))
-
-    def _init_db(self) -> None:
-        conn = self._get_connection()
-        try:
-            with conn:
-                conn.execute(
-                    """
-                    CREATE TABLE IF NOT EXISTS audit_log (
-                        operation_id TEXT PRIMARY KEY,
-                        timestamp TEXT NOT NULL,
-                        file_path TEXT NOT NULL,
-                        checksum_before TEXT NOT NULL,
-                        checksum_after TEXT NOT NULL,
-                        backup_tags TEXT NOT NULL,
-                        applied_tags TEXT NOT NULL
+        if not self._initialized:
+            with contextlib.suppress(OSError):
+                self.db_path.parent.mkdir(parents=True, exist_ok=True)
+            conn = sqlite3.connect(str(self.db_path))
+            try:
+                with conn:
+                    conn.execute(
+                        """
+                        CREATE TABLE IF NOT EXISTS audit_log (
+                            operation_id TEXT PRIMARY KEY,
+                            timestamp TEXT NOT NULL,
+                            file_path TEXT NOT NULL,
+                            checksum_before TEXT NOT NULL,
+                            checksum_after TEXT NOT NULL,
+                            backup_tags TEXT NOT NULL,
+                            applied_tags TEXT NOT NULL
+                        )
+                        """
                     )
-                    """
-                )
-        finally:
-            conn.close()
+                self._initialized = True
+            except sqlite3.OperationalError:
+                # In read-only or restricted environments
+                pass
+            return conn
+        return sqlite3.connect(str(self.db_path))
 
     def record_apply(
         self,
