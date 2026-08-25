@@ -92,6 +92,28 @@ def create_minimal_flac(path: str | Path, tags: dict[str, Any] | None = None) ->
     return p
 
 
+def create_minimal_ogg(path: str | Path, tags: dict[str, Any] | None = None) -> Path:
+    """Create a minimal valid Ogg Vorbis/Opus file header."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    # Minimal OggS container header
+    ogg_page = b"OggS\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x01\x1e"
+    opus_head = b"OpusHead\x01\x02\x00\x00\x80\xbb\x00\x00\x00\x00\x00"
+    p.write_bytes(ogg_page + opus_head + (b"\x00" * 64))
+
+    if tags:
+        try:
+            mf = MediaFile(str(p))
+            for key, val in tags.items():
+                if hasattr(mf, key):
+                    setattr(mf, key, val)
+            mf.save()
+        except Exception:
+            pass
+
+    return p
+
+
 def create_corrupt_file(path: str | Path) -> Path:
     """Create a corrupt file with non-audio garbage bytes."""
     p = Path(path)

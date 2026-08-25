@@ -17,11 +17,16 @@ SUPPORTED_AUDIO_EXTENSIONS = {
     ".flac",
     ".m4a",
     ".ogg",
+    ".opus",
+    ".oga",
     ".wav",
     ".wma",
     ".aac",
     ".aiff",
+    ".aif",
     ".alac",
+    ".mp4",
+    ".m4b",
 }
 
 

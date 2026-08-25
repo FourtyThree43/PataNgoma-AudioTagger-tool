@@ -31,6 +31,7 @@ from patangoma.domain.models import (
 from patangoma.matching.matcher import MatchingEngine
 from patangoma.providers.registry import get_provider
 from patangoma.services.ai_reasoner import MetadataReasoner
+from patangoma.services.artwork import ArtworkService
 from patangoma.services.audio_backend import AudioBackend
 from patangoma.services.audit import AuditJournal
 from patangoma.services.batch import BatchService
@@ -381,12 +382,23 @@ def plan(file_path: str, provider: str, output: str | None, json_out: bool) -> N
     help="Provider if passing an audio file directly",
 )
 @click.option(
+    "--embed-artwork",
+    is_flag=True,
+    help="Download and embed album artwork from match candidate",
+)
+@click.option(
     "--json-out",
     "--json",
     is_flag=True,
     help="Output apply result in JSON format",
 )
-def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> None:
+def apply(
+    plan_or_file: str,
+    dry_run: bool,
+    provider: str,
+    embed_artwork: bool,
+    json_out: bool,
+) -> None:
     """Apply a plan or best candidate match to an audio file."""
     path = Path(plan_or_file)
 
@@ -426,6 +438,24 @@ def apply(plan_or_file: str, dry_run: bool, provider: str, json_out: bool) -> No
 
     # Apply mutation and log in audit history
     updated = backend.write_tags(audio_path, updates, dry_run=False)
+    if (
+        embed_artwork
+        and tag_plan.candidate_metadata
+        and tag_plan.candidate_metadata.artwork_url
+    ):
+        try:
+            art_svc = ArtworkService()
+            img_data = art_svc.download_and_validate_artwork(
+                tag_plan.candidate_metadata.artwork_url
+            )
+            if img_data:
+                backend.write_artwork(audio_path, img_data)
+                console.print(
+                    f"[bold green]✓ Embedded artwork into {Path(audio_path).name}[/bold green]"
+                )
+        except Exception:
+            pass
+
     audit_rec = audit_journal.record_apply(tag_plan, track_before, updated)
 
     if json_out:
@@ -475,12 +505,32 @@ def plan_dir(directory: str, provider: str, output: str | None, json_out: bool) 
     "--dry-run", is_flag=True, help="Simulate batch mutation without writing to disk"
 )
 @click.option(
+    "--embed-artwork",
+    is_flag=True,
+    help="Download and embed album artwork for each track in batch plan",
+)
+@click.option(
     "--json-out", "--json", is_flag=True, help="Output applied batch records in JSON"
 )
-def apply_dir(plan_file: str, dry_run: bool, json_out: bool) -> None:
+def apply_dir(
+    plan_file: str, dry_run: bool, embed_artwork: bool, json_out: bool
+) -> None:
     """Apply a batch plan across an entire music library."""
     batch_plan = batch_service.load_batch_plan(plan_file)
     records = batch_service.apply_batch_plan(batch_plan, dry_run=dry_run)
+
+    if embed_artwork and not dry_run:
+        art_svc = ArtworkService()
+        for item in batch_plan.items:
+            if item.candidate and item.candidate.artwork_url:
+                try:
+                    img = art_svc.download_and_validate_artwork(
+                        item.candidate.artwork_url
+                    )
+                    if img:
+                        backend.write_artwork(item.file_path, img)
+                except Exception:
+                    pass
 
     if json_out:
         click.echo(json.dumps([r.model_dump() for r in records], indent=2, default=str))
@@ -919,6 +969,341 @@ def verify(path: str, json_out: bool) -> None:
         console.print(
             f"[bold yellow]Verification completed with issues: {readable} valid, [red]{corrupt} corrupt[/red].[/bold yellow]"
         )
+
+
+@cli.command("tag")
+@click.argument(
+    "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+@click.option(
+    "--provider",
+    "-p",
+    default="multi",
+    help="Provider (itunes, musicbrainz, multi, etc.)",
+)
+@click.option(
+    "--interactive/--no-interactive",
+    "-i/-I",
+    default=True,
+    help="Interactive terminal candidate selector",
+)
+@click.option("--dry-run", is_flag=True, help="Simulate without writing")
+def tag(file_path: str, provider: str, interactive: bool, dry_run: bool) -> None:
+    """Interactively match, select, and tag an audio file."""
+    track = backend.read_metadata(file_path)
+    candidates, display_title = _query_candidates(track, file_path, provider)
+    if not candidates:
+        console.print(f"[yellow]No candidates found for '{display_title}'.[/yellow]")
+        return
+
+    results = matching_engine.rank_candidates(track, candidates)
+    if interactive and len(results) > 1:
+        choices = []
+        for res in results[:10]:
+            c = res.candidate
+            label = f"[{res.confidence.value}] {c.title} — {c.primary_artist} ({c.album or 'No Album'}, {c.year or 'N/A'}) - {res.score.total_score * 100:.0f}%"
+            choices.append(Choice(value=res, name=label))
+        choices.append(Choice(value=None, name="Cancel"))
+
+        selected = inquirer.select(
+            message=f"Select match for '{display_title}':",
+            choices=choices,
+        ).execute()
+
+        if not selected:
+            console.print("[dim]Tagging cancelled.[/dim]")
+            return
+        best = selected
+    else:
+        best = results[0]
+
+    tag_plan = planner.create_plan(
+        track, best.candidate, best.confidence, best.score.total_score
+    )
+    updates = {
+        diff.field_name: diff.new_value
+        for diff in tag_plan.diffs
+        if diff.status in (FieldDiffStatus.ADDED, FieldDiffStatus.MODIFIED)
+    }
+    if not updates:
+        console.print("[green]✓ File is already perfectly tagged.[/green]")
+        return
+
+    table = Table(title=f"Tag Updates: {Path(file_path).name}")
+    table.add_column("Field", style="cyan")
+    table.add_column("Current Tag", style="dim")
+    table.add_column("New Tag", style="bold green")
+    for diff in tag_plan.diffs:
+        if diff.status in (FieldDiffStatus.ADDED, FieldDiffStatus.MODIFIED):
+            table.add_row(
+                diff.field_name, str(diff.old_value or "—"), str(diff.new_value)
+            )
+    console.print(table)
+
+    if dry_run:
+        console.print("[yellow]DRY-RUN: No changes written to disk.[/yellow]")
+    else:
+        updated = backend.write_tags(file_path, updates, dry_run=False)
+        audit_journal.record_apply(tag_plan, track, updated)
+        console.print(
+            f"[bold green]✓ Successfully applied tags to {Path(file_path).name}[/bold green]"
+        )
+
+
+@cli.command("replaygain")
+@click.argument("target", type=click.Path(exists=True, resolve_path=True))
+@click.option("--dry-run", is_flag=True, help="Simulate without writing")
+def replaygain(target: str, dry_run: bool) -> None:
+    """Calculate loudness peak/gain and write standard ReplayGain tags."""
+    from patangoma.services.replaygain import ReplayGainService
+
+    rg_svc = ReplayGainService(backend, audit_journal)
+    p = Path(target)
+    files = [p] if p.is_file() else LibraryScanner(backend).discover_files(p)
+
+    table = Table(title=f"ReplayGain Analysis ({len(files)} files)")
+    table.add_column("File", style="cyan")
+    table.add_column("Gain (dB)", style="bold yellow")
+    table.add_column("Peak", style="green")
+
+    for f in files:
+        res = rg_svc.calculate_track_gain(f)
+        rg_svc.apply_replaygain_tags(f, res, dry_run=dry_run)
+        table.add_row(
+            Path(f).name, f"{res.track_gain_db:+.2f} dB", f"{res.track_peak:.4f}"
+        )
+
+    console.print(table)
+    if dry_run:
+        console.print("[yellow]DRY-RUN: Tags were not written to disk.[/yellow]")
+    else:
+        console.print(
+            f"[bold green]✓ Applied ReplayGain tags to {len(files)} files.[/bold green]"
+        )
+
+
+@cli.command("normalize-genres")
+@click.argument("target", type=click.Path(exists=True, resolve_path=True))
+@click.option("--dry-run", is_flag=True, help="Preview without writing")
+def normalize_genres(target: str, dry_run: bool) -> None:
+    """Standardize messy genre tags to canonical taxonomy."""
+    from patangoma.services.genre import GenreNormalizer
+
+    normalizer = GenreNormalizer()
+    p = Path(target)
+    files = [p] if p.is_file() else LibraryScanner(backend).discover_files(p)
+
+    table = Table(title=f"Genre Normalization ({len(files)} files)")
+    table.add_column("File", style="dim")
+    table.add_column("Original Genre", style="yellow")
+    table.add_column("Canonical Genre", style="bold green")
+
+    updated_count = 0
+    for f in files:
+        meta = backend.read_metadata(f)
+        if not meta.genre:
+            continue
+        res = normalizer.normalize(meta.genre)
+        if res.changed:
+            updated_count += 1
+            table.add_row(Path(f).name, res.raw_genre, res.canonical_genre)
+            if not dry_run:
+                backend.write_tags(f, {"genre": res.canonical_genre}, dry_run=False)
+
+    console.print(table)
+    if dry_run:
+        console.print(
+            f"[yellow]Previewed {updated_count} updates. Run without --dry-run to write tags.[/yellow]"
+        )
+    else:
+        console.print(
+            f"[bold green]✓ Normalized {updated_count} genre tags.[/bold green]"
+        )
+
+
+@cli.command("playlist-export")
+@click.argument("directory", type=click.Path(exists=True, resolve_path=True))
+@click.option("--output", "-o", default="playlist.m3u8", help="Output playlist file")
+@click.option(
+    "--absolute", is_flag=True, help="Use absolute file paths instead of relative"
+)
+def playlist_export(directory: str, output: str, absolute: bool) -> None:
+    """Export scanned audio files to an extended UTF-8 M3U8 playlist."""
+    from patangoma.services.playlist import PlaylistService
+
+    files = LibraryScanner(backend).discover_files(directory)
+    ps = PlaylistService(backend)
+    out = ps.export_m3u8(files, output, relative_paths=not absolute)
+    console.print(
+        f"[bold green]✓ Exported {len(files)} tracks to playlist:[/bold green] {out}"
+    )
+
+
+@cli.command("cue-inspect")
+@click.argument(
+    "cue_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+def cue_inspect(cue_path: str) -> None:
+    """Inspect and display tracks from a Cue sheet."""
+    from patangoma.services.playlist import PlaylistService
+
+    ps = PlaylistService(backend)
+    tracks = ps.parse_cue_sheet(cue_path)
+    if not tracks:
+        console.print("[yellow]No tracks found in Cue sheet.[/yellow]")
+        return
+
+    table = Table(title=f"Cue Sheet: {Path(cue_path).name}")
+    table.add_column("#", style="dim")
+    table.add_column("Title", style="bold cyan")
+    table.add_column("Artist", style="green")
+    table.add_column("Index 01", style="magenta")
+
+    for t in tracks:
+        table.add_row(
+            str(t.track_number), t.title, t.artist or "—", t.index_time or "—"
+        )
+
+    console.print(table)
+
+
+@cli.command("edit")
+@click.argument(
+    "file_path", type=click.Path(exists=True, resolve_path=True, dir_okay=False)
+)
+def edit(file_path: str) -> None:
+    """Interactively edit metadata fields for an audio file."""
+    meta = backend.read_metadata(file_path)
+    console.print(f"[bold cyan]Editing tags for:[/bold cyan] {Path(file_path).name}")
+
+    new_title = inquirer.text(message="Title:", default=meta.title or "").execute()
+    new_artist = inquirer.text(message="Artist:", default=meta.artist or "").execute()
+    new_album = inquirer.text(message="Album:", default=meta.album or "").execute()
+    new_year = inquirer.text(message="Year:", default=str(meta.year or "")).execute()
+    new_track = inquirer.text(
+        message="Track Number:", default=str(meta.track_number or "")
+    ).execute()
+    new_genre = inquirer.text(message="Genre:", default=meta.genre or "").execute()
+
+    updates: dict[str, Any] = {}
+    if new_title != (meta.title or ""):
+        updates["title"] = new_title or None
+    if new_artist != (meta.artist or ""):
+        updates["artist"] = new_artist or None
+    if new_album != (meta.album or ""):
+        updates["album"] = new_album or None
+    if new_year != str(meta.year or ""):
+        updates["year"] = int(new_year) if new_year.isdigit() else None
+    if new_track != str(meta.track_number or ""):
+        updates["track_number"] = int(new_track) if new_track.isdigit() else None
+    if new_genre != (meta.genre or ""):
+        updates["genre"] = new_genre or None
+
+    if not updates:
+        console.print("[dim]No changes made.[/dim]")
+        return
+
+    backend.write_tags(file_path, updates, dry_run=False)
+    console.print(f"[bold green]✓ Updated tags:[/bold green] {list(updates.keys())}")
+
+
+@cli.command("export-catalog")
+@click.argument("directory", type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    "--format", "-f", type=click.Choice(["json", "csv", "sqlite"]), default="json"
+)
+@click.option("--output", "-o", default="catalog.json", help="Output catalog file path")
+def export_catalog(directory: str, format: str, output: str) -> None:
+    """Export complete library catalog to JSON, CSV, or SQLite."""
+    files = LibraryScanner(backend).discover_files(directory)
+    records = []
+    for f in files:
+        try:
+            m = backend.read_metadata(f)
+            records.append(m.model_dump())
+        except Exception:
+            pass
+
+    out_p = Path(output)
+    if format == "json":
+        out_p.write_text(json.dumps(records, indent=2, default=str), encoding="utf-8")
+    elif format == "csv":
+        import csv
+
+        if records:
+            keys = list(records[0].keys())
+            with out_p.open("w", newline="", encoding="utf-8") as f_csv:
+                writer = csv.DictWriter(f_csv, fieldnames=keys)
+                writer.writeheader()
+                for r in records:
+                    writer.writerow(
+                        {k: str(v) if v is not None else "" for k, v in r.items()}
+                    )
+    elif format == "sqlite":
+        import sqlite3
+
+        conn = sqlite3.connect(out_p)
+        cur = conn.cursor()
+        cur.execute(
+            "CREATE TABLE IF NOT EXISTS catalog (file_path TEXT PRIMARY KEY, title TEXT, artist TEXT, album TEXT, year INTEGER, genre TEXT, bitrate INTEGER, duration REAL)"
+        )
+        for r in records:
+            cur.execute(
+                "INSERT OR REPLACE INTO catalog VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    r.get("file_path"),
+                    r.get("title"),
+                    r.get("artist"),
+                    r.get("album"),
+                    r.get("year"),
+                    r.get("genre"),
+                    r.get("bitrate"),
+                    r.get("duration_seconds"),
+                ),
+            )
+        conn.commit()
+        conn.close()
+
+    console.print(
+        f"[bold green]✓ Catalog exported ({len(records)} tracks) to {out_p}[/bold green]"
+    )
+
+
+@cli.command("transcode-check")
+@click.argument("path", type=click.Path(exists=True, resolve_path=True))
+def transcode_check(path: str) -> None:
+    """Inspect audio stream encoding quality and check for transcode anomalies."""
+    from patangoma.services.quality import QualityInspector
+
+    qi = QualityInspector(backend)
+    p = Path(path)
+    files = [p] if p.is_file() else LibraryScanner(backend).discover_files(p)
+
+    table = Table(title=f"Audio Encoding & Quality Check ({len(files)} files)")
+    table.add_column("File", style="cyan")
+    table.add_column("Format", style="dim")
+    table.add_column("Bitrate", style="yellow")
+    table.add_column("Sample Rate", style="green")
+    table.add_column("Grade", style="bold")
+    table.add_column("Issues", style="red")
+
+    for f in files:
+        rep = qi.inspect_file(f)
+        grade_color = (
+            "green"
+            if rep.quality_grade in ("LOSSLESS", "HIGH_BITRATE")
+            else ("yellow" if rep.quality_grade == "MEDIUM_BITRATE" else "red")
+        )
+        table.add_row(
+            Path(f).name,
+            rep.format.upper(),
+            f"{rep.bitrate_kbps} kbps" if rep.bitrate_kbps else "—",
+            f"{rep.sample_rate_hz} Hz" if rep.sample_rate_hz else "—",
+            f"[{grade_color}]{rep.quality_grade}[/{grade_color}]",
+            "; ".join(rep.issues) if rep.issues else "✓ Clean",
+        )
+
+    console.print(table)
 
 
 # -------------------------------------------------------------------------

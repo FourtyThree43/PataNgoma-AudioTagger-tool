@@ -1,484 +1,242 @@
-<!DOCTYPE HTML>
-<!--
-	Fractal by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>PataNgoma by the 3 Musketeers</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" x-data="{ darkMode: localStorage.getItem('theme') === 'dark', activeTab: 'inspect', copied: false }" :data-theme="darkMode ? 'dark' : 'light'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PataNgoma — Audio Metadata Intelligence & Tagging Platform</title>
+  <meta name="description" content="Provider-agnostic audio metadata intelligence platform with safe, explainable matching, multi-provider aggregation, and transactional tagging.">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body>
 
-		<!-- Header -->
-			<header id="header">
-				<div class="content">
-					<h1><a href="https://fourtythree43.github.io/PataNgoma-AudioTagger-tool/">PataNgoma</a></h1>
-					<p>Just a simple, command-line music-tagger<br />
-					brought to you by <a href="https://fourtythree43.github.io/PataNgoma-AudioTagger-tool/">PataNgoma&trade;</a></p>
-					<ul class="actions">
-						<li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git" class="button primary icon solid fa-download">Download</a></li>
-						<li><a href="#one" class="button icon solid fa-chevron-down scrolly">Learn More</a></li>
-					</ul>
-				</div>
-				<div class="image phone"><div class="inner"><img src="images/logo03.png" alt="" /></div></div>
-			</header>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">P</div>
+        <span>PataNgoma</span>
+      </a>
 
-		<!-- One -->
-			<section id="one" class="wrapper style2 special">
-				<header class="major">
-					<h2>
-					    The PataNgoma Audio Tagger is a powerful command-line tool <br />
-                        that allows you to enhance your music library's metadata by fetching and updating tags<br />
-                    from popular music databases like MusicBrainz, Deezer, and Spotify.</h2>
-				</header>
-				<ul class="icons major">
-					<li><span class="icon solid fa-music"><span class="label">Audio</span></span></li>
-					<li><span class="icon solid fa-tags"><span class="label">Process</span></span></li>
-					<li><span class="icon solid fa-download"><span class="label">Download</span></span></li>
-					<li><span class="icon solid fa-file-contract"><span class="label">Update</span></span></li>
-					<li><span class="icon solid fa-save"><span class="label">Save</span></span></li>
-				</ul>
-			</section>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#providers">Providers</a></li>
+        <li><a href="#cli">CLI Commands</a></li>
+        <li><a href="user_guide.html">User Guide</a></li>
+        <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        <li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
 
-		<!-- Two -->
-			<section id="two" class="wrapper">
-				<div class="inner alt">
-					<section class="spotlight">
-						<div class="image"><img src="images/pic02.png" alt="" /></div>
-						<div class="content">
-							<h3>Seamless CLI experience</h3>
-							<p>This tool provides a rich and seamless CLI experience, making it easy to organize and manage your music collection effortlessly.</p>
-						</div>
-					</section>
-					<section class="spotlight">
-						<div class="image"><img src="images/pic11.jpg" alt="" /></div>
-						<div class="content">
-							<h3>Multiple Sources</h3>
-							<p>Enhance your music library's metadata by fetching and updating tags from popular music databases like MusicBrainz, Deezer, and Spotify.</p>
-						</div>
-					</section>
-					<section class="spotlight">
-						<div class="image"><img src="images/pic05.png" alt="" /></div>
-						<div class="content">
-							<h3>Supports various audio file formats.</h3>
-							<p>Supports various audio file formats,ASF, FLAC, MP4, Monkey's Audio, MP3, Musepack, Ogg Opus, Ogg FLAC, Ogg Speex, Ogg Theora, Ogg Vorbis, True Audio, WavPack, OptimFROG, and AIFF audio files. ensuring compatibility with your music collection.</p>
-						</div>
-					</section>
-					<section class="special">
-						<ul class="icons labeled">
-							<li><span class="icon solid fa-image"><span class="label">Supports Album Artwork updates</span></span></li>
-							<li><span class="icon solid fa-sync"><span class="label">Fetch and update metadata tags</span></span></li>
-							<li><span class="icon solid fa-cloud"><span class="label">Backup your music library</span></span></li>
-							<li><span class="icon solid fa-code"><span class="label">Easy, Customizable and configurable</span></span></li>
-							<li><span class="icon solid fa-desktop"><span class="label">Seamlessly user-friendly CLI that provides a smooth and efficient tagging process.</span></span></li>
-						</ul>
-					</section>
-				</div>
-			</section>
+      <button @click="darkMode = !darkMode; localStorage.setItem('theme', darkMode ? 'dark' : 'light')" 
+              class="theme-toggle-btn" 
+              aria-label="Toggle Theme">
+        <span x-show="!darkMode">🌙</span>
+        <span x-show="darkMode">☀️</span>
+      </button>
+    </div>
+  </header>
 
-		<!-- Three -->
-			<section id="three" class="wrapper style2 special">
-				<header class="major">
-					<h2> About</h2>
-                    <p>This project was born out of our shared passion for music and the desire to make our digital music libraries more organized and enjoyable.<br/>
-                     As avid music collectors, we often found ourselves spending countless hours manually tagging and categorizing our extensive collections.<br/>
-                    We knew there had to be a better way.<br><br>
-                    The journey started during our time at ALX School as part of a Portfolio Project, where we recognized an opportunity to combine our love for music with our growing skills in software development it quickly became a project we were deeply committed to.<br>
-                    We embarked on this adventure in August 2023 and, after many late nights and collaborative coding sessions,<br>
-                    we proudly present the PataNgoma Auto-Tagging Tool today.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">
+        <span>⚡ PataNgoma v1.4.0 Released</span>
+      </div>
 
-				</header>
-				<ul class="actions special">
-					<li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git" class="button primary icon solid fa-download">Download</a></li>
-					<li><a href="https://fourtythree43.github.io/PataNgoma-AudioTagger-tool/" class="button">Learn More</a></li>
-				</ul>
-			</section>
+      <h1>Deterministic Audio Intelligence<br><span class="gradient-text">Safe, Reversible Tagging</span></h1>
+      
+      <p>
+        PataNgoma aggregates metadata across 7 providers, explains matching confidence with token-sort heuristics, and validates mutations with transactional rollback journals.
+      </p>
 
-        <!-- Team -->
-        <section id="team" class="wrapper">
-            <div class="inner alt">
-                <section class="spotlight">
-                    <div class="image"><img src="images/profile04.png" alt="Meshack" /></div>
-                    <div class="content">
-                        <h3>Meshack N.</h3>
-                        <p> "The Maestro of Code, weaves intricate digital symphonies, harmonizing the front-end elegance with back-end precision. His code is a masterpiece, a virtuoso performance in the world of full-stack development."</p>
-                        <ul class="icons">
-                            <li><a href="https://www.linkedin.com/" class="icon brands fa-linkedin alt"><span class="label">LinkedIn</span></a></li>
-                            <li><a href="https://twitter.com/" class="icon brands fa-twitter alt"><span class="label">Twitter</span></a></li>
-                            <li><a href="https://github.com/" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-                        </ul>
-                    </div>
-                </section>
-                <section class="spotlight">
-                    <div class="image"><img src="images/profile05.png" alt="Raymond" /></div>
-                    <div class="content">
-                        <h3>Raymond K.</h3>
-                        <p>"The Luminary of Logic, illuminates the path to innovation with his coding brilliance. With every keystroke, he navigates through complex algorithms like a seasoned explorer charting uncharted territories in the digital realm."</p>
-                        <ul class="icons">
-                            <li><a href="https://www.linkedin.com/" class="icon brands fa-linkedin alt"><span class="label">LinkedIn</span></a></li>
-                            <li><a href="https://twitter.com/" class="icon brands fa-twitter alt"><span class="label">Twitter</span></a></li>
-                            <li><a href="https://github.com/" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-                        </ul>
-                    </div>
-                </section>
-                <section class="spotlight">
-                    <div class="image"><img src="images/profile02.png" alt="Patrick" /></div>
-                    <div class="content">
-                        <h3>Patrick M.</h3>
-                        <p>"The Artisan of Interfaces, sculpts seamless user experiences with the precision of a master craftsman. His designs are a testament to the fusion of aesthetics and functionality, creating digital landscapes that captivate and enchant."</p>
-                        <ul class="icons">
-                            <li><a href="https://www.linkedin.com/" class="icon brands fa-linkedin alt"><span class="label">LinkedIn</span></a></li>
-                            <li><a href="https://twitter.com/" class="icon brands fa-twitter alt"><span class="label">Twitter</span></a></li>
-                            <li><a href="https://github.com/" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-                        </ul>
-                    </div>
-                </section>
-            </div>
-        </section>
+      <div class="hero-actions">
+        <a href="#quickstart" class="btn btn-primary">Get Started</a>
+        <a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" class="btn btn-secondary" target="_blank" rel="noopener">View Source</a>
+      </div>
 
-		<!-- Four -->
-		<!--
-			<section id="four" class="wrapper">
-				<div class="inner">
+      <!-- Interactive Terminal Preview -->
+      <div class="terminal-wrapper">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="terminal-tabs">
+            <button @click="activeTab = 'inspect'" :class="{'active': activeTab === 'inspect'}" class="tab-btn">inspect</button>
+            <button @click="activeTab = 'match'" :class="{'active': activeTab === 'match'}" class="tab-btn">match</button>
+            <button @click="activeTab = 'plan'" :class="{'active': activeTab === 'plan'}" class="tab-btn">plan & apply</button>
+            <button @click="activeTab = 'rename'" :class="{'active': activeTab === 'rename'}" class="tab-btn">rename</button>
+            <button @click="activeTab = 'doctor'" :class="{'active': activeTab === 'doctor'}" class="tab-btn">doctor</button>
+          </div>
+        </div>
 
-					<header class="major">
-						<h2>Elements</h2>
-					</header>
+        <div class="terminal-body">
+          <!-- Inspect Tab -->
+          <div x-show="activeTab === 'inspect'">
+            <div class="cmd-line">uv run patangoma inspect "09 - LUMINOUS.mp3"</div>
+            <pre style="color: #a7f3d0;">
+Track Inspection: 09 - LUMINOUS.mp3
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ Field            ┃ Value              ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│ file_format      │ mp3                │
+│ duration_seconds │ 142.9              │
+│ bitrate          │ 320000             │
+│ sample_rate      │ 44100              │
+│ channels         │ 2                  │
+│ has_artwork      │ False              │
+└──────────────────┴────────────────────┘</pre>
+          </div>
 
-					<section>
-						<h4>Text</h4>
-						<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-						This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-						This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-						<hr />
-						<header>
-							<h4>Heading with a Subtitle</h4>
-							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-						</header>
-						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-						<header>
-							<h5>Heading with a Subtitle</h5>
-							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-						</header>
-						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-						<hr />
-						<h2>Heading Level 2</h2>
-						<h3>Heading Level 3</h3>
-						<h4>Heading Level 4</h4>
-						<h5>Heading Level 5</h5>
-						<h6>Heading Level 6</h6>
-						<hr />
-						<h5>Blockquote</h5>
-						<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-						<h5>Preformatted</h5>
-						<pre><code>i = 0;
+          <!-- Match Tab -->
+          <div x-show="activeTab === 'match'" style="display: none;">
+            <div class="cmd-line">uv run patangoma match "09 - LUMINOUS.mp3" --provider multi</div>
+            <pre style="color: #93c5fd;">
+* Inferred title 'LUMINOUS' (track #9) from filename for lookup.
+Metadata Matches for 'LUMINOUS' (via multi):
+┏━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━┓
+┃ Rank ┃ Candidate      ┃ Artist      ┃ Album            ┃ Score ┃ Confidence ┃
+┡━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━┩
+│ 1    │ Luminous       │ Sleepy Nuts │ Deep Sleep Music │ 95.0% │ EXACT      │
+│ 2    │ Luminous       │ Aina The End│ Luminous Single  │ 85.0% │ HIGH       │
+└━━━━━━┴────────────────┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━┴━━━━━━━┴────────────┘</pre>
+          </div>
 
-while (!deck.isInOrder()) {
-  print 'Iteration ' + i;
-  deck.shuffle();
-  i++;
-}
+          <!-- Plan Tab -->
+          <div x-show="activeTab === 'plan'" style="display: none;">
+            <div class="cmd-line">uv run patangoma plan "song.flac" --provider itunes -o plan.json</div>
+            <pre style="color: #fef08a;">
+✓ Plan saved to: plan.json
+{
+  "target": "song.flac",
+  "provider": "itunes",
+  "confidence": "EXACT",
+  "diffs": [
+    { "field": "title", "old": null, "new": "Last Last" },
+    { "field": "artist", "old": null, "new": "Burna Boy" },
+    { "field": "year", "old": null, "new": 2022 }
+  ]
+}</pre>
+          </div>
 
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-					</section>
+          <!-- Rename Tab -->
+          <div x-show="activeTab === 'rename'" style="display: none;">
+            <div class="cmd-line">uv run patangoma rename ~/Music --pattern "{track_number:02d} - {artist} - {title}.{file_format}"</div>
+            <pre style="color: #c4b5fd;">
+Renaming 14 tracks in ~/Music...
+✓ track_01.mp3 -> 01 - Burna Boy - Last Last.mp3
+✓ track_02.mp3 -> 02 - Burna Boy - For My Hand.mp3
+Reorganization completed safely.</pre>
+          </div>
 
-					<section>
-						<h4>Lists</h4>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-								<h5>Unordered</h5>
-								<ul>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Sagittis adipiscing.</li>
-									<li>Felis enim feugiat.</li>
-								</ul>
-								<h5>Alternate</h5>
-								<ul class="alt">
-									<li>Dolor pulvinar etiam.</li>
-									<li>Sagittis adipiscing.</li>
-									<li>Felis enim feugiat.</li>
-								</ul>
-							</div>
-							<div class="col-6 col-12-medium">
-								<h5>Ordered</h5>
-								<ol>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Etiam vel felis viverra.</li>
-									<li>Felis enim feugiat.</li>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Etiam vel felis lorem.</li>
-									<li>Felis enim et feugiat.</li>
-								</ol>
-								<h5>Icons</h5>
-								<ul class="icons">
-									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<h5>Actions</h5>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-								<ul class="actions">
-									<li><a href="#" class="button primary">Default</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions small">
-									<li><a href="#" class="button primary small">Small</a></li>
-									<li><a href="#" class="button small">Small</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary">Default</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary small">Small</a></li>
-									<li><a href="#" class="button small">Small</a></li>
-								</ul>
-							</div>
-							<div class="col-6 col-12-medium">
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary fit">Default</a></li>
-									<li><a href="#" class="button fit">Default</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary small fit">Small</a></li>
-									<li><a href="#" class="button small fit">Small</a></li>
-								</ul>
-							</div>
-						</div>
-					</section>
+          <!-- Doctor Tab -->
+          <div x-show="activeTab === 'doctor'" style="display: none;">
+            <div class="cmd-line">uv run patangoma doctor</div>
+            <pre style="color: #6ee7b7;">
+                       PataNgoma Environment Diagnostics                        
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Check                          ┃ Status    ┃ Details                         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Python Runtime                 │ ✓ OK      │ Python 3.14 (>= 3.10 supported) │
+│ Audio Metadata Backend         │ ✓ OK      │ Mutagen & MediaFile available   │
+│ Registered Providers           │ ✓ OK      │ 7 providers registered          │
+│ Audit Storage                  │ ✓ OK      │ Writable at OS user_data_dir    │
+│ Acoustic Fingerprinting        │ ✓ OK      │ fpcalc binary found on path     │
+└────────────────────────────────┴───────────┴─────────────────────────────────┘</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-					<section>
-						<h4>Table</h4>
-						<h5>Default</h5>
-						<div class="table-wrapper">
-							<table>
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Description</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Item One</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Two</td>
-										<td>Vis ac commodo adipiscing arcu aliquet.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Three</td>
-										<td> Morbi faucibus arcu accumsan lorem.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Four</td>
-										<td>Vitae integer tempus condimentum.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Five</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2"></td>
-										<td>100.00</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="section-title">Engineered for Safety & Precision</h2>
+      <p class="section-desc">PataNgoma prioritizes determinism before artificial intelligence.</p>
 
-						<h5>Alternate</h5>
-						<div class="table-wrapper">
-							<table class="alt">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Description</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Item One</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Two</td>
-										<td>Vis ac commodo adipiscing arcu aliquet.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Three</td>
-										<td> Morbi faucibus arcu accumsan lorem.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Four</td>
-										<td>Vitae integer tempus condimentum.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Five</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2"></td>
-										<td>100.00</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</section>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3>Plan / Apply Lifecycle</h3>
+          <p>Preview exact tag diffs in structured JSON before committing any modifications to your audio files.</p>
+        </div>
 
-					<section>
-						<h4>Buttons</h4>
-						<ul class="actions">
-							<li><a href="#" class="button primary">Primary</a></li>
-							<li><a href="#" class="button">Default</a></li>
-						</ul>
-						<ul class="actions">
-							<li><a href="#" class="button large">Large</a></li>
-							<li><a href="#" class="button">Default</a></li>
-							<li><a href="#" class="button small">Small</a></li>
-						</ul>
-						<ul class="actions fit">
-							<li><a href="#" class="button fit">Fit</a></li>
-							<li><a href="#" class="button primary fit">Fit</a></li>
-							<li><a href="#" class="button fit">Fit</a></li>
-						</ul>
-						<ul class="actions fit small">
-							<li><a href="#" class="button primary fit small">Fit + Small</a></li>
-							<li><a href="#" class="button fit small">Fit + Small</a></li>
-							<li><a href="#" class="button primary fit small">Fit + Small</a></li>
-						</ul>
-						<ul class="actions">
-							<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
-							<li><a href="#" class="button icon solid fa-download">Icon</a></li>
-						</ul>
-						<ul class="actions">
-							<li><span class="button primary disabled">Disabled</span></li>
-							<li><span class="button disabled">Disabled</span></li>
-						</ul>
-					</section>
+        <div class="card">
+          <div class="card-icon">⏪</div>
+          <h3>Atomic Rollbacks</h3>
+          <p>Automatic pre-mutation snapshots saved in an SQLite audit journal allow one-command rollbacks anytime.</p>
+        </div>
 
-					<section>
-						<h4>Form</h4>
-						<form method="post" action="#">
-							<div class="row gtr-uniform">
-								<div class="col-6 col-12-xsmall">
-									<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
-								</div>
-								<div class="col-6 col-12-xsmall">
-									<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
-								</div>
-								<div class="col-12">
-									<select name="demo-category" id="demo-category">
-										<option value="">- Category -</option>
-										<option value="1">Manufacturing</option>
-										<option value="1">Shipping</option>
-										<option value="1">Administration</option>
-										<option value="1">Human Resources</option>
-									</select>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-									<label for="demo-priority-low">Low</label>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-normal" name="demo-priority">
-									<label for="demo-priority-normal">Normal</label>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-high" name="demo-priority">
-									<label for="demo-priority-high">High</label>
-								</div>
-								<div class="col-6 col-12-small">
-									<input type="checkbox" id="demo-copy" name="demo-copy">
-									<label for="demo-copy">Email me a copy</label>
-								</div>
-								<div class="col-6 col-12-small">
-									<input type="checkbox" id="demo-human" name="demo-human" checked>
-									<label for="demo-human">Not a robot</label>
-								</div>
-								<div class="col-12">
-									<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-								</div>
-								<div class="col-12">
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</div>
-							</div>
-						</form>
-					</section>
+        <div class="card">
+          <div class="card-icon">🧠</div>
+          <h3>Explainable Matching</h3>
+          <p>Deterministic token-sort similarity scoring with duration penalty checks and transparent confidence badges.</p>
+        </div>
 
-					<section>
-						<h4>Image</h4>
-						<h5>Fit</h5>
-						<div class="box alt">
-							<div class="row gtr-uniform">
-								<div class="col-12"><span class="image fit"><img src="images/pic04.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-							</div>
-						</div>
-						<h5>Left &amp; Right</h5>
-						<p><span class="image left"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-					</section>
+        <div class="card">
+          <div class="card-icon">📁</div>
+          <h3>Structured File Renamer</h3>
+          <p>Reorganize directories and filenames using customizable metadata templates with cross-platform sanitization.</p>
+        </div>
 
-				</div>
-			</section>
-		-->
+        <div class="card">
+          <div class="card-icon">🔍</div>
+          <h3>Duplicate Detection</h3>
+          <p>Detect identical tracks across multiple bitrates and formats, automatically prioritizing lossless FLAC/WAV.</p>
+        </div>
 
-		<!-- Footer -->
-			<footer id="footer">
-				<ul class="icons">
-				    <li><a href="https://x.com" class="icon brands fa-twitter alt"><span class="label">Twitter</span></a></li>
-					<li><a href="https://facebook.com" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
-					<li><a href="https://instagram.com" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
-					<li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-					<li><a href="#" class="icon brands fa-dribbble alt"><span class="label">Dribbble</span></a></li>
-				</ul>
-				<p class="copyright">&copy; PataNgoma. Credits: <a href="http://html5up.nethttps://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git">43</a></p>
-			</footer>
+        <div class="card">
+          <div class="card-icon">🎵</div>
+          <h3>Multi-Format Support</h3>
+          <p>Full support for MP3, FLAC, Opus, Ogg Vorbis, M4A, AAC, WAV, AIFF, and WMA audio formats.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+  <!-- Providers Section -->
+  <section id="providers" class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="section-title">7 Unified Metadata Providers</h2>
+      <p class="section-desc">Query individual sources or merge them simultaneously with conflict resolution.</p>
 
-	</body>
+      <div class="provider-grid">
+        <div class="provider-chip">🎼 MusicBrainz</div>
+        <div class="provider-chip">🍏 Apple iTunes</div>
+        <div class="provider-chip">🎧 Spotify</div>
+        <div class="provider-chip">📻 Deezer</div>
+        <div class="provider-chip">💿 Discogs</div>
+        <div class="provider-chip">🌊 AcoustID</div>
+        <div class="provider-chip">📜 LrcLib Lyrics</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quickstart Section -->
+  <section id="quickstart" class="section">
+    <div class="container" style="text-align: center;">
+      <h2 class="section-title">Get Started in Seconds</h2>
+      <p class="section-desc">Install and run via Astral UV with zero configuration overhead.</p>
+
+      <div style="max-width: 600px; margin: 0 auto; background: var(--bg-terminal); border-radius: var(--radius-md); padding: 1.5rem; text-align: left; font-family: var(--font-mono); color: #e2e8f0;">
+        <div style="color: #94a3b8; margin-bottom: 0.5rem;"># Install dependencies & run</div>
+        <div style="color: #38bdf8;">git clone https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git</div>
+        <div style="color: #38bdf8;">cd PataNgoma-AudioTagger-tool && uv sync</div>
+        <div style="color: #38bdf8;">uv run patangoma scan ~/Music</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="footer-text">
+        © 2026 PataNgoma AudioTagger. Released under the GPL-3.0 License.
+      </p>
+    </div>
+  </footer>
+
+</body>
 </html>

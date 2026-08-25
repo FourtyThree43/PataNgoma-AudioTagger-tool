@@ -207,3 +207,91 @@ def test_cli_match_multi_provider(tmp_path: Path):
         res = runner.invoke(cli, ["match", str(track_file), "--provider", "multi"])
         assert res.exit_code == 0
         assert "Test Song" in res.output
+
+
+def test_cli_tag_command(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Old Title", "artist": "Old Artist"})
+
+    runner = CliRunner()
+    mock_candidate = MetadataCandidate(
+        provider_name="itunes",
+        provider_id="itunes-789",
+        title="New Title",
+        artists=["New Artist"],
+        album="New Album",
+    )
+
+    with patch(
+        "patangoma.providers.itunes.ITunesProvider.search_tracks",
+        return_value=[mock_candidate],
+    ):
+        res = runner.invoke(
+            cli, ["tag", str(track_file), "--provider", "itunes", "--no-interactive"]
+        )
+        assert res.exit_code == 0
+        assert "Successfully applied tags" in res.output
+
+
+def test_cli_replaygain_command(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Song", "artist": "Artist"})
+
+    runner = CliRunner()
+    res = runner.invoke(cli, ["replaygain", str(track_file)])
+    assert res.exit_code == 0
+    assert "Applied ReplayGain tags" in res.output
+
+
+def test_cli_normalize_genres_command(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(
+        track_file, tags={"title": "Song", "artist": "Artist", "genre": "hip hop"}
+    )
+
+    runner = CliRunner()
+    res = runner.invoke(cli, ["normalize-genres", str(track_file)])
+    assert res.exit_code == 0
+    assert "Normalized 1 genre tags" in res.output
+
+
+def test_cli_playlist_export_and_cue_inspect(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Song", "artist": "Artist"})
+
+    runner = CliRunner()
+    m3u_out = tmp_path / "out.m3u8"
+    res = runner.invoke(cli, ["playlist-export", str(tmp_path), "-o", str(m3u_out)])
+    assert res.exit_code == 0
+    assert m3u_out.exists()
+
+    cue_file = tmp_path / "sheet.cue"
+    cue_file.write_text('TRACK 01 AUDIO\nTITLE "Test Cue"', encoding="utf-8")
+    res_cue = runner.invoke(cli, ["cue-inspect", str(cue_file)])
+    assert res_cue.exit_code == 0
+    assert "Test Cue" in res_cue.output
+
+
+def test_cli_export_catalog_and_transcode_check(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "test.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Song", "artist": "Artist"})
+
+    runner = CliRunner()
+    cat_out = tmp_path / "catalog.json"
+    res_cat = runner.invoke(cli, ["export-catalog", str(tmp_path), "-o", str(cat_out)])
+    assert res_cat.exit_code == 0
+    assert cat_out.exists()
+
+    res_tc = runner.invoke(cli, ["transcode-check", str(track_file)])
+    assert res_tc.exit_code == 0
+    assert "MP3" in res_tc.output

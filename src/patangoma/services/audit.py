@@ -11,19 +11,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import platformdirs
+
 from patangoma.domain.exceptions import AudioFileNotFoundError, RollbackError
 from patangoma.domain.models import AuditRecord, FieldDiffStatus, TagPlan, TrackMetadata
 from patangoma.services.audio_backend import AudioBackend, compute_file_checksum
 
 
 def default_audit_db_path() -> Path:
-    """Return default path to user audit database."""
+    """Return default path to user audit database conforming to OS standards via platformdirs."""
     if env_home := os.getenv("PATANGOMA_HOME"):
         return Path(env_home) / "audit.db"
-    home = Path.home() / ".patangoma"
     try:
-        home.mkdir(parents=True, exist_ok=True)
-        return home / "audit.db"
+        data_dir = Path(platformdirs.user_data_dir("patangoma", appauthor=False))
+        data_dir.mkdir(parents=True, exist_ok=True)
+        return data_dir / "audit.db"
     except OSError:
         import tempfile
 

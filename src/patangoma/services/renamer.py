@@ -33,6 +33,7 @@ class RenamerService:
 
     DEFAULT_PATTERN = "{track_number:02d} - {artist} - {title}.{file_format}"
     ALBUM_PATTERN = "{album_artist}/{album}/{track_number:02d} - {title}.{file_format}"
+    MULTI_DISC_PATTERN = "{album_artist}/{year} - {album}/CD {disc_number:02d}/{track_number:02d} - {title}.{file_format}"
 
     @staticmethod
     def render_pattern(
@@ -53,9 +54,11 @@ class RenamerService:
                 track.albumartist or track.artist, fallback="Unknown Artist"
             ),
             "year": track.year or 0,
+            "original_year": track.original_year or track.year or 0,
             "genre": sanitize_filename_component(track.genre, fallback="Unknown Genre"),
             "track_number": track_num,
             "disc_number": track.disc_number or 1,
+            "disc_total": track.disc_total or 1,
             "isrc": track.isrc or "",
             "file_format": fmt,
         }
