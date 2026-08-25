@@ -19,22 +19,39 @@ uv run patangoma session
 
 ---
 
-## 2. Interactive TUI Mode (`uv run patangoma`)
+## 2. The Unified Hybrid Interactive Experience
 
-Running `uv run patangoma` starts the continuous interactive terminal interface:
-1. **Target Selection**: Select a track or folder using tab-completion.
-2. **Action Menu**:
-   - `🎯 Match & Tag Track`: Search across 7 providers or the multi-provider aggregator.
-   - `👁️ Inspect Metadata`: View bitrate, sample rate, channels, and tags.
-   - `✏️ Edit Tags`: Quick field form editor.
-   - `📊 ReplayGain & Loudness`: Calculate EBU R128 loudness and peak tags.
-   - `📂 Rename / Organize`: Organize tracks via custom metadata template patterns.
-   - `📜 Synchronized Lyrics`: Download and embed synced `.lrc` lyrics.
-   - `🧹 Normalize Genres`: Clean genres into a standardized 18-genre taxonomy.
-   - `⏪ Rollback Changes`: Revert recent tag changes instantly via SQLite backups.
-   - `📁 Choose Another File`: Switch active file or directory without leaving the TUI.
-   - `🩺 Run Diagnostics`: Check audio codecs, providers, and database health.
-   - `🚪 Exit`: Clean exit.
+PataNgoma provides two seamlessly connected interactive environments:
+
+### 2.1 Guided TUI Wizard (`uv run patangoma`)
+Designed for visual, step-by-step track and folder curation using arrow keys and select menus:
+- **Target Selection**: Select a track or folder with interactive tab-completion.
+- **Action Menu**:
+  - `🎯 Match & Tag Track`: Search across 7 providers or the multi-provider aggregator.
+  - `👁️ Inspect Metadata`: View bitrate, sample rate, channels, and tags.
+  - `✏️ Edit Tags`: Quick field form editor.
+  - `📊 ReplayGain & Loudness`: Calculate EBU R128 loudness and peak tags.
+  - `📂 Rename / Organize`: Organize tracks via custom metadata template patterns.
+  - `📜 Synchronized Lyrics`: Download and embed synced `.lrc` lyrics.
+  - `🧹 Normalize Genres`: Clean genres into a standardized 18-genre taxonomy.
+  - `⏪ Rollback Changes`: Revert recent tag changes instantly via SQLite backups.
+  - `📁 Choose Another File`: Switch active file or directory without leaving the TUI.
+  - `💻 Switch to REPL Shell`: Instantly jump into the command-driven REPL.
+  - `🩺 Run Diagnostics`: Check audio codecs, providers, and database health.
+  - `🚪 Exit`: Clean exit.
+
+### 2.2 Power-User REPL Shell (`uv run patangoma session` or `repl`)
+Designed for power users who want rapid typing, slash commands, `@path` shortcuts, and live timers:
+- `/inspect <file>` or `@file.mp3`: Inspect track metadata and audio properties.
+- `/match <file> [provider]`: Search providers with elapsed query timers.
+- `/tag <file> [provider]`: Interactively select candidate and apply tags.
+- `/plan <file>`: Generate mutation plan diff.
+- `/replaygain <path>`: Calculate loudness tags.
+- `/rename <path>`: Organize files by template pattern.
+- `/doctor`: Run environment diagnostics.
+- `/menu` or `/wizard`: **Switch directly into the Guided TUI Wizard.**
+- `/clear`: Clear terminal screen.
+- `/exit`: Exit REPL session.
 
 ---
 

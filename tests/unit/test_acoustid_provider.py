@@ -78,7 +78,7 @@ def test_acoustid_search_tracks_text_fallback(monkeypatch):
         lambda *args, **kwargs: mock_mb_instance,
     )
 
-    prov = AcoustIDProvider()
+    prov = AcoustIDProvider(use_cache=False)
     res = prov.search_tracks(QueryParameters(title="LUMINOUS"))
     assert len(res) == 1
     assert res[0].title == "LUMINOUS"

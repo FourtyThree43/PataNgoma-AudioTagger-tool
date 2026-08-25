@@ -1366,8 +1366,16 @@ def session_cmd(ctx: click.Context) -> None:
             )
             table.add_row("/doctor", "Run system diagnostics and fpcalc check")
             table.add_row("/history", "View recent mutation audit journal records")
+            table.add_row("/menu", "Switch to Guided TUI Wizard (Arrow-key menus)")
+            table.add_row("/clear", "Clear terminal screen")
             table.add_row("/exit", "Exit the interactive session")
             console.print(table)
+
+        elif cmd in ("/menu", "/wizard", "menu", "wizard"):
+            _interactive_session_loop(ctx)
+
+        elif cmd in ("/clear", "/cls", "clear", "cls"):
+            console.clear()
 
         elif cmd == "/inspect":
             if not args:
@@ -1509,6 +1517,7 @@ def _interactive_session_loop(
                 Choice("history", "📜 View Audit History"),
                 Choice("rollback", "⏪ Rollback Last Mutation"),
                 Choice("change_file", "📁 Choose Another File / Directory"),
+                Choice("launch_repl", "💻 Switch to Power-User REPL Shell (/commands)"),
                 Choice("doctor", "🩺 Run System Diagnostics (Doctor)"),
                 Choice(None, "🚪 Exit"),
             ],
@@ -1519,6 +1528,10 @@ def _interactive_session_loop(
 
         if action is None:
             console.print("[bold green]Goodbye![/bold green]")
+            break
+
+        if action == "launch_repl":
+            ctx.invoke(session_cmd)
             break
 
         if action == "match_tag":

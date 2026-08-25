@@ -325,3 +325,37 @@ def test_cli_bare_interactive_loop(tmp_path: Path):
         assert res.exit_code == 0
         assert "PataNgoma" in res.output
         assert "Goodbye!" in res.output
+
+
+def test_cli_repl_commands_clear_and_menu(tmp_path: Path):
+    runner = CliRunner()
+    with (
+        patch("InquirerPy.inquirer.text") as mock_prompt,
+        patch("InquirerPy.inquirer.filepath") as mock_fp,
+        patch("InquirerPy.inquirer.select") as mock_sel,
+    ):
+        mock_fp.return_value.execute.return_value = str(tmp_path)
+        mock_sel.return_value.execute.side_effect = [None]
+        mock_prompt.return_value.execute.side_effect = ["/clear", "/menu", "/exit"]
+        res = runner.invoke(cli, ["session"])
+        assert res.exit_code == 0
+        assert "Goodbye!" in res.output
+
+
+def test_cli_tui_switch_to_repl(tmp_path: Path):
+    track_file = tmp_path / "test.mp3"
+    track_file.touch()
+
+    runner = CliRunner()
+    with (
+        patch("InquirerPy.inquirer.filepath") as mock_fp,
+        patch("InquirerPy.inquirer.select") as mock_sel,
+        patch("InquirerPy.inquirer.text") as mock_prompt,
+    ):
+        mock_fp.return_value.execute.return_value = str(track_file)
+        mock_sel.return_value.execute.side_effect = ["launch_repl"]
+        mock_prompt.return_value.execute.side_effect = ["/exit"]
+        res = runner.invoke(cli, [])
+        assert res.exit_code == 0
+        assert "PataNgoma Interactive REPL Session" in res.output
+        assert "Goodbye!" in res.output
