@@ -1,37 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ darkMode: localStorage.getItem('theme') === 'dark', activeTab: 'inspect', copied: false }" :data-theme="darkMode ? 'dark' : 'light'">
+<html lang="en" x-data="{ 
+  darkMode: localStorage.getItem('theme-preference') === 'dark' || (!('theme-preference' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches), 
+  activeTab: 'inspect', 
+  copiedTab: null,
+  copyCmd(cmd, tab) {
+    navigator.clipboard.writeText(cmd);
+    this.copiedTab = tab;
+    setTimeout(() => { if (this.copiedTab === tab) this.copiedTab = null; }, 2000);
+  }
+}" :data-theme="darkMode ? 'dark' : 'light'">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PataNgoma — Audio Metadata Intelligence & Tagging Platform</title>
-  <meta name="description" content="Provider-agnostic audio metadata intelligence platform with safe, explainable matching, multi-provider aggregation, and transactional tagging.">
+  <title>PataNgoma — A Music Collector's Best Friend</title>
+  <meta name="description" content="Provider-agnostic audio metadata intelligence platform with deterministic matching, explainable confidence, and transactional rollback protection.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
 <body>
 
-  <!-- Header & Navigation -->
+  <!-- Navigation Header -->
   <header>
     <div class="container nav-wrapper">
       <a href="#" class="brand">
-        <div class="brand-icon">P</div>
+        <!-- SVG Logo: Hexagonal Vinyl Record with Soundwave -->
+        <div class="brand-svg">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+            <rect width="36" height="36" rx="8" fill="url(#ruby-grad)"/>
+            <circle cx="18" cy="18" r="12" stroke="#ffffff" stroke-width="2" stroke-opacity="0.9"/>
+            <circle cx="18" cy="18" r="8" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.6"/>
+            <circle cx="18" cy="18" r="3.5" fill="#ffffff"/>
+            <path d="M12 18H10M26 18H24M18 12V10M18 26V24" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="ruby-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#DC2626"/>
+                <stop offset="0.5" stop-color="#EA580C"/>
+                <stop offset="1" stop-color="#D97706"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <span>PataNgoma</span>
       </a>
 
       <ul class="nav-links">
+        <li><a href="#quickstart">Install</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#providers">Providers</a></li>
-        <li><a href="#cli">CLI Commands</a></li>
-        <li><a href="user_guide.html">User Guide</a></li>
-        <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        <li><a href="#cli">CLI Playground</a></li>
+        <li><a href="#releases">Releases</a></li>
+        <li><a href="user_guide.md">User Guide</a></li>
+        <li><a href="troubleshooting.md">Troubleshooting</a></li>
         <li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
 
-      <button @click="darkMode = !darkMode; localStorage.setItem('theme', darkMode ? 'dark' : 'light')" 
+      <!-- Theme Switcher -->
+      <button @click="darkMode = !darkMode; localStorage.setItem('theme-preference', darkMode ? 'dark' : 'light')" 
               class="theme-toggle-btn" 
               aria-label="Toggle Theme">
-        <span x-show="!darkMode">🌙</span>
-        <span x-show="darkMode">☀️</span>
+        <!-- Sun SVG (Dark Mode active) -->
+        <svg x-show="darkMode" style="width: 1.25rem; height: 1.25rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon SVG (Light Mode active) -->
+        <svg x-show="!darkMode" style="width: 1.25rem; height: 1.25rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
       </button>
     </div>
   </header>
@@ -40,22 +85,36 @@
   <section class="hero">
     <div class="container">
       <div class="badge">
-        <span>⚡ PataNgoma v1.4.0 Released</span>
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.78 6.47-4.25 4.25a.75.75 0 0 1-1.06 0L4.22 8.47a.75.75 0 0 1 1.06-1.06L7.5 9.69l3.72-3.72a.75.75 0 0 1 1.06 1.06z"/>
+        </svg>
+        <span>PataNgoma v1.5.0 Released</span>
       </div>
 
-      <h1>Deterministic Audio Intelligence<br><span class="gradient-text">Safe, Reversible Tagging</span></h1>
+      <h1>A Music Collector's Best Friend<br><span class="gradient-text">Deterministic Audio Intelligence</span></h1>
       
       <p>
         PataNgoma aggregates metadata across 7 providers, explains matching confidence with token-sort heuristics, and validates mutations with transactional rollback journals.
       </p>
 
       <div class="hero-actions">
-        <a href="#quickstart" class="btn btn-primary">Get Started</a>
-        <a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" class="btn btn-secondary" target="_blank" rel="noopener">View Source</a>
+        <a href="#quickstart" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          Quickstart Guide
+        </a>
+        <a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" class="btn btn-secondary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub Repository
+        </a>
       </div>
 
-      <!-- Interactive Terminal Preview -->
-      <div class="terminal-wrapper">
+      <!-- Interactive Terminal Playground (Claude-Code & Ruby Style) -->
+      <div id="cli" class="terminal-wrapper">
         <div class="terminal-header">
           <div class="terminal-dots">
             <div class="dot dot-red"></div>
@@ -65,8 +124,11 @@
           <div class="terminal-tabs">
             <button @click="activeTab = 'inspect'" :class="{'active': activeTab === 'inspect'}" class="tab-btn">inspect</button>
             <button @click="activeTab = 'match'" :class="{'active': activeTab === 'match'}" class="tab-btn">match</button>
+            <button @click="activeTab = 'tag'" :class="{'active': activeTab === 'tag'}" class="tab-btn">tag</button>
             <button @click="activeTab = 'plan'" :class="{'active': activeTab === 'plan'}" class="tab-btn">plan & apply</button>
+            <button @click="activeTab = 'replaygain'" :class="{'active': activeTab === 'replaygain'}" class="tab-btn">replaygain</button>
             <button @click="activeTab = 'rename'" :class="{'active': activeTab === 'rename'}" class="tab-btn">rename</button>
+            <button @click="activeTab = 'session'" :class="{'active': activeTab === 'session'}" class="tab-btn">session (TUI)</button>
             <button @click="activeTab = 'doctor'" :class="{'active': activeTab === 'doctor'}" class="tab-btn">doctor</button>
           </div>
         </div>
@@ -74,7 +136,13 @@
         <div class="terminal-body">
           <!-- Inspect Tab -->
           <div x-show="activeTab === 'inspect'">
-            <div class="cmd-line">uv run patangoma inspect "09 - LUMINOUS.mp3"</div>
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma inspect "09 - LUMINOUS.mp3"</span>
+              <button @click="copyCmd('uv run patangoma inspect \'09 - LUMINOUS.mp3\'', 'inspect')" class="copy-btn">
+                <span x-show="copiedTab !== 'inspect'">📋 Copy</span>
+                <span x-show="copiedTab === 'inspect'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
             <pre style="color: #a7f3d0;">
 Track Inspection: 09 - LUMINOUS.mp3
 ┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
@@ -91,10 +159,16 @@ Track Inspection: 09 - LUMINOUS.mp3
 
           <!-- Match Tab -->
           <div x-show="activeTab === 'match'" style="display: none;">
-            <div class="cmd-line">uv run patangoma match "09 - LUMINOUS.mp3" --provider multi</div>
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma match "09 - LUMINOUS.mp3" --provider multi</span>
+              <button @click="copyCmd('uv run patangoma match \'09 - LUMINOUS.mp3\' --provider multi', 'match')" class="copy-btn">
+                <span x-show="copiedTab !== 'match'">📋 Copy</span>
+                <span x-show="copiedTab === 'match'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
             <pre style="color: #93c5fd;">
 * Inferred title 'LUMINOUS' (track #9) from filename for lookup.
-Metadata Matches for 'LUMINOUS' (via multi):
+Metadata Matches for 'LUMINOUS' (via multi-provider):
 ┏━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━┓
 ┃ Rank ┃ Candidate      ┃ Artist      ┃ Album            ┃ Score ┃ Confidence ┃
 ┡━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━┩
@@ -103,9 +177,33 @@ Metadata Matches for 'LUMINOUS' (via multi):
 └━━━━━━┴────────────────┴━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━┴━━━━━━━┴────────────┘</pre>
           </div>
 
+          <!-- Tag Tab -->
+          <div x-show="activeTab === 'tag'" style="display: none;">
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma tag "09 - LUMINOUS.mp3" --interactive</span>
+              <button @click="copyCmd('uv run patangoma tag \'09 - LUMINOUS.mp3\' --interactive', 'tag')" class="copy-btn">
+                <span x-show="copiedTab !== 'tag'">📋 Copy</span>
+                <span x-show="copiedTab === 'tag'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
+            <pre style="color: #fca5a5;">
+? Select match for 'LUMINOUS':
+  > [EXACT] Luminous — Sleepy Nuts (Deep Sleep Music, 2021) - 95%
+    [HIGH] Luminous — Aina The End (Luminous Single, 2023) - 85%
+    Cancel
+[bold green]✓ Successfully applied tags to 09 - LUMINOUS.mp3[/bold green]
+[dim]Operation ID: 8c34f19b-75e1-4c49-9cf9-7fbf2382f6f1[/dim]</pre>
+          </div>
+
           <!-- Plan Tab -->
           <div x-show="activeTab === 'plan'" style="display: none;">
-            <div class="cmd-line">uv run patangoma plan "song.flac" --provider itunes -o plan.json</div>
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma plan "song.flac" --provider itunes -o plan.json</span>
+              <button @click="copyCmd('uv run patangoma plan \'song.flac\' --provider itunes -o plan.json', 'plan')" class="copy-btn">
+                <span x-show="copiedTab !== 'plan'">📋 Copy</span>
+                <span x-show="copiedTab === 'plan'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
             <pre style="color: #fef08a;">
 ✓ Plan saved to: plan.json
 {
@@ -120,9 +218,35 @@ Metadata Matches for 'LUMINOUS' (via multi):
 }</pre>
           </div>
 
+          <!-- ReplayGain Tab -->
+          <div x-show="activeTab === 'replaygain'" style="display: none;">
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma replaygain ~/Music</span>
+              <button @click="copyCmd('uv run patangoma replaygain ~/Music', 'replaygain')" class="copy-btn">
+                <span x-show="copiedTab !== 'replaygain'">📋 Copy</span>
+                <span x-show="copiedTab === 'replaygain'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
+            <pre style="color: #fed7aa;">
+ReplayGain Analysis (14 files)
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━┓
+┃ File                       ┃ Gain (dB) ┃ Peak   ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━┩
+│ 01 - Burna Boy - Last.mp3  │ -4.00 dB  │ 0.9880 │
+│ 02 - Burna Boy - Hand.flac │ -5.50 dB  │ 0.9940 │
+└━━━━━━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━┴━━━━━━━━┘
+✓ Applied ReplayGain tags to 14 files.</pre>
+          </div>
+
           <!-- Rename Tab -->
           <div x-show="activeTab === 'rename'" style="display: none;">
-            <div class="cmd-line">uv run patangoma rename ~/Music --pattern "{track_number:02d} - {artist} - {title}.{file_format}"</div>
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma rename ~/Music --pattern "{track_number:02d} - {artist} - {title}.{file_format}"</span>
+              <button @click="copyCmd('uv run patangoma rename ~/Music --pattern \'{track_number:02d} - {artist} - {title}.{file_format}\'', 'rename')" class="copy-btn">
+                <span x-show="copiedTab !== 'rename'">📋 Copy</span>
+                <span x-show="copiedTab === 'rename'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
             <pre style="color: #c4b5fd;">
 Renaming 14 tracks in ~/Music...
 ✓ track_01.mp3 -> 01 - Burna Boy - Last Last.mp3
@@ -130,9 +254,33 @@ Renaming 14 tracks in ~/Music...
 Reorganization completed safely.</pre>
           </div>
 
+          <!-- Session (TUI) Tab -->
+          <div x-show="activeTab === 'session'" style="display: none;">
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma session</span>
+              <button @click="copyCmd('uv run patangoma session', 'session')" class="copy-btn">
+                <span x-show="copiedTab !== 'session'">📋 Copy</span>
+                <span x-show="copiedTab === 'session'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
+            <pre style="color: #67e8f9;">
+🎵 PataNgoma Interactive REPL Session
+Type /help for command reference or /exit to quit.
+patangoma> /match "09 - LUMINOUS.mp3"
+⠋ Querying providers (MusicBrainz, iTunes, Discogs)... (0.3s)
+✓ Found 12 candidate matches
+[Enter] Apply | [e] Edit | [m] Next Match | [d] Diff | [q] Cancel</pre>
+          </div>
+
           <!-- Doctor Tab -->
           <div x-show="activeTab === 'doctor'" style="display: none;">
-            <div class="cmd-line">uv run patangoma doctor</div>
+            <div class="cmd-line-wrapper">
+              <span class="cmd-line">uv run patangoma doctor</span>
+              <button @click="copyCmd('uv run patangoma doctor', 'doctor')" class="copy-btn">
+                <span x-show="copiedTab !== 'doctor'">📋 Copy</span>
+                <span x-show="copiedTab === 'doctor'" style="color: #4ade80;">✓ Copied</span>
+              </button>
+            </div>
             <pre style="color: #6ee7b7;">
                        PataNgoma Environment Diagnostics                        
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -150,81 +298,163 @@ Reorganization completed safely.</pre>
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- Core Philosophy 3-Pillar Section (Ruby-Style) -->
   <section id="features" class="section">
     <div class="container">
-      <h2 class="section-title">Engineered for Safety & Precision</h2>
-      <p class="section-desc">PataNgoma prioritizes determinism before artificial intelligence.</p>
+      <h2 class="section-title">Engineered for Safety & Determinism</h2>
+      <p class="section-desc">Determinism Before Intelligence — never silently overwrite your music collection.</p>
 
       <div class="grid-3">
         <div class="card">
-          <div class="card-icon">🛡️</div>
+          <div class="card-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
           <h3>Plan / Apply Lifecycle</h3>
           <p>Preview exact tag diffs in structured JSON before committing any modifications to your audio files.</p>
         </div>
 
         <div class="card">
-          <div class="card-icon">⏪</div>
+          <div class="card-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+          </div>
           <h3>Atomic Rollbacks</h3>
-          <p>Automatic pre-mutation snapshots saved in an SQLite audit journal allow one-command rollbacks anytime.</p>
+          <p>Pre-mutation snapshots saved in an SQLite audit journal allow one-command rollbacks anytime.</p>
         </div>
 
         <div class="card">
-          <div class="card-icon">🧠</div>
-          <h3>Explainable Matching</h3>
-          <p>Deterministic token-sort similarity scoring with duration penalty checks and transparent confidence badges.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">📁</div>
-          <h3>Structured File Renamer</h3>
-          <p>Reorganize directories and filenames using customizable metadata templates with cross-platform sanitization.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">🔍</div>
-          <h3>Duplicate Detection</h3>
-          <p>Detect identical tracks across multiple bitrates and formats, automatically prioritizing lossless FLAC/WAV.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">🎵</div>
-          <h3>Multi-Format Support</h3>
-          <p>Full support for MP3, FLAC, Opus, Ogg Vorbis, M4A, AAC, WAV, AIFF, and WMA audio formats.</p>
+          <div class="card-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <h3>7 Unified Providers</h3>
+          <p>Seamlessly query and aggregate MusicBrainz, Apple iTunes, Spotify, Deezer, Discogs, AcoustID, and Lyrics.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Providers Section -->
+  <!-- Providers Section with Vector SVGs -->
   <section id="providers" class="section" style="background: var(--bg-secondary);">
     <div class="container">
-      <h2 class="section-title">7 Unified Metadata Providers</h2>
+      <h2 class="section-title">Multi-Provider Intelligence</h2>
       <p class="section-desc">Query individual sources or merge them simultaneously with conflict resolution.</p>
 
       <div class="provider-grid">
-        <div class="provider-chip">🎼 MusicBrainz</div>
-        <div class="provider-chip">🍏 Apple iTunes</div>
-        <div class="provider-chip">🎧 Spotify</div>
-        <div class="provider-chip">📻 Deezer</div>
-        <div class="provider-chip">💿 Discogs</div>
-        <div class="provider-chip">🌊 AcoustID</div>
-        <div class="provider-chip">📜 LrcLib Lyrics</div>
+        <div class="provider-chip">
+          <!-- MusicBrainz Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#BA478F">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M7 16V8l5 4 5-4v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>MusicBrainz</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- Apple Music / iTunes Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#FA243C">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.56.65-1.06 1.71-.93 2.73 1 .08 2.02-.48 2.64-1.23z"/>
+          </svg>
+          <span>Apple iTunes</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- Spotify Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#1DB954">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M17.5 10.3c-2.4-1.4-6.3-1.6-8.6-.9-.4.1-.7-.1-.9-.5-.1-.4.1-.7.5-.9 2.6-.8 7-.6 9.7 1 .3.2.4.6.2.9-.2.4-.6.5-.9.4zm-.2 2.7c-.3.4-.7.5-1.1.3-2-1.2-5.1-1.6-7.5-.9-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 2.7-.8 6.1-.4 8.5 1 .4.2.5.7.1 1.1zm-.8 2.8c-.2.3-.6.4-.9.2-1.8-1.1-4-1.3-6.6-.7-.3.1-.7-.1-.8-.4-.1-.3.1-.7.4-.8 2.9-.7 5.3-.4 7.3.9.4.1.4.5.6.8z" fill="#ffffff"/>
+          </svg>
+          <span>Spotify</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- Deezer Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#A238FF">
+            <rect x="2" y="14" width="3" height="6" rx="1"/>
+            <rect x="6" y="11" width="3" height="9" rx="1"/>
+            <rect x="10" y="8" width="3" height="12" rx="1"/>
+            <rect x="14" y="6" width="3" height="14" rx="1"/>
+            <rect x="18" y="10" width="3" height="10" rx="1"/>
+          </svg>
+          <span>Deezer</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- Discogs Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#333333">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+            <circle cx="12" cy="12" r="4" fill="currentColor"/>
+          </svg>
+          <span>Discogs</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- AcoustID Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#0284C7">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+          </svg>
+          <span>AcoustID (fpcalc)</span>
+        </div>
+
+        <div class="provider-chip">
+          <!-- Lyrics Vector Icon -->
+          <svg class="provider-svg" viewBox="0 0 24 24" fill="#D97706">
+            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+          </svg>
+          <span>LrcLib Lyrics</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Releases & News Section (Ruby-Style) -->
+  <section id="releases" class="section">
+    <div class="container">
+      <h2 class="section-title">Latest Releases & Milestones</h2>
+      <p class="section-desc">Actively maintained with continuous architectural improvements.</p>
+
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-date">Release v1.5.0</div>
+          <h4>Ruby Design, Claude TUI & REPL</h4>
+          <p>Interactive REPL shell with slash commands, live timer spinners, vector SVGs, and keyboard ribbons.</p>
+        </div>
+
+        <div class="news-card">
+          <div class="news-date">Release v1.4.0</div>
+          <h4>Opus Support & ReplayGain Scanner</h4>
+          <p>Multi-format Opus/OGG validation, platformdirs OS compliance, genre taxonomy, and catalog export.</p>
+        </div>
+
+        <div class="news-card">
+          <div class="news-date">Release v1.3.0</div>
+          <h4>Cross-Platform fpcalc & Heuristics</h4>
+          <p>Acoustic fingerprint discovery on Windows, macOS, Linux, and untagged filename inference.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Quickstart Section -->
-  <section id="quickstart" class="section">
+  <section id="quickstart" class="section" style="background: var(--bg-secondary);">
     <div class="container" style="text-align: center;">
       <h2 class="section-title">Get Started in Seconds</h2>
       <p class="section-desc">Install and run via Astral UV with zero configuration overhead.</p>
 
-      <div style="max-width: 600px; margin: 0 auto; background: var(--bg-terminal); border-radius: var(--radius-md); padding: 1.5rem; text-align: left; font-family: var(--font-mono); color: #e2e8f0;">
-        <div style="color: #94a3b8; margin-bottom: 0.5rem;"># Install dependencies & run</div>
-        <div style="color: #38bdf8;">git clone https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git</div>
-        <div style="color: #38bdf8;">cd PataNgoma-AudioTagger-tool && uv sync</div>
-        <div style="color: #38bdf8;">uv run patangoma scan ~/Music</div>
+      <div style="max-width: 620px; margin: 0 auto; background: var(--bg-terminal); border-radius: var(--radius-md); padding: 1.75rem; text-align: left; font-family: var(--font-mono); color: #f5f5f4; box-shadow: var(--shadow-lg);">
+        <div style="color: #a8a29e; margin-bottom: 0.75rem;"># 1. Clone repository</div>
+        <div style="color: #38bdf8; margin-bottom: 1rem;">git clone https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool.git</div>
+        <div style="color: #a8a29e; margin-bottom: 0.75rem;"># 2. Sync dependencies</div>
+        <div style="color: #38bdf8; margin-bottom: 1rem;">cd PataNgoma-AudioTagger-tool && uv sync</div>
+        <div style="color: #a8a29e; margin-bottom: 0.75rem;"># 3. Launch interactive REPL session</div>
+        <div style="color: #4ade80;">uv run patangoma session</div>
       </div>
     </div>
   </section>
@@ -232,8 +462,15 @@ Reorganization completed safely.</pre>
   <!-- Footer -->
   <footer>
     <div class="container">
+      <ul class="footer-links">
+        <li><a href="#quickstart">Install</a></li>
+        <li><a href="user_guide.md">User Guide</a></li>
+        <li><a href="troubleshooting.md">Troubleshooting</a></li>
+        <li><a href="providers.md">Providers</a></li>
+        <li><a href="https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
       <p class="footer-text">
-        © 2026 PataNgoma AudioTagger. Released under the GPL-3.0 License.
+        © 2026 PataNgoma AudioTagger. Released under the GPL-3.0 License. Built with determinism before intelligence.
       </p>
     </div>
   </footer>
