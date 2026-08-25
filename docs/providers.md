@@ -1,27 +1,60 @@
-# PataNgoma Metadata Providers
+# Metadata Providers & Integration Guide
 
-PataNgoma features a multi-provider architecture with transparent two-tier caching (in-memory + SQLite) and per-provider rate limiting to prevent HTTP 429 throttling.
+PataNgoma features a multi-provider metadata aggregation engine. You can query individual providers directly or leverage the **Multi-Provider Aggregator** (`--provider multi`) to automatically merge, disambiguate, and rank candidates across all available sources.
 
 ---
 
-## Supported Providers
+## Supported Providers Overview
 
-| Provider | Key Required? | Rate Limit | Highlights |
+| Provider | Key Required? | Strengths | Supported Formats / Tags |
 |---|---|---|---|
-| **MusicBrainz** (`musicbrainz`) | ❌ No | 1.0 req/sec | Authoritative music database, MBIDs, ISRC, release date, release country. |
-| **iTunes** (`itunes`) | ❌ No | 5.0 req/sec | High-res 600x600 artwork, instant lookups, release dates, track numbers. |
-| **Deezer** (`deezer`) | ❌ No | 5.0 req/sec | Excellent pop/international coverage, preview URLs, release metadata. |
-| **Spotify** (`spotify`) | Optional | 10.0 req/sec | Popularity metrics, album artwork, track audio features. |
-| **Discogs** (`discogs`) | Optional | 1.0 req/sec | Deep vinyl catalog, physical release pressings, record label identifiers. |
-| **AcoustID** (`acoustid`) | ❌ No | 3.0 req/sec | Acoustic waveform matching powered by Chromaprint fingerprints. |
-| **Lyrics** (`lyrics`) | ❌ No | 5.0 req/sec | Plain and synchronized LRC timestamped lyrics powered by LrcLib. |
+| **Apple iTunes** | ❌ No | Fast, high-resolution artwork (1400x1400), clean pop/mainstream catalogs | Title, Artist, Album, Year, Genre, Track#, Artwork |
+| **MusicBrainz** | ❌ No | Authoritative release groups, multi-disc indices, acoustic MBIDs | Title, Artist, Album, Year, Date, Track#, Disc#, MBIDs |
+| **Discogs** | ⚠️ Optional Token | Comprehensive physical vinyl, CD, cassette, and regional catalog data | Title, Artist, Album, Year, Genre, Country, Disc# |
+| **Deezer** | ❌ No | Global streaming catalog, international releases, cover art | Title, Artist, Album, Year, Track#, Artwork |
+| **Spotify** | 🔑 Client ID/Secret | Large streaming catalog, popularity rankings, ISRC matching | Title, Artist, Album, Year, ISRC, Artwork |
+| **AcoustID** | 🔑 API Key + `fpcalc` | Audio fingerprinting matching via Chromaprint (`fpcalc`) | AcoustID Fingerprint, MBID Record matching |
+| **LrcLib Lyrics** | ❌ No | Plain text and synchronized LRC timestamped lyrics | `lyrics`, `synced_lyrics` |
 
 ---
 
-## Multi-Provider Aggregation
+## 1. Multi-Provider Aggregator (`multi`)
 
-Use `--provider multi` or `--provider all` to query all registered providers concurrently:
+The multi-provider aggregator simultaneously queries multiple upstream services, normalizes their payloads into uniform `MetadataCandidate` objects, removes duplicate candidates, and scores them using token-sort heuristics.
+
 ```bash
-uv run patangoma match "track.mp3" --provider multi
+uv run patangoma match "song.mp3" --provider multi
+uv run patangoma plan "song.mp3" --provider multi -o plan.json
 ```
-The aggregator executes parallel queries across providers, ranks candidates using token-sort string similarity and duration scoring, and merges unique metadata fields (e.g. MusicBrainz MBIDs + iTunes High-Res Artwork + Deezer Genres).
+
+---
+
+## 2. Setting Up Credentials (`.env`)
+
+For keyless providers (Apple iTunes, MusicBrainz, Deezer, LrcLib), no configuration is required out of the box.
+
+For authenticated providers, set the environment variables in a `.env` file in the project root or your home directory:
+
+```ini
+# Spotify Developer API (Optional)
+SPOTIPY_CLIENT_ID=your_spotify_client_id
+SPOTIPY_CLIENT_SECRET=your_spotify_client_secret
+
+# Discogs Personal Access Token (Optional)
+DISCOGS_TOKEN=your_discogs_user_token
+
+# AcoustID API Key (Optional)
+ACOUSTID_API_KEY=your_acoustid_api_key
+
+# MusicBrainz User-Agent Identification
+MUSICBRAINZ_USER_AGENT=PataNgoma/1.5.0 (https://github.com/FourtyThree43/PataNgoma-AudioTagger-tool)
+```
+
+---
+
+## 3. Acoustic Fingerprinting (`fpcalc` / Chromaprint)
+
+PataNgoma automatically searches standard system locations across platforms:
+- **Linux**: `/usr/bin/fpcalc`, `/usr/local/bin/fpcalc` (Install: `sudo apt-get install libchromaprint-tools`)
+- **macOS**: `/opt/homebrew/bin/fpcalc`, `/usr/local/bin/fpcalc` (Install: `brew install chromaprint`)
+- **Windows**: `C:\Program Files\Chromaprint\fpcalc.exe` (Download from [AcoustID.org](https://acoustid.org/chromaprint))
