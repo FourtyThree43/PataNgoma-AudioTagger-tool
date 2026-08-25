@@ -295,3 +295,14 @@ def test_cli_export_catalog_and_transcode_check(tmp_path: Path):
     res_tc = runner.invoke(cli, ["transcode-check", str(track_file)])
     assert res_tc.exit_code == 0
     assert "MP3" in res_tc.output
+
+
+def test_cli_repl_session():
+    runner = CliRunner()
+    with patch("InquirerPy.inquirer.text") as mock_prompt:
+        mock_prompt.return_value.execute.side_effect = ["/help", "/doctor", "/exit"]
+        res = runner.invoke(cli, ["session"])
+        assert res.exit_code == 0
+        assert "PataNgoma Interactive REPL Session" in res.output
+        assert "REPL Command Reference" in res.output
+        assert "Goodbye!" in res.output

@@ -1306,6 +1306,152 @@ def transcode_check(path: str) -> None:
     console.print(table)
 
 
+@cli.command("session")
+@click.pass_context
+def session_cmd(ctx: click.Context) -> None:
+    """Launch interactive REPL session with slash commands and Claude-style TUI."""
+    import time
+
+    console.print(
+        Panel.fit(
+            "[bold red]PataNgoma[/bold red] [bold white]Interactive REPL Session[/bold white]\n"
+            "[dim]A Music Collector's Best Friend — Determinism Before Intelligence[/dim]\n\n"
+            "Type [bold cyan]/help[/bold cyan] for slash commands or [bold cyan]/exit[/bold cyan] to quit.\n"
+            "[dim]Commands: /inspect, /match, /tag, /plan, /apply, /replaygain, /rename, /doctor, /history[/dim]",
+            border_style="red",
+        )
+    )
+
+    while True:
+        try:
+            cmd_input = inquirer.text(
+                message="patangoma>",
+                qmark="🎵",
+                amark="✓",
+            ).execute()
+        except (KeyboardInterrupt, EOFError):
+            console.print("\n[dim]Session ended.[/dim]")
+            break
+
+        if not cmd_input or not cmd_input.strip():
+            continue
+
+        raw = cmd_input.strip()
+        parts = raw.split()
+        cmd = parts[0].lower()
+        args = parts[1:]
+
+        if cmd in ("/exit", "/quit", "exit", "quit"):
+            console.print("[bold green]Goodbye![/bold green]")
+            break
+
+        if cmd in ("/help", "help"):
+            table = Table(title="PataNgoma REPL Command Reference")
+            table.add_column("Command", style="bold cyan")
+            table.add_column("Description")
+            table.add_row(
+                "/inspect <file>", "Inspect track metadata and audio properties"
+            )
+            table.add_row(
+                "/match <file>", "Search metadata providers and rank candidates"
+            )
+            table.add_row(
+                "/tag <file>", "Interactively select candidate and apply tags"
+            )
+            table.add_row("/plan <file>", "Generate mutation plan diff")
+            table.add_row("/apply <file>", "Apply best candidate or plan to file")
+            table.add_row("/replaygain <path>", "Calculate loudness and peak gain tags")
+            table.add_row(
+                "/rename <path>", "Organize and rename file by template pattern"
+            )
+            table.add_row("/doctor", "Run system diagnostics and fpcalc check")
+            table.add_row("/history", "View recent mutation audit journal records")
+            table.add_row("/exit", "Exit the interactive session")
+            console.print(table)
+
+        elif cmd == "/inspect":
+            if not args:
+                console.print("[yellow]Usage: /inspect <file_path>[/yellow]")
+                continue
+            t0 = time.perf_counter()
+            with console.status(
+                f"[bold cyan]Reading audio metadata for {args[0]}...[/bold cyan]"
+            ):
+                try:
+                    ctx.invoke(inspect, file_path=args[0], json_out=False)
+                except Exception as e:
+                    console.print(f"[red]Error:[/red] {e}")
+            console.print(f"[dim]Finished in {time.perf_counter() - t0:.2f}s[/dim]")
+
+        elif cmd == "/match":
+            if not args:
+                console.print("[yellow]Usage: /match <file_path> [provider][/yellow]")
+                continue
+            prov = args[1] if len(args) > 1 else "multi"
+            t0 = time.perf_counter()
+            with console.status(
+                f"[bold cyan]Querying {prov} providers for {args[0]}...[/bold cyan]"
+            ):
+                try:
+                    ctx.invoke(match, file_path=args[0], provider=prov)
+                except Exception as e:
+                    console.print(f"[red]Error:[/red] {e}")
+            console.print(
+                f"[dim]Completed query in {time.perf_counter() - t0:.2f}s[/dim]"
+            )
+
+        elif cmd == "/tag":
+            if not args:
+                console.print("[yellow]Usage: /tag <file_path> [provider][/yellow]")
+                continue
+            prov = args[1] if len(args) > 1 else "multi"
+            try:
+                ctx.invoke(
+                    tag,
+                    file_path=args[0],
+                    provider=prov,
+                    interactive=True,
+                    dry_run=False,
+                )
+            except Exception as e:
+                console.print(f"[red]Error:[/red] {e}")
+
+        elif cmd == "/replaygain":
+            if not args:
+                console.print("[yellow]Usage: /replaygain <file_or_directory>[/yellow]")
+                continue
+            try:
+                ctx.invoke(replaygain, target=args[0], dry_run=False)
+            except Exception as e:
+                console.print(f"[red]Error:[/red] {e}")
+
+        elif cmd == "/doctor":
+            ctx.invoke(doctor, json_out=False)
+
+        elif cmd == "/history":
+            ctx.invoke(history, limit=10, json_out=False)
+
+        elif cmd.startswith("@"):
+            # Direct file inspection shortcut
+            file_target = cmd.lstrip("@")
+            try:
+                ctx.invoke(inspect, file_path=file_target, json_out=False)
+            except Exception as e:
+                console.print(f"[red]Error:[/red] {e}")
+
+        else:
+            console.print(
+                f"[yellow]Unknown command '{cmd}'. Type /help for available commands.[/yellow]"
+            )
+
+
+@cli.command("repl")
+@click.pass_context
+def repl_alias(ctx: click.Context) -> None:
+    """Alias for 'session'."""
+    ctx.invoke(session_cmd)
+
+
 # -------------------------------------------------------------------------
 # Legacy Interactive UI Helpers
 # -------------------------------------------------------------------------
