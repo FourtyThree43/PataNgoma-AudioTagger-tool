@@ -129,9 +129,11 @@ class AcoustIDProvider(MetadataProvider):
         self,
         client_key: str | None = None,
         session: requests.Session | None = None,
+        use_cache: bool = True,
     ) -> None:
         load_dotenv()
         self._name = "acoustid"
+        self._use_cache = use_cache
         self._client_key = client_key or os.getenv(
             "ACOUSTID_CLIENT_KEY", _DEFAULT_CLIENT_KEY
         )

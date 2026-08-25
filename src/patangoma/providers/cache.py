@@ -267,16 +267,19 @@ def cached_search(
             self: Any, query: QueryParameters, *args: Any, **kwargs: Any
         ) -> list[MetadataCandidate]:
             active_cache = cache or default_provider_cache
+            use_cache = getattr(self, "_use_cache", True)
             query_dict = query.model_dump(mode="json")
-            cached = active_cache.get_cached_candidates(
-                self.name, "search_tracks", query_dict
-            )
-            if cached is not None:
-                return cached
+            if use_cache:
+                cached = active_cache.get_cached_candidates(
+                    self.name, "search_tracks", query_dict
+                )
+                if cached is not None:
+                    return cached
             results: list[MetadataCandidate] = fn(self, query, *args, **kwargs)
-            active_cache.set_cached_candidates(
-                self.name, "search_tracks", query_dict, results
-            )
+            if use_cache:
+                active_cache.set_cached_candidates(
+                    self.name, "search_tracks", query_dict, results
+                )
             return results
 
         return wrapper  # type: ignore[return-value]
