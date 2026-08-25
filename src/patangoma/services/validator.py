@@ -11,7 +11,16 @@ _MAGIC_HEADERS: dict[str, list[bytes]] = {
     "mp3": [b"ID3", b"\xff\xfb", b"\xff\xfa", b"\xff\xf3", b"\xff\xf2"],
     "wav": [b"RIFF"],
     "ogg": [b"OggS"],
+    "opus": [b"OggS"],
+    "oga": [b"OggS"],
     "m4a": [b"\x00\x00\x00\x18ftypM4A", b"\x00\x00\x00\x20ftypM4A", b"ftyp"],
+    "mp4": [b"ftyp"],
+    "m4b": [b"ftyp"],
+    "aac": [b"ID3", b"\xff\xf1", b"\xff\xf9"],
+    "wma": [b"\x30\x26\xb2\x75\x8e\x66\xcf\x11"],
+    "aiff": [b"FORM"],
+    "aif": [b"FORM"],
+    "alac": [b"ftyp"],
 }
 
 

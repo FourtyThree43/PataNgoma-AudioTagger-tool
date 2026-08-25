@@ -55,7 +55,9 @@ class TrackMetadata(BaseModel):
     album: str | None = None
     albumartist: str | None = None
     year: int | None = None
+    original_year: int | None = None
     date: dt.date | None = None
+    original_date: dt.date | None = None
     genre: str | None = None
     genres: list[str] = Field(default_factory=list)
     track_number: int | None = None
@@ -150,6 +152,8 @@ class MetadataCandidate(BaseModel):
     album_artist: str | None = None
     release_date: dt.date | None = None
     year: int | None = None
+    original_year: int | None = None
+    original_date: dt.date | None = None
     genres: list[str] = Field(default_factory=list)
     track_number: int | None = None
     track_total: int | None = None
@@ -185,8 +189,12 @@ class MetadataCandidate(BaseModel):
             tags["albumartist"] = self.album_artist
         if self.year:
             tags["year"] = self.year
+        if self.original_year:
+            tags["originalyear"] = self.original_year
         if self.release_date:
             tags["date"] = self.release_date
+        if self.original_date:
+            tags["originaldate"] = self.original_date
         if self.genres:
             tags["genre"] = self.genres[0]
         if self.track_number is not None:

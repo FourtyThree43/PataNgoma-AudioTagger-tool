@@ -15,6 +15,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any, TypeVar
 
+import platformdirs
 from cachetools import TTLCache
 
 from patangoma.domain.models import MetadataCandidate, QueryParameters
@@ -25,13 +26,13 @@ F = TypeVar("F", bound=Callable[..., Any])
 
 
 def default_cache_db_path() -> Path:
-    """Return default path to provider response SQLite cache."""
+    """Return default path to provider response SQLite cache conforming to OS standards via platformdirs."""
     if env_home := os.getenv("PATANGOMA_HOME"):
         return Path(env_home) / "provider_cache.db"
-    home = Path.home() / ".patangoma"
     try:
-        home.mkdir(parents=True, exist_ok=True)
-        return home / "provider_cache.db"
+        cache_dir = Path(platformdirs.user_cache_dir("patangoma", appauthor=False))
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        return cache_dir / "provider_cache.db"
     except OSError:
         tmp = Path(tempfile.gettempdir()) / ".patangoma"
         tmp.mkdir(parents=True, exist_ok=True)

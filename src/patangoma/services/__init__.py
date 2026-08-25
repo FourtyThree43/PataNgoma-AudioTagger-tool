@@ -15,8 +15,12 @@ from patangoma.services.cache import (
 )
 from patangoma.services.doctor import DoctorReport, run_diagnostics
 from patangoma.services.duplicates import DuplicateDetector, DuplicateGroup
+from patangoma.services.genre import GenreNormalizationResult, GenreNormalizer
 from patangoma.services.planner import PlanEngine
+from patangoma.services.playlist import CueTrack, PlaylistService
+from patangoma.services.quality import AudioQualityReport, QualityInspector
 from patangoma.services.renamer import RenamerService, sanitize_filename_component
+from patangoma.services.replaygain import ReplayGainResult, ReplayGainService
 from patangoma.services.sample_generator import generate_sample_library
 from patangoma.services.scanner import (
     SUPPORTED_AUDIO_EXTENSIONS,
@@ -31,21 +35,29 @@ __all__ = [
     "AlbumMatcher",
     "ArtworkService",
     "AudioBackend",
+    "AudioQualityReport",
     "AuditJournal",
     "BatchPlan",
     "BatchService",
+    "CueTrack",
     "DoctorReport",
     "DuplicateDetector",
     "DuplicateGroup",
     "FileIntegrityReport",
     "FileValidator",
     "FilenameInference",
+    "GenreNormalizationResult",
+    "GenreNormalizer",
     "LibraryScanner",
     "MetadataAggregator",
     "MetadataReasoner",
     "PlanEngine",
+    "PlaylistService",
     "ProviderCache",
+    "QualityInspector",
     "RenamerService",
+    "ReplayGainResult",
+    "ReplayGainService",
     "ScanSummary",
     "cached_get_track",
     "cached_search",
