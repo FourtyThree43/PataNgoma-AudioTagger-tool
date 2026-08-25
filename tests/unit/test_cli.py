@@ -306,3 +306,22 @@ def test_cli_repl_session():
         assert "PataNgoma Interactive REPL Session" in res.output
         assert "REPL Command Reference" in res.output
         assert "Goodbye!" in res.output
+
+
+def test_cli_bare_interactive_loop(tmp_path: Path):
+    from patangoma.services.sample_generator import create_minimal_mp3
+
+    track_file = tmp_path / "song.mp3"
+    create_minimal_mp3(track_file, tags={"title": "Song", "artist": "Artist"})
+
+    runner = CliRunner()
+    with (
+        patch("InquirerPy.inquirer.filepath") as mock_fp,
+        patch("InquirerPy.inquirer.select") as mock_sel,
+    ):
+        mock_fp.return_value.execute.return_value = str(track_file)
+        mock_sel.return_value.execute.side_effect = ["inspect", None]
+        res = runner.invoke(cli, [])
+        assert res.exit_code == 0
+        assert "PataNgoma" in res.output
+        assert "Goodbye!" in res.output

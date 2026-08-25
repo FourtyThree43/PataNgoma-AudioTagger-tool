@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import warnings
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any
@@ -14,7 +15,6 @@ import click
 from dotenv import load_dotenv
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
-from InquirerPy.validator import PathValidator
 from mediafile import MediaFile
 from rich.console import Console
 from rich.panel import Panel
@@ -39,6 +39,11 @@ from patangoma.services.doctor import run_diagnostics
 from patangoma.services.planner import PlanEngine
 from patangoma.services.scanner import LibraryScanner
 
+# Filter out noisy third-party warnings
+warnings.filterwarnings(
+    "ignore", message="The json format is non-official", category=UserWarning
+)
+
 console = Console()
 backend = AudioBackend()
 planner = PlanEngine()
@@ -54,8 +59,8 @@ def get_app_info() -> tuple[str, str]:
     try:
         app_version = version("patangoma")
     except PackageNotFoundError:
-        app_version = "1.0.0"
-    return app_name, app_version
+        app_version = "1.5.0"
+    return app_name, app_version or "1.5.0"
 
 
 def app_info() -> None:
@@ -87,12 +92,7 @@ def cli(ctx: click.Context, path: str | None) -> None:
     """PataNgoma AudioTagger CLI."""
     if ctx.invoked_subcommand is None:
         app_info()
-        target_path = path or _interactive_select_path()
-        ctx.obj = target_path
-        if _is_valid_audio(target_path):
-            _main_menu(ctx)
-        else:
-            sys.exit(1)
+        _interactive_session_loop(ctx, initial_path=path)
 
 
 @cli.command()
@@ -1453,7 +1453,7 @@ def repl_alias(ctx: click.Context) -> None:
 
 
 # -------------------------------------------------------------------------
-# Legacy Interactive UI Helpers
+# Modern Interactive UI & Session Loop
 # -------------------------------------------------------------------------
 
 
@@ -1463,98 +1463,155 @@ def _is_valid_audio(file_path: str) -> bool:
         MediaFile(file_path)
         return True
     except Exception:
-        click.secho("\nERROR: Invalid or unsupported file format\n", fg="red")
         return False
 
 
 def _interactive_select_path() -> str:
-    """Prompt user for file path."""
+    """Prompt user for file or folder path with tab-completion."""
     load_dotenv()
     music_dir = os.getenv("MUSIC_PATH") or os.getcwd()
     filename = inquirer.filepath(
-        message="Please enter a path or select file from list:\n",
-        amark="✔️ ",
-        qmark="\n> ",
-        validate=PathValidator(is_file=True, message="Input is not a file"),
+        message="Please enter a path or select file/folder:\n",
+        amark="✓ ",
+        qmark="📁",
         default=f"{music_dir}",
-        instruction="Press <tab> to list directory contents",
+        instruction="Press <tab> to browse filesystem",
     ).execute()
-    return os.path.expanduser(filename)
+    return os.path.expanduser(filename) if filename else ""
 
 
-def _main_menu(ctx: click.Context) -> None:
-    """Main interactive menu."""
-    action = inquirer.select(
-        message="Select an action:",
-        choices=[
-            "Show-Tags",
-            "Update-Tags",
-            "Delete-Tags",
-            "Search",
-            Choice(value=None, name="Exit"),
-        ],
-        default=None,
-        qmark="\n> ",
-        amark="✔️ ",
-    ).execute()
-    fp = ctx.obj
+def _interactive_session_loop(
+    ctx: click.Context, initial_path: str | None = None
+) -> None:
+    """Continuous interactive TUI loop with multi-action navigation."""
+    current_target = initial_path or _interactive_select_path()
+    if not current_target or not Path(current_target).exists():
+        console.print("[yellow]No valid file or directory selected. Exiting.[/yellow]")
+        return
 
-    if action == "Show-Tags":
-        _submenu_show(ctx)
-    elif action == "Update-Tags":
-        _submenu_update(ctx)
-    elif action == "Search":
-        _submenu_search(ctx)
-    elif action == "Delete-Tags":
-        ctx.invoke(delete, file_path=fp)
+    while True:
+        target_name = Path(current_target).name
+        target_is_file = Path(current_target).is_file()
 
+        console.print(
+            f"\n[bold cyan]Selected Target:[/bold cyan] [bold yellow]{current_target}[/bold yellow]"
+        )
+        action = inquirer.select(
+            message=f"Action for '{target_name}':",
+            choices=[
+                Choice("match_tag", "🎯 Match & Tag Track (7 Providers)"),
+                Choice("inspect", "👁️ Inspect Metadata & Technical Properties"),
+                Choice("edit", "✏️ Edit Tags Interactively"),
+                Choice("replaygain", "📊 ReplayGain & Loudness Scan"),
+                Choice("rename", "📂 Rename / Organize by Pattern"),
+                Choice("lyrics", "📜 Fetch Plain & Synced Lyrics"),
+                Choice("normalize_genres", "🧹 Normalize Genre to Canonical Taxonomy"),
+                Choice("history", "📜 View Audit History"),
+                Choice("rollback", "⏪ Rollback Last Mutation"),
+                Choice("change_file", "📁 Choose Another File / Directory"),
+                Choice("doctor", "🩺 Run System Diagnostics (Doctor)"),
+                Choice(None, "🚪 Exit"),
+            ],
+            default="match_tag",
+            qmark="🎵",
+            amark="✓",
+        ).execute()
 
-def _submenu_show(ctx: click.Context) -> None:
-    fp = ctx.obj
-    choice = inquirer.select(
-        message="Select a 'Show-Tags' option:",
-        choices=[
-            Choice(name="Show all metadata", value="all"),
-            Choice(name="Show existing metadata", value="existing"),
-            Choice(name="Show missing metadata", value="missing"),
-            Choice(name="Go back", value="Back"),
-        ],
-        default="Back",
-    ).execute()
+        if action is None:
+            console.print("[bold green]Goodbye![/bold green]")
+            break
 
-    if choice == "all":
-        ctx.invoke(show, file_path=fp, all_t=True)
-    elif choice == "existing":
-        ctx.invoke(show, file_path=fp, existing=True)
-    elif choice == "missing":
-        ctx.invoke(show, file_path=fp, missing=True)
-    elif choice == "Back":
-        _main_menu(ctx)
+        if action == "match_tag":
+            if not target_is_file:
+                console.print(
+                    "[yellow]Batch match on directory: Generating batch plan...[/yellow]"
+                )
+                ctx.invoke(
+                    plan_dir,
+                    directory=current_target,
+                    provider="multi",
+                    output=None,
+                    json_out=False,
+                )
+            else:
+                prov = inquirer.select(
+                    message="Select Metadata Provider:",
+                    choices=[
+                        Choice(
+                            "multi",
+                            "🌟 Multi-Provider Aggregator (iTunes + MB + Discogs + Deezer)",
+                        ),
+                        Choice("itunes", "🍏 Apple iTunes (Fast & High-Res Cover Art)"),
+                        Choice("musicbrainz", "🎼 MusicBrainz (Authoritative DB)"),
+                        Choice("discogs", "💿 Discogs (Vinyl & Release Data)"),
+                        Choice("deezer", "📻 Deezer (Global Music Catalog)"),
+                        Choice("spotify", "🎧 Spotify (Streaming Catalog)"),
+                        Choice(
+                            "acoustid", "🌊 AcoustID (Acoustic Fingerprint via fpcalc)"
+                        ),
+                    ],
+                    default="multi",
+                    qmark="🔍",
+                ).execute()
+                ctx.invoke(
+                    tag,
+                    file_path=current_target,
+                    provider=prov,
+                    interactive=True,
+                    dry_run=False,
+                )
 
+        elif action == "inspect":
+            ctx.invoke(inspect, file_path=current_target, json_out=False)
 
-def _submenu_update(ctx: click.Context) -> None:
-    fp = ctx.obj
-    valid_fields = ["artist", "album", "title", "track", "genre", "year", "comment"]
-    selected = inquirer.fuzzy(
-        message="Select fields:",
-        choices=valid_fields,
-        multiselect=True,
-    ).execute()
+        elif action == "edit":
+            if target_is_file:
+                ctx.invoke(edit, file_path=current_target)
+            else:
+                console.print(
+                    "[yellow]Edit command applies to single audio files.[/yellow]"
+                )
 
-    updates = []
-    for key in selected:
-        val = inquirer.text(message=f"{key}:").execute()
-        updates.append(f"{key}={val}")
+        elif action == "replaygain":
+            ctx.invoke(replaygain, target=current_target, dry_run=False)
 
-    ctx.invoke(update, file_path=fp, updates=tuple(updates))
+        elif action == "rename":
+            pattern = inquirer.text(
+                message="Naming template pattern:",
+                default="{track_number:02d} - {artist} - {title}.{file_format}",
+            ).execute()
+            ctx.invoke(rename, target=current_target, pattern=pattern, dry_run=False)
 
+        elif action == "lyrics":
+            if target_is_file:
+                ctx.invoke(
+                    get_lyrics,
+                    file_path=current_target,
+                    embed=False,
+                )
+            else:
+                console.print(
+                    "[yellow]Lyrics command applies to single audio files.[/yellow]"
+                )
 
-def _submenu_search(ctx: click.Context) -> None:
-    source = inquirer.select(
-        message="Select a service to use:",
-        choices=["spotify", "musicbrainz", "deezer"],
-    ).execute()
-    ctx.invoke(search, file_path=ctx.obj, source=source)
+        elif action == "normalize_genres":
+            ctx.invoke(normalize_genres, target=current_target, dry_run=False)
+
+        elif action == "history":
+            ctx.invoke(history, limit=10, json_out=False)
+
+        elif action == "rollback":
+            ctx.invoke(
+                rollback, operation_id=None, latest=True, path=None, json_out=False
+            )
+
+        elif action == "change_file":
+            new_target = _interactive_select_path()
+            if new_target and Path(new_target).exists():
+                current_target = new_target
+
+        elif action == "doctor":
+            ctx.invoke(doctor, json_out=False)
 
 
 @cli.command()

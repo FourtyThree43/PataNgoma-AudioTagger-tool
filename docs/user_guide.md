@@ -1,111 +1,153 @@
-# PataNgoma AudioTagger — User Guide
+# PataNgoma AudioTagger — Comprehensive User Guide
 
-PataNgoma is a provider-agnostic audio metadata intelligence platform with safe, explainable matching and transactional tagging.
+PataNgoma is a provider-agnostic audio metadata intelligence platform with explainable confidence scoring, multi-provider aggregation, and transactional rollback protection.
 
 ---
 
 ## 1. Quickstart & Verification
 
 ```bash
-# Verify environment and metadata backend
+# Verify environment, audio backends, and fpcalc binary
 uv run patangoma doctor
 
-# Generate a synthetic test library to experiment safely
-uv run patangoma demo-library /tmp/music_demo
+# Launch full continuous interactive TUI
+uv run patangoma
 
-# Scan the test library
-uv run patangoma scan /tmp/music_demo
+# Launch interactive REPL session with slash commands
+uv run patangoma session
 ```
 
 ---
 
-## 2. Core Workflows
+## 2. Interactive TUI Mode (`uv run patangoma`)
 
-### 2.1 Inspection & Validation
-Inspect metadata tags and technical audio properties (sample rate, channels, bitrate, ReplayGain):
+Running `uv run patangoma` starts the continuous interactive terminal interface:
+1. **Target Selection**: Select a track or folder using tab-completion.
+2. **Action Menu**:
+   - `🎯 Match & Tag Track`: Search across 7 providers or the multi-provider aggregator.
+   - `👁️ Inspect Metadata`: View bitrate, sample rate, channels, and tags.
+   - `✏️ Edit Tags`: Quick field form editor.
+   - `📊 ReplayGain & Loudness`: Calculate EBU R128 loudness and peak tags.
+   - `📂 Rename / Organize`: Organize tracks via custom metadata template patterns.
+   - `📜 Synchronized Lyrics`: Download and embed synced `.lrc` lyrics.
+   - `🧹 Normalize Genres`: Clean genres into a standardized 18-genre taxonomy.
+   - `⏪ Rollback Changes`: Revert recent tag changes instantly via SQLite backups.
+   - `📁 Choose Another File`: Switch active file or directory without leaving the TUI.
+   - `🩺 Run Diagnostics`: Check audio codecs, providers, and database health.
+   - `🚪 Exit`: Clean exit.
+
+---
+
+## 3. CLI Command Reference
+
+### 3.1 Inspection & Validation
 ```bash
+# Inspect audio properties and tags
 uv run patangoma inspect "track.mp3"
 
-# Validate audio header integrity and detect corrupt files
+# Check file integrity & magic headers
 uv run patangoma check-file "track.mp3"
+
+# Check audio transcoding quality (detect low-bitrate upsamples)
+uv run patangoma transcode-check "track.flac"
 ```
 
-### 2.2 Explainable Matching
-Search online providers and inspect confidence scoring breakdown:
+### 3.2 Metadata Matching
 ```bash
-# Match with MusicBrainz (default)
-uv run patangoma match "track.mp3" --provider musicbrainz
-
-# Match with keyless Apple iTunes API
+# Query individual providers
 uv run patangoma match "track.mp3" --provider itunes
-
-# Match with Discogs
+uv run patangoma match "track.mp3" --provider musicbrainz
 uv run patangoma match "track.mp3" --provider discogs
+uv run patangoma match "track.mp3" --provider deezer
+uv run patangoma match "track.mp3" --provider spotify
 
-# Query all providers simultaneously
+# Multi-Provider Aggregation (merge & rank all providers)
 uv run patangoma match "track.mp3" --provider multi
 ```
 
-### 2.3 Safe Mutation: Plan / Apply
-Always preview before writing:
+### 3.3 Safe Tagging (Plan / Apply Workflow)
 ```bash
-# Step 1: Generate plan
+# Generate a mutation plan diff
 uv run patangoma plan "track.mp3" --provider itunes -o plan.json
 
-# Step 2: Simulate in dry-run mode
+# Preview application in dry-run mode
 uv run patangoma apply plan.json --dry-run
 
-# Step 3: Apply changes with automatic rollback journal entry
-uv run patangoma apply plan.json
+# Apply tags and record an atomic rollback snapshot
+uv run patangoma apply plan.json --embed-artwork
 ```
 
-### 2.4 Batch Directory Tagging
-Tag an entire music folder deterministically:
+### 3.4 Interactive Tagging
 ```bash
-# Step 1: Generate batch plan across entire directory
+# Interactive candidate picker
+uv run patangoma tag "track.mp3" --interactive
+
+# Interactive field editor
+uv run patangoma edit "track.mp3"
+```
+
+### 3.5 Batch Directory Operations
+```bash
+# Scan directory recursively
+uv run patangoma scan /path/to/music/
+
+# Generate plan for entire directory
 uv run patangoma plan-dir /path/to/music/ --provider itunes -o batch_plan.json
 
-# Step 2: Apply batch plan
-uv run patangoma apply-dir batch_plan.json
+# Apply batch plan with album art embedding
+uv run patangoma apply-dir batch_plan.json --embed-artwork
 ```
 
-### 2.5 Library Renaming & Organization
-Reorganize and rename files using structured metadata templates:
+### 3.6 ReplayGain Loudness Scanner
 ```bash
-# Preview rename in dry-run mode
-uv run patangoma rename /path/to/music/ --pattern "{track_number:02d} - {artist} - {title}.{file_format}" --dry-run
-
-# Apply file renames
-uv run patangoma rename /path/to/music/ --pattern "{track_number:02d} - {artist} - {title}.{file_format}"
+# Scan and apply peak & track gain tags
+uv run patangoma replaygain /path/to/music/
 ```
 
-### 2.6 Duplicate Audio Detection
-Find duplicate tracks across formats and bitrates (lossless FLAC/WAV prioritized as keepers):
+### 3.7 Library Renaming & Multi-Disc Organization
 ```bash
-uv run patangoma duplicates /path/to/music/
+# Rename single files or entire directories
+uv run patangoma rename /path/to/music/ --pattern "{artist}/{album}/{track_number:02d} - {title}.{file_format}"
+
+# Multi-disc pattern
+uv run patangoma rename /path/to/music/ --pattern "{artist}/{album}/Disc {disc_number:02d}/{track_number:02d} - {title}.{file_format}"
 ```
 
-### 2.7 Lyrics Retrieval
-Fetch plain and synchronized LRC lyrics:
+### 3.8 Lyrics Retrieval
 ```bash
+# View plain & synchronized lyrics
 uv run patangoma lyrics "track.mp3"
 
-# Embed lyrics directly into audio file tags
+# Embed lyrics into audio file
 uv run patangoma lyrics "track.mp3" --embed
 ```
 
-### 2.8 Rollback & Audit History
-Revert changes at any time:
+### 3.9 Genre Normalization
 ```bash
-# View recent metadata mutations
-uv run patangoma history
+# Map messy tags ("hip hop/rap", "synth-wave") to canonical taxonomy
+uv run patangoma normalize-genres /path/to/music/
+```
 
-# Rollback the most recent operation
+### 3.10 Catalog & Playlist Exporter
+```bash
+# Export library catalog to JSON, CSV, or SQLite
+uv run patangoma export-catalog /path/to/music/ --format sqlite -o catalog.db
+
+# Export M3U8 playlist
+uv run patangoma playlist-export /path/to/music/ -o playlist.m3u8
+
+# Inspect .cue sheet
+uv run patangoma cue-inspect "album.cue"
+```
+
+### 3.11 Rollback & Audit History
+```bash
+# View recent metadata changes
+uv run patangoma history --limit 10
+
+# Rollback last change
 uv run patangoma rollback --latest
 
-# Rollback all operations targeting a specific file or folder
-uv run patangoma rollback --path /path/to/music/
-
-# Export audit trail to HTML or CSV
-uv run patangoma export-audit audit_report.html --format html
+# Rollback specific operation ID
+uv run patangoma rollback <operation_id>
 ```

@@ -1,97 +1,63 @@
-# PataNgoma AudioTagger — Troubleshooting Guide
+# Troubleshooting & Diagnostics Guide
 
-This guide covers common issues and resolution steps across Linux, macOS, and Windows.
+This document provides resolutions for common issues encountered during library scanning, provider querying, and file tagging.
 
 ---
 
-## 1. Acoustic Fingerprinting & `fpcalc`
+## 1. Run Environment Diagnostics First
 
-### Symptom
-When matching with `--provider acoustid`, the CLI displays:
-```text
-⚠ fpcalc (Chromaprint binary) not found on system path. Using metadata text search...
-```
-
-### Resolution
-Install the Chromaprint CLI tool (`fpcalc`) for your operating system:
-
-- **Windows (Scoop)**:
-  ```bash
-  scoop install chromaprint
-  ```
-- **Windows (Chocolatey)**:
-  ```powershell
-  choco install chromaprint
-  ```
-- **macOS (Homebrew)**:
-  ```bash
-  brew install chromaprint
-  ```
-- **Linux (Debian/Ubuntu)**:
-  ```bash
-  sudo apt install libchromaprint-tools
-  ```
-- **Linux (Fedora/RHEL)**:
-  ```bash
-  sudo dnf install chromaprint-tools
-  ```
-- **Linux (Arch)**:
-  ```bash
-  sudo pacman -S chromaprint
-  ```
-
-Alternatively, set the custom environment variable pointing directly to your binary:
+Always start by running:
 ```bash
-export FPCALC_PATH=/path/to/fpcalc
+uv run patangoma doctor
 ```
+The diagnostics check will verify:
+- Python runtime compatibility (`>=3.10`)
+- Tagging audio backends (`Mutagen` / `MediaFile`)
+- Registered providers and credentials
+- Audit database access (`platformdirs` user data directory)
+- `fpcalc` binary discovery for acoustic fingerprinting
 
 ---
 
-## 2. Untagged Audio Files (Missing Title / Artist Tags)
+## 2. Common Issues & Solutions
 
-### Behavior
-When an audio file contains no embedded ID3/Vorbis tags (e.g. `09 - LUMINOUS.mp3`):
-- PataNgoma's `MetadataReasoner` automatically extracts the title, track number, and artist from the filename pattern.
-- Search queries use this inferred title and search across online providers seamlessly.
+### A. `fpcalc` Not Found
+**Symptom**: Acoustic fingerprinting fails with `fpcalc binary not found on PATH`.
+**Solution**:
+- **Linux**: `sudo apt-get install libchromaprint-tools` or `sudo dnf install chromaprint-tools`
+- **macOS**: `brew install chromaprint`
+- **Windows**: Download `fpcalc.exe` from [AcoustID.org](https://acoustid.org/chromaprint) and place in `C:\Program Files\Chromaprint\` or your system `PATH`.
 
----
+### B. No Metadata Candidates Found for Untagged Track
+**Symptom**: Audio files without existing title/artist tags return no candidates on search.
+**Solution**:
+- PataNgoma automatically uses filename heuristics (e.g. `09 - LUMINOUS.mp3` -> title: `LUMINOUS`, track: `9`).
+- If filename is obscure (e.g., `track_01.mp3`), use `--interactive` or `/tag` to provide a manual title search query, or use `--provider multi` for acoustic fingerprinting.
 
-## 3. Spotify API Credentials (Optional)
+### C. Rate Limits or Provider Timeouts
+**Symptom**: `ProviderUnavailableError` or slow queries.
+**Solution**:
+- PataNgoma features automatic token-bucket rate limiting and an SQLite cache.
+- For high-volume tagging, use the keyless **Apple iTunes provider** (`--provider itunes`), which has generous rate limits and low latency.
 
-### Symptom
-`patangoma doctor` shows:
-```text
-Spotify Credentials: ⚠ WARNING (Spotify API credentials not set)
-```
-
-### Resolution
-Spotify requires OAuth client credentials for API access. Create a free developer application at [developer.spotify.com](https://developer.spotify.com) and add the keys to your `.env` file:
-```env
-SPOTIPY_CLIENT_ID=your_client_id_here
-SPOTIPY_CLIENT_SECRET=your_client_secret_here
-```
-*(Note: MusicBrainz, iTunes, Deezer, and LrcLib do not require any API keys.)*
-
----
-
-## 4. Discogs API Token (Optional)
-
-### Resolution
-For extended Discogs rate limits, generate a personal access token under your Discogs Account Settings -> Developers, and add it to `.env`:
-```env
-DISCOGS_TOKEN=your_discogs_token_here
-```
+### D. File Read-Only or Permission Denied
+**Symptom**: `TagWriteError: [Errno 13] Permission denied`.
+**Solution**:
+- Ensure you have write permissions to the audio file and its parent folder.
+- On Windows/WSL, verify files are not locked by an active music player daemon.
 
 ---
 
-## 5. Corrupt or Unreadable Audio Files
+## 3. Reverting Unwanted Changes (Rollback)
 
-### Symptom
-`patangoma scan` flags files under `Corrupt / Unreadable`.
-
-### Resolution
-Run pre-flight integrity verification on the specific file:
+If a tag write or file rename produced unexpected results, revert using the transactional rollback journal:
 ```bash
-uv run patangoma check-file "/path/to/corrupt.mp3"
+# View last 10 mutation records
+uv run patangoma history --limit 10
+
+# Revert the most recent operation
+uv run patangoma rollback --latest
+
+# Revert a specific operation by UUID
+uv run patangoma rollback <operation_id>
 ```
-The validator checks magic bytes (`ID3`, `fLaC`, `RIFF`, `OggS`, `ftyp`) to determine whether the header is corrupted or unreadable.
