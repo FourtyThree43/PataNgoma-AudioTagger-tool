@@ -219,23 +219,28 @@ class PataNgomaApplication:
     def batch_plan_directory(
         self,
         directory: str | Path,
-        provider_name: str = "multi",
-        confidence_threshold: ConfidenceLevel = ConfidenceLevel.HIGH,
+        provider_name: str = "musicbrainz",
+        confidence_threshold: ConfidenceLevel = ConfidenceLevel.MEDIUM,
         recursive: bool = True,
     ) -> list[TagPlan]:
         """Generate tag plans for all eligible tracks in a directory."""
-        return self.batch_service.plan_directory(
+        batch = self.batch_service.generate_batch_plan(
             directory,
             provider_name=provider_name,
-            confidence_threshold=confidence_threshold,
+            min_confidence=confidence_threshold,
             recursive=recursive,
         )
+        return batch.matched_plans
 
     def batch_apply_plans(
         self, plans: Sequence[TagPlan], dry_run: bool = False
     ) -> list[TrackMetadata]:
         """Apply a collection of tag plans transactionally."""
-        return self.batch_service.apply_plans(plans, dry_run=dry_run)
+        results = []
+        for plan in plans:
+            updated = self.apply_tag_plan(plan, dry_run=dry_run)
+            results.append(updated)
+        return results
 
     # -------------------------------------------------------------------------
     # Diagnostics & Platform Health

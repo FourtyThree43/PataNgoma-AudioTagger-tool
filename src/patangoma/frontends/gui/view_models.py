@@ -8,11 +8,14 @@ from typing import Any
 
 from patangoma.application.facade import PataNgomaApplication
 from patangoma.domain.models import (
+    AuditRecord,
+    ConfidenceLevel,
     JobDescriptor,
     MetadataCandidate,
     TagPlan,
     TrackMetadata,
 )
+from patangoma.plugins.contracts import Plugin
 
 
 @dataclass
@@ -91,6 +94,88 @@ class TagEditorViewModel:
 
 
 @dataclass
+class BatchViewModel:
+    """View-model for batch tag planning and bulk mutation execution."""
+
+    app: PataNgomaApplication
+    directory: Path | None = None
+    plans: list[TagPlan] = field(default_factory=list)
+    selected_plan_indices: set[int] = field(default_factory=set)
+
+    def generate_plans(
+        self,
+        directory: str | Path,
+        provider: str = "multi",
+        confidence: ConfidenceLevel = ConfidenceLevel.HIGH,
+        recursive: bool = True,
+    ) -> list[TagPlan]:
+        """Generate batch tag plans for a target folder."""
+        self.directory = Path(directory)
+        self.plans = self.app.batch_plan_directory(
+            directory,
+            provider_name=provider,
+            confidence_threshold=confidence,
+            recursive=recursive,
+        )
+        self.selected_plan_indices = set(range(len(self.plans)))
+        return self.plans
+
+    def apply_selected(self, dry_run: bool = False) -> list[TrackMetadata]:
+        """Apply all selected tag plans."""
+        plans_to_apply = [
+            p for i, p in enumerate(self.plans) if i in self.selected_plan_indices
+        ]
+        return self.app.batch_apply_plans(plans_to_apply, dry_run=dry_run)
+
+
+@dataclass
+class RollbackViewModel:
+    """View-model for querying audit history and rolling back mutations."""
+
+    app: PataNgomaApplication
+    history: list[AuditRecord] = field(default_factory=list)
+
+    def load_history(
+        self, file_path: str | None = None, limit: int = 50
+    ) -> list[AuditRecord]:
+        """Load mutation history records."""
+        self.history = self.app.get_audit_history(file_path=file_path, limit=limit)
+        return self.history
+
+    def rollback(
+        self, operation_id: str | None = None, file_path: str | None = None
+    ) -> TrackMetadata:
+        """Roll back a previous mutation."""
+        res = self.app.rollback(operation_id=operation_id, file_path=file_path)
+        self.load_history(file_path=file_path)
+        return res
+
+
+@dataclass
+class PluginsViewModel:
+    """View-model for managing loaded capability plugins."""
+
+    app: PataNgomaApplication
+    plugins: list[Plugin] = field(default_factory=list)
+    health_status: dict[str, dict[str, Any]] = field(default_factory=dict)
+
+    def refresh(self) -> None:
+        """Refresh list of plugins and diagnostic health."""
+        self.plugins = self.app.plugins.list_plugins()
+        self.health_status = self.app.plugins.health_all()
+
+    def enable_plugin(self, plugin_id: str) -> None:
+        """Enable a plugin."""
+        self.app.plugins.enable(plugin_id)
+        self.refresh()
+
+    def disable_plugin(self, plugin_id: str) -> None:
+        """Disable a plugin."""
+        self.app.plugins.disable(plugin_id)
+        self.refresh()
+
+
+@dataclass
 class JobMonitorViewModel:
     """View-model for monitoring background jobs and tasks."""
 
@@ -114,7 +199,7 @@ class DiagnosticsViewModel:
     """View-model for system diagnostics and plugin health."""
 
     app: PataNgomaApplication
-    diagnostics: dict[str, Any] = field(default_factory=dict)
+    diagnostics: Any = field(default_factory=dict)
     plugin_health: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def refresh(self) -> None:
