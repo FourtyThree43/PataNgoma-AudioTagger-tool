@@ -299,3 +299,61 @@ class AuditRecord(BaseModel):
     applied_tags: dict[str, Any]
 
     model_config = ConfigDict(extra="ignore")
+
+
+class JobStatus(str, Enum):
+    """Execution status of an asynchronous or long-running job."""
+
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    PAUSED = "PAUSED"
+    CANCELLING = "CANCELLING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    CANCELLED = "CANCELLED"
+
+
+class JobProgress(BaseModel):
+    """Progress snapshot for a running job."""
+
+    current_item: int = 0
+    total_items: int = 0
+    percentage: float = 0.0
+    current_label: str = ""
+    message: str = ""
+    elapsed_seconds: float = 0.0
+    eta_seconds: float | None = None
+
+    model_config = ConfigDict(frozen=True)
+
+
+class JobDescriptor(BaseModel):
+    """Descriptor and state tracking for background jobs."""
+
+    job_id: str
+    name: str
+    operation: str
+    status: JobStatus = JobStatus.PENDING
+    progress: JobProgress = Field(default_factory=JobProgress)
+    created_at: dt.datetime = Field(
+        default_factory=lambda: dt.datetime.now(dt.timezone.utc)
+    )
+    started_at: dt.datetime | None = None
+    completed_at: dt.datetime | None = None
+    error_message: str | None = None
+    result_summary: dict[str, Any] = Field(default_factory=dict)
+
+    model_config = ConfigDict(extra="ignore")
+
+
+class DomainEvent(BaseModel):
+    """Base model for framework-neutral application domain events."""
+
+    event_id: str
+    event_type: str
+    timestamp: dt.datetime = Field(
+        default_factory=lambda: dt.datetime.now(dt.timezone.utc)
+    )
+    payload: dict[str, Any] = Field(default_factory=dict)
+
+    model_config = ConfigDict(frozen=True)

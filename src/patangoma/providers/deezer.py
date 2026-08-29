@@ -10,13 +10,13 @@ import deezer
 
 from patangoma.domain.exceptions import ProviderError, ProviderUnavailableError
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
 
 
-class DeezerProvider(MetadataProvider):
+class DeezerProvider(BaseMetadataProvider, MetadataProvider):
     """Metadata provider backed by Deezer API."""
 
     def __init__(self, client: deezer.Client | None = None) -> None:

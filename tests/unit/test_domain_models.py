@@ -99,3 +99,59 @@ def test_tag_plan_has_changes():
 def test_domain_exceptions_formatting():
     err = AudioFileNotFoundError("File not found", "/tmp/nonexistent.mp3")
     assert str(err) == "File not found (/tmp/nonexistent.mp3)"
+
+
+def test_domain_entities_and_job_models():
+    from pathlib import Path
+
+    from patangoma.domain.entities import Album, Artwork, MediaFileRef, Track
+    from patangoma.domain.models import JobDescriptor, JobProgress, JobStatus
+
+    media_ref = MediaFileRef(
+        file_path=Path("/music/test.flac"),
+        file_format="flac",
+        file_size_bytes=1048576,
+        checksum_sha256="abc456",
+        duration_seconds=180.5,
+    )
+    assert media_ref.extension == "flac"
+    assert media_ref.filename == "test.flac"
+
+    art = Artwork(data=b"\xff\xd8\xff\xe0", mime_type="image/jpeg")
+    assert art.is_valid is True
+    assert art.size_bytes == 4
+
+    meta = TrackMetadata(
+        file_path="/music/test.flac",
+        title="Midnight City",
+        artist="M83",
+        album="Hurry Up, We're Dreaming",
+    )
+    track = Track(id="trk-1", media_file=media_ref, metadata=meta)
+    assert track.display_title == "Midnight City"
+    assert track.display_artist == "M83"
+
+    album = Album(
+        id="alb-1",
+        title="Hurry Up, We're Dreaming",
+        artist="M83",
+        tracks=[track],
+        artwork=art,
+    )
+    assert album.track_count == 1
+    assert album.duration_seconds == 180.5
+
+    job = JobDescriptor(
+        job_id="job-101",
+        name="Scan Directory",
+        operation="SCAN",
+        status=JobStatus.RUNNING,
+        progress=JobProgress(
+            current_item=5,
+            total_items=10,
+            percentage=50.0,
+            message="Processing 5/10",
+        ),
+    )
+    assert job.status == JobStatus.RUNNING
+    assert job.progress.percentage == 50.0

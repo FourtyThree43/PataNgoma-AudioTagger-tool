@@ -10,7 +10,7 @@ import requests
 
 from patangoma.domain.exceptions import ProviderError, ProviderUnavailableError
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ _ITUNES_SEARCH_URL = "https://itunes.apple.com/search"
 _ITUNES_LOOKUP_URL = "https://itunes.apple.com/lookup"
 
 
-class ITunesProvider(MetadataProvider):
+class ITunesProvider(BaseMetadataProvider, MetadataProvider):
     """Metadata provider backed by Apple iTunes Search API (no API key required)."""
 
     def __init__(self, session: requests.Session | None = None) -> None:
