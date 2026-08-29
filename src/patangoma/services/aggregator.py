@@ -14,7 +14,7 @@ from patangoma.domain.models import (
     TrackMetadata,
 )
 from patangoma.matching.matcher import MatchingEngine
-from patangoma.providers.base import MetadataProvider
+from patangoma.plugins.contracts import MetadataProviderPlugin
 from patangoma.providers.registry import get_available_providers, get_provider
 
 logger = logging.getLogger(__name__)
@@ -25,11 +25,11 @@ class MetadataAggregator:
 
     def __init__(
         self,
-        providers: Sequence[MetadataProvider | str] | None = None,
+        providers: Sequence[MetadataProviderPlugin | str] | None = None,
         matcher: MatchingEngine | None = None,
     ) -> None:
         self.matcher = matcher or MatchingEngine()
-        self.providers: list[MetadataProvider] = []
+        self.providers: list[MetadataProviderPlugin] = []
         if providers:
             for p in providers:
                 if isinstance(p, str):
@@ -43,7 +43,9 @@ class MetadataAggregator:
                     self.providers.append(get_provider(name))
                 except Exception as e:
                     logger.debug(
-                        "Provider %s unavailable during aggregator init: %s", name, e
+                        "Provider %s unavailable during aggregator init: %s",
+                        name,
+                        e,
                     )
 
     def search_all_providers(
@@ -52,9 +54,9 @@ class MetadataAggregator:
         """Query all configured providers concurrently and return aggregated list of candidates."""
         all_candidates: list[MetadataCandidate] = []
 
-        def _search(prov: MetadataProvider) -> list[MetadataCandidate]:
+        def _search(prov: MetadataProviderPlugin) -> list[MetadataCandidate]:
             try:
-                return prov.search_tracks(query)
+                return list(prov.search_tracks(query))
             except Exception as e:
                 logger.debug(
                     "Aggregator search failed for provider %s: %s", prov.name, e

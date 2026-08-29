@@ -7,7 +7,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 
-from patangoma.domain.models import MetadataCandidate, QueryParameters
+from patangoma.domain.models import MetadataCandidate, QueryParameters, TrackMetadata
 
 
 class PluginCapability(str, Enum):
@@ -108,6 +108,40 @@ class ArtworkProviderPlugin(Plugin, Protocol):
 class LyricsProviderPlugin(Plugin, Protocol):
     """Plugin specialized in lyrics retrieval."""
 
-    def fetch_lyrics(self, title: str, artist: str) -> str | None:
-        """Retrieve plain or synchronized lyrics for a track."""
+    def fetch_lyrics(
+        self,
+        title: str,
+        artist: str,
+        album: str | None = None,
+        duration: float | None = None,
+    ) -> tuple[str | None, str | None]:
+        """Retrieve plain and synchronized lyrics (plain_lyrics, synced_lyrics) for a track."""
+        ...
+
+
+@runtime_checkable
+class ExporterPlugin(Plugin, Protocol):
+    """Plugin specialized in exporting track catalogs to file formats."""
+
+    @property
+    def format_name(self) -> str:
+        """Target format name (e.g. 'json', 'csv', 'm3u8')."""
+        ...
+
+    def export_tracks(self, tracks: Sequence[TrackMetadata], output_path: Path) -> Path:
+        """Export tracks collection to target file path."""
+        ...
+
+
+@runtime_checkable
+class ImporterPlugin(Plugin, Protocol):
+    """Plugin specialized in importing track catalogs from file formats."""
+
+    @property
+    def format_name(self) -> str:
+        """Source format name (e.g. 'json', 'csv', 'cue')."""
+        ...
+
+    def import_tracks(self, input_path: Path) -> Sequence[TrackMetadata]:
+        """Import tracks collection from source file path."""
         ...

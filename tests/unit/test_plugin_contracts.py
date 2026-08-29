@@ -8,26 +8,26 @@ from patangoma.plugins.contracts import (
     PluginCapability,
 )
 from patangoma.plugins.discovery import create_default_plugin_registry
+from patangoma.plugins.metadata.acoustid import AcoustIDPlugin
+from patangoma.plugins.metadata.deezer import DeezerPlugin
+from patangoma.plugins.metadata.discogs import DiscogsPlugin
+from patangoma.plugins.metadata.itunes import ITunesPlugin
+from patangoma.plugins.metadata.lyrics import LyricsPlugin
+from patangoma.plugins.metadata.musicbrainz import MusicBrainzPlugin
+from patangoma.plugins.metadata.spotify import SpotifyPlugin
 from patangoma.plugins.registry import PluginRegistry
-from patangoma.providers.acoustid import AcoustIDProvider
-from patangoma.providers.deezer import DeezerProvider
-from patangoma.providers.discogs import DiscogsProvider
-from patangoma.providers.itunes import ITunesProvider
-from patangoma.providers.lyrics import LyricsProvider
-from patangoma.providers.musicbrainz import MusicBrainzProvider
-from patangoma.providers.spotify import SpotifyProvider
 
 
 def test_all_builtin_providers_satisfy_plugin_contract():
     """Verify that all 7 built-in metadata providers satisfy Plugin and MetadataProviderPlugin protocols."""
     providers = [
-        MusicBrainzProvider(),
-        DeezerProvider(),
-        SpotifyProvider(),
-        DiscogsProvider(),
-        ITunesProvider(),
-        AcoustIDProvider(),
-        LyricsProvider(),
+        MusicBrainzPlugin(),
+        DeezerPlugin(),
+        SpotifyPlugin(),
+        DiscogsPlugin(),
+        ITunesPlugin(),
+        AcoustIDPlugin(),
+        LyricsPlugin(),
     ]
 
     for prov in providers:
@@ -45,7 +45,7 @@ def test_all_builtin_providers_satisfy_plugin_contract():
 def test_plugin_registry_lifecycle_and_capabilities():
     """Test registry registration, enable/disable, and capability lookups."""
     registry = PluginRegistry()
-    mb = MusicBrainzProvider()
+    mb = MusicBrainzPlugin()
 
     assert registry.list_plugins() == []
 
@@ -79,11 +79,12 @@ def test_plugin_registry_lifecycle_and_capabilities():
 
 
 def test_default_registry_factory():
-    """Verify create_default_plugin_registry loads all standard providers."""
+    """Verify create_default_plugin_registry loads all standard capability plugins."""
     reg = create_default_plugin_registry()
     plugins = reg.list_plugins()
-    assert len(plugins) == 7
-    expected_ids = {
+    assert len(plugins) == 16
+
+    expected_metadata_ids = {
         "musicbrainz",
         "deezer",
         "spotify",
@@ -92,5 +93,5 @@ def test_default_registry_factory():
         "acoustid",
         "lyrics",
     }
-    registered_ids = {p.id for p in plugins}
-    assert expected_ids == registered_ids
+    meta_providers = {p.id for p in reg.capabilities.list_metadata_providers()}
+    assert expected_metadata_ids == meta_providers

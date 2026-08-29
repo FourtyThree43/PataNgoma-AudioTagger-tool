@@ -1,42 +1,39 @@
-"""Provider registry for discovering and instantiating metadata providers."""
+"""Provider registry bridge delegating to the capability plugin subsystem."""
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 
 from patangoma.domain.exceptions import ProviderError
-from patangoma.providers.acoustid import AcoustIDProvider
-from patangoma.providers.base import MetadataProvider
-from patangoma.providers.deezer import DeezerProvider
-from patangoma.providers.discogs import DiscogsProvider
-from patangoma.providers.itunes import ITunesProvider
-from patangoma.providers.lyrics import LyricsProvider
-from patangoma.providers.musicbrainz import MusicBrainzProvider
-from patangoma.providers.spotify import SpotifyProvider
+from patangoma.plugins.contracts import MetadataProviderPlugin
+from patangoma.plugins.discovery import create_default_plugin_registry
 
-_PROVIDER_FACTORIES: dict[str, Callable[[], MetadataProvider]] = {
-    "musicbrainz": lambda: MusicBrainzProvider(),
-    "deezer": lambda: DeezerProvider(),
-    "spotify": lambda: SpotifyProvider(),
-    "itunes": lambda: ITunesProvider(),
-    "discogs": lambda: DiscogsProvider(),
-    "acoustid": lambda: AcoustIDProvider(),
-    "lyrics": lambda: LyricsProvider(),
-}
+_DEFAULT_REGISTRY = None
 
 
-def get_provider(name: str) -> MetadataProvider:
-    """Get metadata provider instance by name."""
+def _get_registry():
+    global _DEFAULT_REGISTRY
+    if _DEFAULT_REGISTRY is None:
+        _DEFAULT_REGISTRY = create_default_plugin_registry()
+    return _DEFAULT_REGISTRY
+
+
+def get_provider(name: str) -> MetadataProviderPlugin:
+    """Get metadata provider instance by name (backward compatibility bridge)."""
     norm_name = name.lower().strip()
-    factory = _PROVIDER_FACTORIES.get(norm_name)
-    if not factory:
-        available = ", ".join(_PROVIDER_FACTORIES.keys())
+    registry = _get_registry()
+    provider = registry.capabilities.get_metadata_provider(norm_name)
+    if not provider:
+        available = ", ".join(
+            p.name for p in registry.capabilities.list_metadata_providers()
+        )
         raise ProviderError(
             f"Unknown metadata provider '{name}'. Available: {available}"
         )
-    return factory()
+    return provider
 
 
 def get_available_providers() -> Sequence[str]:
     """List names of all supported metadata providers."""
-    return tuple(_PROVIDER_FACTORIES.keys())
+    registry = _get_registry()
+    return tuple(p.name for p in registry.capabilities.list_metadata_providers())

@@ -125,17 +125,17 @@ class PataNgomaApplication:
             return cands, display_title
 
         if prov_norm == "acoustid":
-            from patangoma.providers.acoustid import (
-                find_fpcalc_binary,
-                generate_chromaprint,
-            )
-
-            if find_fpcalc_binary():
-                fp_info = generate_chromaprint(str(file_path))
+            chromaprint_tool = self.plugins.capabilities.get_media_tool("chromaprint")
+            if chromaprint_tool and chromaprint_tool.is_available():
+                fp_info = chromaprint_tool.fingerprint(str(file_path))
                 if fp_info:
                     dur, fp = fp_info
-                    acoustid_plugin = self.plugins.get_strict("acoustid")
-                    if hasattr(acoustid_plugin, "lookup_fingerprint"):
+                    acoustid_plugin = self.plugins.capabilities.get_metadata_provider(
+                        "acoustid"
+                    )
+                    if acoustid_plugin and hasattr(
+                        acoustid_plugin, "lookup_fingerprint"
+                    ):
                         return (
                             acoustid_plugin.lookup_fingerprint(dur, fp),
                             display_title,

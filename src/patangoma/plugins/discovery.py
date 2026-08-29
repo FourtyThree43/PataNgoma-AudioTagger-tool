@@ -7,26 +7,51 @@ from patangoma.plugins.registry import PluginRegistry
 
 
 def create_default_plugin_registry() -> PluginRegistry:
-    """Instantiate and populate a PluginRegistry with standard built-in providers."""
-    from patangoma.providers.acoustid import AcoustIDProvider
-    from patangoma.providers.deezer import DeezerProvider
-    from patangoma.providers.discogs import DiscogsProvider
-    from patangoma.providers.itunes import ITunesProvider
-    from patangoma.providers.lyrics import LyricsProvider
-    from patangoma.providers.musicbrainz import MusicBrainzProvider
-    from patangoma.providers.spotify import SpotifyProvider
+    """Instantiate and populate a PluginRegistry with all standard built-in capability plugins."""
+    from patangoma.plugins.artwork.coverartarchive import CoverArtArchivePlugin
+    from patangoma.plugins.download.aria2 import Aria2DownloadPlugin
+    from patangoma.plugins.download.yt_dlp import YtDlpDownloadPlugin
+    from patangoma.plugins.export.exporters import (
+        CSVExporterPlugin,
+        JSONExporterPlugin,
+        M3UPlaylistExporterPlugin,
+    )
+    from patangoma.plugins.import_.importers import JSONImporterPlugin
+    from patangoma.plugins.media.chromaprint import ChromaprintMediaPlugin
+    from patangoma.plugins.media.ffmpeg import FFmpegMediaPlugin
+    from patangoma.plugins.metadata.acoustid import AcoustIDPlugin
+    from patangoma.plugins.metadata.deezer import DeezerPlugin
+    from patangoma.plugins.metadata.discogs import DiscogsPlugin
+    from patangoma.plugins.metadata.itunes import ITunesPlugin
+    from patangoma.plugins.metadata.lyrics import LyricsPlugin
+    from patangoma.plugins.metadata.musicbrainz import MusicBrainzPlugin
+    from patangoma.plugins.metadata.spotify import SpotifyPlugin
 
     registry = PluginRegistry()
 
-    # Built-in metadata provider plugins
+    # Built-in capability plugins
     builtins: list[Plugin] = [
-        MusicBrainzProvider(),
-        DeezerProvider(),
-        SpotifyProvider(),
-        DiscogsProvider(),
-        ITunesProvider(),
-        AcoustIDProvider(),
-        LyricsProvider(),
+        # Metadata
+        MusicBrainzPlugin(),
+        DeezerPlugin(),
+        SpotifyPlugin(),
+        DiscogsPlugin(),
+        ITunesPlugin(),
+        AcoustIDPlugin(),
+        LyricsPlugin(),
+        # Media tools
+        ChromaprintMediaPlugin(),
+        FFmpegMediaPlugin(),
+        # Artwork
+        CoverArtArchivePlugin(),
+        # Downloads
+        Aria2DownloadPlugin(),
+        YtDlpDownloadPlugin(),
+        # Exporters & Importers
+        JSONExporterPlugin(),
+        CSVExporterPlugin(),
+        M3UPlaylistExporterPlugin(),
+        JSONImporterPlugin(),
     ]
 
     for p in builtins:

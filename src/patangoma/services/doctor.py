@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import platform
 import sys
 
 from pydantic import BaseModel, Field
@@ -120,9 +121,7 @@ def run_diagnostics() -> DoctorReport:
         )
 
     # 6. Chromaprint (fpcalc) Check
-    import platform
-
-    from patangoma.providers.acoustid import find_fpcalc_binary
+    from patangoma.plugins.metadata.acoustid import find_fpcalc_binary
 
     fpcalc_path = find_fpcalc_binary()
     if fpcalc_path:
