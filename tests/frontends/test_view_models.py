@@ -122,3 +122,60 @@ def test_tui_screen_model(tmp_path: Path):
     diag = tui_model.get_diagnostics()
     assert "doctor" in diag
     assert "plugins" in diag
+
+
+def test_batch_and_rollback_view_models(tmp_path: Path):
+    """Test BatchViewModel and RollbackViewModel execution headlessly."""
+    from patangoma.frontends.gui.view_models import BatchViewModel, RollbackViewModel
+
+    audio_file = tmp_path / "batch_song.mp3"
+    create_minimal_mp3(
+        audio_file,
+        {"title": "Before Batch", "artist": "Batch Artist", "album": "Batch Album"},
+    )
+
+    app = create_application(audit_db_path=tmp_path / "audit.db")
+
+    # Batch VM
+    batch_vm = BatchViewModel(app=app)
+    # Manually create a plan to test apply_selected
+    cand = MetadataCandidate(
+        provider_name="musicbrainz",
+        provider_id="mb-batch-1",
+        title="After Batch",
+        artists=["Batch Artist"],
+        album="New Album",
+    )
+    plan = app.create_tag_plan(audio_file, cand)
+    batch_vm.plans = [plan]
+    batch_vm.selected_plan_indices = {0}
+
+    results = batch_vm.apply_selected(dry_run=False)
+    assert len(results) == 1
+    assert results[0].title == "After Batch"
+
+    # Rollback VM
+    rollback_vm = RollbackViewModel(app=app)
+    records = rollback_vm.load_history(file_path=str(audio_file.resolve()))
+    assert len(records) >= 1
+
+    rolled_back = rollback_vm.rollback(file_path=str(audio_file.resolve()))
+    assert rolled_back.title == "Before Batch"
+
+
+def test_plugins_view_model(tmp_path: Path):
+    """Test PluginsViewModel enable, disable, and refresh operations."""
+    from patangoma.frontends.gui.view_models import PluginsViewModel
+
+    app = create_application(audit_db_path=tmp_path / "audit.db")
+    pvm = PluginsViewModel(app=app)
+    pvm.refresh()
+
+    assert len(pvm.plugins) >= 7
+    assert "musicbrainz" in pvm.health_status
+
+    pvm.disable_plugin("musicbrainz")
+    assert app.plugins.get("musicbrainz") is None
+
+    pvm.enable_plugin("musicbrainz")
+    assert app.plugins.get("musicbrainz") is not None
