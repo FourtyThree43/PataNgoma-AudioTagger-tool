@@ -8,7 +8,7 @@ from typing import Any
 import requests
 
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ _LRCLIB_GET_URL = "https://lrclib.net/api/get"
 _LRCLIB_SEARCH_URL = "https://lrclib.net/api/search"
 
 
-class LyricsProvider(MetadataProvider):
+class LyricsProvider(BaseMetadataProvider, MetadataProvider):
     """Lyrics provider backed by LrcLib open-source REST API."""
 
     def __init__(self, session: requests.Session | None = None) -> None:

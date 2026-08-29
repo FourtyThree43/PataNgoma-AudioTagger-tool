@@ -17,13 +17,13 @@ from patangoma.domain.exceptions import (
     ProviderUnavailableError,
 )
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
 
 
-class SpotifyProvider(MetadataProvider):
+class SpotifyProvider(BaseMetadataProvider, MetadataProvider):
     """Metadata provider backed by Spotify Web API."""
 
     def __init__(

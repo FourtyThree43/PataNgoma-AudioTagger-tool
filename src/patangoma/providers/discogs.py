@@ -16,7 +16,7 @@ from patangoma.domain.exceptions import (
     ProviderUnavailableError,
 )
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ _DISCOGS_SEARCH_URL = "https://api.discogs.com/database/search"
 _DISCOGS_RELEASE_URL = "https://api.discogs.com/releases"
 
 
-class DiscogsProvider(MetadataProvider):
+class DiscogsProvider(BaseMetadataProvider, MetadataProvider):
     """Metadata provider backed by Discogs REST API."""
 
     def __init__(

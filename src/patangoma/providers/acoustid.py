@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 
 from patangoma.domain.exceptions import ProviderError, ProviderUnavailableError
 from patangoma.domain.models import MetadataCandidate, QueryParameters
-from patangoma.providers.base import MetadataProvider
+from patangoma.providers.base import BaseMetadataProvider, MetadataProvider
 from patangoma.providers.cache import cached_get_track, cached_search
 
 logger = logging.getLogger(__name__)
@@ -122,7 +122,7 @@ def generate_chromaprint(file_path: str) -> tuple[int, str] | None:
     return None
 
 
-class AcoustIDProvider(MetadataProvider):
+class AcoustIDProvider(BaseMetadataProvider, MetadataProvider):
     """Metadata provider backed by AcoustID fingerprint lookup API."""
 
     def __init__(
