@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from patangoma.domain.exceptions import PluginNotFoundError
+from patangoma.plugins.capabilities import CapabilityRegistry
 from patangoma.plugins.contracts import Plugin, PluginCapability
 
 
@@ -14,6 +15,7 @@ class PluginRegistry:
     def __init__(self) -> None:
         self._plugins: dict[str, Plugin] = {}
         self._enabled: dict[str, bool] = {}
+        self.capabilities = CapabilityRegistry(self)
 
     def register(self, plugin: Plugin) -> None:
         """Register a new plugin instance."""

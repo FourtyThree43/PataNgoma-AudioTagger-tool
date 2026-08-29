@@ -212,7 +212,7 @@ def _query_candidates(
         return cands, display_title
 
     if norm_prov == "acoustid":
-        from patangoma.providers.acoustid import (
+        from patangoma.plugins.metadata.acoustid import (
             find_fpcalc_binary,
             generate_chromaprint,
         )
@@ -860,18 +860,20 @@ def rename(target: str, pattern: str, dry_run: bool) -> None:
 )
 def get_lyrics(file_path: str, embed: bool) -> None:
     """Fetch plain and synchronized lyrics for an audio track."""
-    from patangoma.providers.lyrics import LyricsProvider
-
     track = backend.read_metadata(file_path)
     if not track.title:
         console.print("[bold red]Track missing title tag.[/bold red]")
         sys.exit(1)
 
-    prov = LyricsProvider()
-    plain, synced = prov.fetch_lyrics(
-        title=track.title,
-        artist=track.artist or "",
-        album=track.album,
+    prov = get_provider("lyrics")
+    plain, synced = (
+        prov.fetch_lyrics_pair(
+            title=track.title,
+            artist=track.artist or "",
+            album=track.album,
+        )
+        if hasattr(prov, "fetch_lyrics_pair")
+        else (prov.fetch_lyrics(track.title, track.artist or ""), None)
     )
 
     if not plain and not synced:

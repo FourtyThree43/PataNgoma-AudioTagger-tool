@@ -28,6 +28,19 @@ def _extract_imported_modules(file_path: Path) -> set[str]:
     return modules
 
 
+def _extract_full_imports(file_path: Path) -> set[str]:
+    """Parse python file and extract all imported module paths."""
+    tree = ast.parse(file_path.read_text(encoding="utf-8"), filename=str(file_path))
+    modules = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                modules.add(alias.name)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            modules.add(node.module)
+    return modules
+
+
 def _has_sys_exit_calls(file_path: Path) -> list[int]:
     """Check if AST contains direct calls to sys.exit or exit()."""
     tree = ast.parse(file_path.read_text(encoding="utf-8"), filename=str(file_path))
@@ -84,4 +97,31 @@ def test_domain_and_application_have_no_sys_exit():
                 violations = _has_sys_exit_calls(py_file)
                 assert not violations, (
                     f"File {py_file} contains sys.exit() on lines {violations}"
+                )
+
+
+def test_application_has_no_concrete_plugin_imports():
+    """Application layer must only interact with PluginRegistry/CapabilityRegistry and never import concrete plugins."""
+    app_dir = Path(__file__).parents[2] / "src" / "patangoma" / "application"
+    forbidden_subpackages = (
+        "patangoma.plugins.metadata",
+        "patangoma.plugins.download",
+        "patangoma.plugins.media",
+        "patangoma.plugins.artwork",
+        "patangoma.plugins.export",
+        "patangoma.plugins.import_",
+        "patangoma.providers.musicbrainz",
+        "patangoma.providers.spotify",
+        "patangoma.providers.deezer",
+        "patangoma.providers.discogs",
+        "patangoma.providers.itunes",
+        "patangoma.providers.acoustid",
+        "patangoma.providers.lyrics",
+    )
+    for py_file in app_dir.rglob("*.py"):
+        imports = _extract_full_imports(py_file)
+        for imp in imports:
+            for forbidden in forbidden_subpackages:
+                assert not imp.startswith(forbidden), (
+                    f"Application file {py_file.name} directly imports concrete plugin '{imp}'"
                 )

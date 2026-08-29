@@ -1,8 +1,11 @@
-"""Plugins package providing capability contracts, registry, and discovery."""
+"""PataNgoma Plugin Subsystem."""
 
+from patangoma.plugins.capabilities import CapabilityRegistry
 from patangoma.plugins.contracts import (
     ArtworkProviderPlugin,
     DownloadBackendPlugin,
+    ExporterPlugin,
+    ImporterPlugin,
     LyricsProviderPlugin,
     MediaToolPlugin,
     MetadataProviderPlugin,
@@ -14,7 +17,10 @@ from patangoma.plugins.registry import PluginRegistry
 
 __all__ = [
     "ArtworkProviderPlugin",
+    "CapabilityRegistry",
     "DownloadBackendPlugin",
+    "ExporterPlugin",
+    "ImporterPlugin",
     "LyricsProviderPlugin",
     "MediaToolPlugin",
     "MetadataProviderPlugin",
