@@ -1,5 +1,5 @@
 """CLI frontend package for PataNgoma."""
 
-from patangoma.cli import cli
+from patangoma.frontends.cli.root import cli
 
 __all__ = ["cli"]
