@@ -84,3 +84,41 @@ def test_job_and_diagnostics_view_models(tmp_path: Path):
     assert hasattr(diag_vm.diagnostics, "checks")
     assert len(diag_vm.diagnostics.checks) > 0
     assert "musicbrainz" in diag_vm.plugin_health
+
+
+def test_tui_screen_model(tmp_path: Path):
+    """Test TUIScreenModel headless execution and controller lifecycle."""
+    from patangoma.frontends.tui.screens import TUIScreenModel
+
+    song_path = tmp_path / "tui_song.mp3"
+    create_minimal_mp3(
+        song_path,
+        {"title": "TUI Title", "artist": "TUI Artist", "album": "TUI Album"},
+    )
+
+    app = create_application(audit_db_path=tmp_path / "audit.db")
+    tui_model = TUIScreenModel(app)
+
+    count = tui_model.scan_directory(tmp_path)
+    assert count == 1
+    assert tui_model.selected_track is not None
+    assert tui_model.selected_track.title == "TUI Title"
+
+    cand = MetadataCandidate(
+        provider_name="deezer",
+        provider_id="dz-101",
+        title="Enhanced TUI Title",
+        artists=["Enhanced Artist"],
+        album="Enhanced Album",
+    )
+    plan = tui_model.plan_candidate(cand)
+    assert plan is not None
+    assert plan.provider_name == "deezer"
+
+    updated = tui_model.apply_plan(dry_run=False)
+    assert updated is not None
+    assert updated.title == "Enhanced TUI Title"
+
+    diag = tui_model.get_diagnostics()
+    assert "doctor" in diag
+    assert "plugins" in diag
